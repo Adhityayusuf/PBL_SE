@@ -1,124 +1,98 @@
 <style>
-    /*css*/
     .sidebar-custom {
-        width: 270px;
+        width: 280px;
         min-height: 100vh;
         background: #ffffff; 
-        box-shadow: 0 0 20px rgba(0,0,0,0.08);
-        padding: 25px;
-        padding-top: 25px; 
-        border-top-right-radius: 35px; /*rounding*/
-        border-bottom-right-radius: 35px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        padding: 30px 20px;
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        font-family: 'Poppins', sans-serif;
     }
 
-    /*header logo*/
-    .lab-header {
-        text-align: center; 
-        margin-bottom: 25px; 
-        padding-bottom: 5px;
-    }
-
-    .lab-logo-container {
-        width: 50px;
-        height: 50px;
-        margin: 0 auto;  
-    }
-    
-    .lab-logo-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-    
-    /*menu*/
     .sidebar-link {
-        font-size: 1.05rem;
-        padding: 10px 5px;
-        color: #4D4D4D;
         display: flex;
         align-items: center;
+        padding: 12px 15px;
+        color: #333333;
+        font-weight: 500;
+        font-size: 1rem;
         text-decoration: none;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
     }
 
     .sidebar-link i {
-        font-size: 1.2rem !important; 
-        margin-right: 15px !important;
-        width: 20px;
+        font-size: 1.35rem;
+        width: 35px;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 10px;
+        color: #333333;
     }
 
     .sidebar-link:hover {
-        color: #7a3cff;
+        background-color: #f8f9fa; 
+        color: #000000;
     }
-    
-    .sidebar-custom hr {
-        display: none;
+    .sidebar-link:hover i {
+        color: #8c959fff;
     }
-    
+
     .support-heading {
-        font-size: 0.9rem;
-        font-weight: bold;
-        color: #6c757d !important;
-        margin-top: 5px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #888;
+        margin-top: 25px;
         margin-bottom: 10px;
-        padding-left: 5px;
+        padding-left: 15px;
+        display: block;
     }
 
-    /*user footer*/
     .user-footer {
-        padding-top: 15px;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        padding-left: 5px;
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
     }
-
-    .user-footer img {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
+    
+    .user-info .fw-bold {
+        font-size: 0.95rem;
+        color: #333;
     }
-
-    .user-info {
-        margin-left: 10px;
-    }
-
-    .user-info .fw-semibold {
-        font-size: 1rem;
-        line-height: 1.2;
-    }
-
     .user-info .text-muted {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
 <div class="sidebar-custom d-flex flex-column flex-shrink-0">
-<div class="text-center mb-4">
-<img src="../assets/logo.png" class="img-fluid">
-</div>
+    
+    <div class="mb-5 px-2">
+        <img src="../assets/logo.png" alt="Logo Lab" class="img-fluid" style="max-height: 60px;">
+    </div>
 
-<hr> 
-
-    <ul class="nav nav-pills flex-column mb-auto">
-
+    <ul class="nav flex-column mb-auto">
+        
         <li class="nav-item">
             <a href="/admin/profil" class="sidebar-link">
-                <i class="bi bi-grid-fill fs-5"></i> Profil Lab
+                <i class="bi bi-grid"></i> Profil Lab
             </a>
         </li>
 
         <li class="nav-item">
             <a href="/admin/geeks" class="sidebar-link">
-                <i class="bi bi-lightning-charge-fill fs-5"></i> Pengelolaan SE Geeks
+                <i class="bi bi-lightning-charge-fill"></i> Pengelolaan SE Geeks
             </a>
         </li>
 
         <li class="nav-item">
             <a href="/admin/personil" class="sidebar-link">
-                <i class="bi bi-person-fill fs-5"></i> Personil
+                <i class="bi bi-people-fill"></i> Personil
             </a>
         </li>
 
@@ -128,25 +102,27 @@
             </a>
         </li>
 
-    </ul>
+        <li class="nav-item">
+            <span class="support-heading">Support</span>
+        </li>
 
-    <span class="support-heading">Support</span>
-
-    <ul class="nav nav-pills flex-column">
         <li class="nav-item">
             <a href="/admin/settings" class="sidebar-link">
-                <i class="bi bi-gear-fill fs-5"></i> Settings
+                <i class="bi bi-gear-fill"></i> Settings
             </a>
         </li>
-    </ul>
 
-    <div class="user-footer mt-auto pt-4">
+    </ul>
+    <div class="user-footer">
         <div class="d-flex align-items-center">
-            <img src="https://ui-avatars.com/api/?name=SS&background=0D6EFD&color=fff"
-                class="rounded-circle" width="40" height="40">
+            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold me-3" 
+                 style="width: 45px; height: 45px; font-size: 1.2rem;">
+                 <img src="https://ui-avatars.com/api/?name=Si+Bro&background=003865&color=fff" class="rounded-circle" style="width:100%; height:100%;">
+            </div>
+            
             <div class="user-info">
-                <div class="fw-semibold">Si bro Se</div>
-                <div class="text-muted small">loremadmin@labse.edu</div>
+                <div class="fw-bold">Si bro Se</div>
+                <div class="text-muted">loremadmin@labse.edu</div>
             </div>
         </div>
     </div>
