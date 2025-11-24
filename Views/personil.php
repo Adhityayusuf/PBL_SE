@@ -45,15 +45,27 @@ $customCSS = "
         color: #555;
     }
 
-    .icon-list i {
-        font-size: 20px;
-        margin-right: 12px;
-        cursor: pointer;
-        color: #333;
+    .icon-list {
+        display: flex;
+        gap: 12px;
     }
 
-    .icon-list i:hover {
-        color: #000;
+    .icon-list .icon-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #555;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .icon-list .icon-circle:hover {
+        background: #333;
     }
 ";
 
@@ -128,11 +140,10 @@ require_once __DIR__ . "/layout/header.php";
 
                     <!-- ICON SOSMED -->
                     <div class="icon-list mt-2">
-                        <i class="bi bi-linkedin"></i>
-                        <i class="bi bi-github"></i>
-                        <i class="bi bi-envelope"></i>
-                    </div>
-
+                    <div class="icon-circle"><i class="bi bi-linkedin"></i></div>
+                    <div class="icon-circle"><i class="bi bi-github"></i></div>
+                    <div class="icon-circle"><i class="bi bi-envelope-fill"></i></div>
+                </div>
                 </div>
             </div>
 
