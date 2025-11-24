@@ -158,8 +158,8 @@
                             echo '<a href="' . $person['github'] . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>'; // <-- Sudah diganti
                             echo '</td>';
                             echo '<td>';
-                            echo '<button class="btn btn-outline-primary btn-icon me-1" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(' . $index . ')"><i class="bi bi-pencil"></i></button>';
-                            echo '<button class="btn btn-outline-danger btn-icon" onclick="deletePersonil(' . $index . ')"><i class="bi bi-trash"></i></button>';
+                            echo '<button class="btn border-0 bg-transparent p-0 me-2" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(' . $index . ')"><i class="bi bi-pencil-square text-primary fs-4"></i></button>';
+                            echo '<button class="btn border-0 bg-transparent p-0" onclick="deletePersonil(' . $index . ')"><i class="bi bi-trash text-danger fs-4"></i></button>';
                             echo '</td>';
                             echo '</tr>';
                         }
