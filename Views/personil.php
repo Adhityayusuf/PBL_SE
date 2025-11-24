@@ -10,7 +10,7 @@ $customCSS = "
 
     .title-section {
         margin-top: 120px;
-        margin-bottom: 50px;
+        margin-bottom: 120px;
         text-align: center;
         color: white;
     }
@@ -21,47 +21,84 @@ $customCSS = "
         line-height: 1.3;
     }
 
+    /* CARD STYLING */
     .dosen-card {
-        background: #f2f2f2;
-        border-radius: 25px;
-        padding: 20px;
+        background: #e6e7e9;
+        border-radius: 20px;
         color: #000;
-        box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        border: none;
     }
 
+    /* IMAGE STYLING */
+    .img-container {
+        height: 100%;
+        min-height: 300px;
+    }
+    
     .dosen-img {
         width: 100%;
-        border-radius: 20px;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+    }
+
+    /* TEXT STYLING */
+    .card-content {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
     }
 
     .name {
-        font-size: 26px;
+        font-size: 28px;
         font-weight: 700;
+        margin-bottom: 5px;
+        text-align: center;
     }
 
     .role {
-        font-size: 17px;
-        margin-bottom: 20px;
-        color: #555;
+        font-size: 18px;
+        font-weight: 300;
+        color: #444;
+        margin-bottom: 30px;
+        text-align: center;
     }
 
+    .detail-info {
+        font-size: 16px;
+        font-weight: 500;
+        font-family: poppins, sans-serif;
+        line-height: 1.8;
+        color: #000;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    /* ICON STYLING */
     .icon-list {
         display: flex;
-        gap: 12px;
+        gap: 10px;
+        justify-content: flex-start;
+        padding: 0;
     }
 
     .icon-list .icon-circle {
-        width: 42px;
-        height: 42px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         background: #555;
         display: flex;
         justify-content: center;
         align-items: center;
         color: white;
-        font-size: 20px;
+        font-size: 16px;
         transition: 0.3s;
         cursor: pointer;
+        text-decoration: none;
     }
 
     .icon-list .icon-circle:hover {
@@ -87,7 +124,7 @@ require_once __DIR__ . "/layout/header.php";
             "nip" => "-",
             "email" => "nakama@polinema.ac.id",
             "ruang" => "Ruang dosen 6",
-            "foto" => "assets/dosen.png"
+            "foto" => "assets/tes1.png"
         ],
         [
             "nama" => "Abdul Qodir Al-Jailani",
@@ -95,7 +132,7 @@ require_once __DIR__ . "/layout/header.php";
             "nip" => "-",
             "email" => "nakama@polinema.ac.id",
             "ruang" => "Ruang dosen 6",
-            "foto" => "assets/dosen.png"
+            "foto" => "assets/tes1.png"
         ],
         [
             "nama" => "Abdul Qodir Al-Jailani",
@@ -103,7 +140,7 @@ require_once __DIR__ . "/layout/header.php";
             "nip" => "-",
             "email" => "nakama@polinema.ac.id",
             "ruang" => "Ruang dosen 6",
-            "foto" => "assets/dosen.png"
+            "foto" => "assets/tes1.png"
         ],
         [
             "nama" => "Abdul Qodir Al-Jailani",
@@ -111,39 +148,43 @@ require_once __DIR__ . "/layout/header.php";
             "nip" => "-",
             "email" => "nakama@polinema.ac.id",
             "ruang" => "Ruang dosen 6",
-            "foto" => "assets/dosen.png"
+            "foto" => "assets/tes1.png"
         ],
-    ];
+    ];?>
 
-    foreach ($dosenList as $dosen) :
-    ?>
+    <?php foreach ($dosenList as $dosen) : ?>
 
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center mb-5">
         <div class="col-lg-10">
 
-            <div class="dosen-card d-flex flex-md-row flex-column align-items-center">
+            <div class="dosen-card">
+                <div class="row g-0"> <div class="col-md-5"> 
+                        <div class="img-container">
+                            <img src="<?php echo $dosen['foto']; ?>" class="dosen-img" alt="Foto Dosen">
+                        </div>
+                    </div>
 
-                <!-- FOTO -->
-                <div class="col-md-4 p-3">
-                    <img src="<?php echo $dosen['foto']; ?>" class="dosen-img" alt="Foto Dosen">
-                </div>
+                    <div class="col-md-7">
+                        <div class="card-content">
+                            
+                            <div class="name"><?php echo $dosen['nama']; ?></div>
+                            <div class="role"><?php echo $dosen['role']; ?></div>
 
-                <!-- DETAIL -->
-                <div class="col-md-8 p-4">
+                            <div class="detail-info">
+                                <div><?php echo $dosen['nip'] == '-' ? 'NIP' : $dosen['nip']; ?></div>
+                                <div><?php echo $dosen['email']; ?></div>
+                                <div><?php echo $dosen['ruang']; ?></div>
+                            </div>
 
-                    <div class="name"><?php echo $dosen['nama']; ?></div>
-                    <div class="role"><?php echo $dosen['role']; ?></div>
+                            <div class="icon-list">
+                                <a href="#" class="icon-circle"><i class="bi bi-linkedin"></i></a>
+                                <a href="#" class="icon-circle"><i class="bi bi-github"></i></a>
+                                <a href="#" class="icon-circle"><i class="bi bi-envelope-fill"></i></a>
+                            </div>
 
-                    <p><strong>NIP</strong><br><?php echo $dosen['nip']; ?></p>
-                    <p><strong>Email</strong><br><?php echo $dosen['email']; ?></p>
-                    <p><strong>Ruang</strong><br><?php echo $dosen['ruang']; ?></p>
+                        </div>
+                    </div>
 
-                    <!-- ICON SOSMED -->
-                    <div class="icon-list mt-2">
-                    <div class="icon-circle"><i class="bi bi-linkedin"></i></div>
-                    <div class="icon-circle"><i class="bi bi-github"></i></div>
-                    <div class="icon-circle"><i class="bi bi-envelope-fill"></i></div>
-                </div>
                 </div>
             </div>
 
