@@ -5,13 +5,14 @@
         <h5 class="modal-title fs-3 fw-bold" id="editTentangLabModalLabel">Tentang Lab</h5>
     </div>
     <div class="modal-body pt-0">
-        <form>
+        <form id="tentangLabForm"> 
             <textarea class="form-control" rows="5" name="isi_tentang">Lab Software Engineering merupakan salah satu laboratorium di bawah Jurusan Teknologi Informasi, Politeknik Negeri Malang.</textarea>
+            <input type="hidden" name="type" value="Tentang Lab">
         </form>
     </div>
     <div class="modal-footer d-flex justify-content-end border-0 pt-0">
         <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-        <button type="submit" class="btn btn-primary btn-lg px-4">Simpan</button>
+        <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('tentangLabForm').submit()">Simpan</button>
     </div>
     </div>
 </div>
@@ -24,13 +25,14 @@
         <h5 class="modal-title fs-3 fw-bold" id="editVisiMisiModalLabel">Visi</h5> 
     </div>
     <div class="modal-body pt-0">
-        <form>
+        <form id="visiMisiForm">
             <textarea class="form-control" rows="5" name="isi_visimisi">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</textarea>
+            <input type="hidden" name="type" id="visiMisiType">
         </form>
     </div>
     <div class="modal-footer d-flex justify-content-end border-0 pt-0">
         <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-        <button type="submit" class="btn btn-primary btn-lg px-4">Simpan</button>
+        <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('visiMisiForm').submit()">Simpan</button>
     </div>
     </div>
 </div>
@@ -44,7 +46,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form>
+        <form id="scopeForm">
         <div class="mb-3">
             <label for="scope-name" class="form-label">Nama</label>
             <input type="text" class="form-control" id="scope-name" name="scope_name" required value="Web Development">
@@ -62,7 +64,7 @@
     </div>
     <div class="modal-footer justify-content-end border-0 pt-0"> 
         <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-        <button type="submit" class="btn btn-primary btn-lg px-4" id="saveScopeBtn">Simpan</button>
+        <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('scopeForm').submit()">Simpan</button>
     </div>
     </div>
 </div>
@@ -81,8 +83,8 @@
     }
 
     // 2. modal Scope/Focus
-const scopeModal = document.getElementById('editScopeModal');
-if (scopeModal) {
+    const scopeModal = document.getElementById('editScopeModal');
+    if (scopeModal) {
     scopeModal.addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget;
         const name = button.getAttribute('data-name');

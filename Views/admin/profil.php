@@ -38,6 +38,7 @@
     <div class="d-flex">
     <?php 
     include '../layout/sidebar.php'; 
+    include 'profilModals.php';
     ?>
         <div class="main-content">
             <h3 class="fw-bold mb-4">Pengelolaan Profil Lab</h3>
@@ -120,8 +121,6 @@
             </div>
         </div>
         </div>
-    
-    <?php include 'profilModals.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
