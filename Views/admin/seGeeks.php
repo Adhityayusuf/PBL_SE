@@ -89,6 +89,37 @@
         /* Hover effect */
         .action-setujui:hover { background-color: #d4f0d4; }
         .action-hapus:hover { background-color: #fbd6d6; }
+
+        /* Pagination styling */
+        .pagination {
+            margin: 0;
+            gap: 8px;
+        }
+        .pagination .page-link {
+            border: 1px solid #e0e0e0;
+            color: #6c757d;
+            padding: 8px 12px;
+            border-radius: 6px;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .pagination .page-link:hover {
+            background-color: #f0f0f0;
+            border-color: #d0d0d0;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+            border-radius: 6px;
+        }
+        .pagination .page-item.disabled .page-link {
+            background-color: #f0f0f0;
+            border-color: #e0e0e0;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -166,13 +197,29 @@
                 </div>
             </div>
 
+            <!-- Pagination -->
             <div class="d-flex justify-content-center mt-4">
                 <nav aria-label="Page navigation">
-                    <ul class="pagination"> <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">Next</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
