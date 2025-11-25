@@ -105,7 +105,6 @@ $customCSS = "
         background: #333;
     }
 ";
-
 require_once __DIR__ . "/layout/header.php";
 ?>
 
@@ -175,6 +174,7 @@ require_once __DIR__ . "/layout/header.php";
                                 <div><?php echo $dosen['email']; ?></div>
                                 <div><?php echo $dosen['ruang']; ?></div>
                             </div>
+
                             <div class="icon-list">
                                 <a href="#" class="icon-circle"><i class="bi bi-linkedin"></i></a>
                                 <a href="#" class="icon-circle"><i class="bi bi-github"></i></a>

@@ -42,6 +42,30 @@
             vertical-align: middle;
         }
         
+        /* Search box styling */
+        .search-box {
+            position: relative;
+            width: 320px;
+        }
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+        .search-box input::placeholder {
+            color: #999;
+        }
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
         /* tombol actions*/
         .action-button-bg {
             display: inline-block;
@@ -78,9 +102,9 @@
             <hr class="mt-0 mb-4">
             
             <div class="d-flex justify-content-end mb-3">
-                <div class="input-group" style="width: 300px;">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-icon">
-                    <span class="input-group-text bg-white" id="search-icon"><i class="bi bi-search"></i></span>
+                <div class="search-box">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" placeholder="Search">
                 </div>
             </div>
 
