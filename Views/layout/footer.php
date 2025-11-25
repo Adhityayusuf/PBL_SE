@@ -115,10 +115,11 @@
 
                     <div class="col-md-3 col-lg-3 mb-4">
                         <h5>Menu Cepat</h5>
-                        <a href="#tentang-lab" class="menu-link">Home</a>
+                        <a href="index.php" class="menu-link">Home</a>
+                        <a href="visiMisi.php" class="menu-link">Visi Misi</a>
                         <a href="#blog-section" class="menu-link">Blog Artikel</a>
-                        <a href="#personil-section" class="menu-link">Personil</a>
-                        <a href="#recruitment-section" class="menu-link">Recruitment</a>
+                        <a href="personil.php" class="menu-link">Personil</a>
+                        <a href="recruitment.php" class="menu-link">Recruitment</a>
                     </div>
 
                     <div class="col-md-3 col-lg-3 mb-4">
