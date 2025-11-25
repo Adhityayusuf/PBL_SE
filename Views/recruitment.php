@@ -13,16 +13,24 @@ $customCSS = "
         color: white;
     }
 
+    .ft-custom {
+        font-size: 40px;
+        padding-left: 60px;
+    }
+
     .desc {
-        max-width: 450px;
+        max-width: 650px;
+        text-align: justify;
+        font-size: 22px;
+        padding-left: 60px;
     }
 
     /* FORM WRAPPER */
     .form-card {
         background: #CDE0EC;
         border-radius: 12px;
-        width: 550px;
-        height: 500px;
+        width: 610px;
+        height: 580px;
         padding: 30px;
         position: relative;
         box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -31,11 +39,10 @@ $customCSS = "
 
     /* Maskot harus di dalam kotak */
     .form-card img {
-        width: 100px;
+        width: 130px;
         position: absolute;
-        //top: -25px;
-        right: 15px;
-        // padding: 10px 10px;
+        top: 30px;
+        right: 30px;
         transform: translateX(-15px);
     }
 
@@ -72,6 +79,8 @@ $customCSS = "
         color: white;
     }
 
+    .ps-6 { padding-left: 6rem !important;}
+    
     .badge-disetujui { background:#d3f7db;color:#1a7d32;padding:5px 12px;border-radius:6px; }
     .badge-ditolak { background:#ffd6d6;color:#b10000;padding:5px 12px;border-radius:6px; }
     .badge-menunggu { background:#fff4c4;color:#a17800;padding:5px 12px;border-radius:6px; }
@@ -84,26 +93,28 @@ require_once __DIR__ . "/layout/header.php";
     <div class="row align-items-start">
 
         <!-- LEFT TEXT -->
-        <div class="col-md-6">
-            <h1 class="fw-bold mb-3 text-center">
+        <div class="col-md-6 pt-5 ps-5">
+            <h1 class="fw-bold mb-3 text-center ft-custom">
                 Software Engineering <br> Geeks Recruitment
             </h1>
 
-            <p class="desc mx-auto text-center">
-                Bergabunglah dengan Software Engineering Geeks untuk mengasah skillmu dalam desain arsitektur,
+            <p class="desc mx-auto">
+                <br>Bergabunglah dengan Software Engineering Geeks untuk mengasah skillmu dalam desain arsitektur,
                 pengembangan web & mobile, pengujian perangkat lunak, hingga praktik DevOps modern. Kami adalah
                 wadah bagi talenta yang bersemangat menciptakan solusi teknologi revolusioner.
             </p>
+        
         </div>
 
         <!-- FORM -->
-        <div class="col-md-4 offset-md-1">
+        <div class="col-md-4 ps-4">
             <div class="form-card">
                 <img src="assets/sip.png" alt="Mascot">
 
-                <h4 class="fw-bold mb-3">Ayo jadi bagian<br>dari Kami</h4>
+                <h4 class="fw-bold mb-3 ps-3 pt-3 fs-2">Jadilah Bagian dari<br>Inovasi Teknologi!</h4>
 
                 <form>
+                    <br>
                     <label class="form-label">Nama</label>
                     <input type="text" class="form-control mb-2" placeholder="Nama Lengkap">
 
@@ -136,7 +147,7 @@ require_once __DIR__ . "/layout/header.php";
                         <option>DevOps</option>
                     </select>
 
-                    <button class="btn btn-daftar">Daftar</button>
+                    <button class="btn btn-daftar icon-bold"><i class="bi bi-mortarboard"></i>  Daftar</button>
                 </form>
 
             </div>
@@ -150,9 +161,10 @@ require_once __DIR__ . "/layout/header.php";
 <!-- TABLE SECTION (SAMA SEPERTI SEBELUMNYA) -->
 
 <div class="container py-4 mb-5">
-    <h3 class="text-center text-white mb-4 fw-bold">Daftar Mahasiswa SE Geeks</h3>
+    <!-- <h3 class="text-center text-white mb-4 fw-bold">Daftar Mahasiswa SE Geeks</h3> -->
 
     <div class="table-wrapper mx-auto">
+        <h3 class="text-center text-black mb-4 fw-bold">Daftar Mahasiswa SE Geeks</h3>
         <table id="tabelMahasiswa" class="table table-bordered align-middle">
             <thead>
                 <tr>
