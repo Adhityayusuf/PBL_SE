@@ -9,80 +9,79 @@
     
     <style>
         body {
-            background-color: #f8f9fa; 
+            background-color: #f8f9fa;
         }
+
         .main-content {
             padding: 30px;
             width: calc(100% - 270px);
         }
+
         .card {
             border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
             border-radius: 10px;
         }
-        .table-container {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+
         .sortable-header {
             cursor: pointer;
             user-select: none;
-            color: #060606ff; 
+            color: #060606ff;
         }
+
         .sortable-header i {
             font-size: 0.7em;
             vertical-align: middle;
         }
+
         .table thead {
             background-color: #f8f9fa;
         }
+
         .table thead th {
             border-bottom: 2px solid #dee2e6;
             font-weight: 600;
             color: #495057;
             padding: 12px 16px;
         }
+
         .table tbody td {
             padding: 12px 16px;
             vertical-align: middle;
             font-size: 0.85em;
         }
+
         .table tbody tr:hover {
             background-color: #f8f9fa;
         }
-        .btn-icon {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-        }
+
         .btn-social {
-            width: 32px;
-            height: 32px;
+            width: 25px;
+            height: 25px;
             padding: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background-color: #0077b5;
+            background-color: #0863C7;
             border: none;
             color: white;
+            transition: background-color 0.3s ease;
         }
+
         .btn-social:hover {
-            background-color: #005885;
-            color: white;
+            background-color: #054a8a;
         }
+
         .search-box {
             position: relative;
             max-width: 400px;
         }
+
         .search-box input {
             padding-left: 40px;
         }
+
         .search-box i {
             position: absolute;
             left: 12px;
@@ -90,10 +89,12 @@
             transform: translateY(-50%);
             color: #6c757d;
         }
+
         .pagination {
             margin: 0;
             gap: 8px;
         }
+
         .pagination .page-link {
             border: 1px solid #e0e0e0;
             color: #6c757d;
@@ -103,16 +104,19 @@
             text-align: center;
             transition: all 0.3s ease;
         }
+
         .pagination .page-link:hover {
             background-color: #f0f0f0;
             border-color: #d0d0d0;
         }
+
         .pagination .page-item.active .page-link {
-            background-color: #0d6efd;
+            background-color: #0863C7;
             color: white;
-            border-color: #0d6efd;
+            border-color: #0863C7;
             border-radius: 6px;
         }
+
         .pagination .page-item.disabled .page-link {
             background-color: #f0f0f0;
             border-color: #e0e0e0;
@@ -144,7 +148,7 @@
             <!-- Table -->
             <div class="card p-3">
                 <div class="table-responsive">
-                <table class="table table-hover align-middle">
+                    <table class="table table-hover align-middle">
                     <thead>
                         <tr>
                             <th class="sortable-header">Nama<i class="bi bi-caret-down-fill"></i></th>
@@ -158,7 +162,6 @@
                     </thead>
                     <tbody>
                         <?php
-                        // Sample data - replace with database query
                         $personilData = [
                             ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
                             ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
@@ -179,10 +182,9 @@
                             echo '<td>' . $person['jabatan'] . '</td>';
                             echo '<td>' . $person['email'] . '</td>';
                             echo '<td>' . $person['ruang'] . '</td>';
-                            // Kode BARU
                             echo '<td>';
                             echo '<a href="' . $person['linkedin'] . '" class="btn-social me-1" target="_blank"><i class="bi bi-linkedin"></i></a>';
-                            echo '<a href="' . $person['github'] . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>'; // <-- Sudah diganti
+                            echo '<a href="' . $person['github'] . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>';
                             echo '</td>';
                             echo '<td>';
                             echo '<button class="btn border-0 bg-transparent p-0 me-2" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(' . $index . ')"><i class="bi bi-pencil-square text-primary fs-4"></i></button>';
@@ -192,7 +194,7 @@
                         }
                         ?>
                     </tbody>
-                </table>
+                    </table>
                 </div>
             </div>
             <!-- Pagination -->
@@ -223,17 +225,11 @@
             </div>
         </div>
     </div>
-    
+
     <?php include 'personilModals.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Sample data for demonstration
-        const personilData = [
-            {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
-            {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
-        ];
-
         function resetForm() {
             document.getElementById('personilModalLabel').textContent = 'Data Dosen';
             document.getElementById('personil-nama').value = '';
@@ -247,6 +243,11 @@
         }
 
         function editPersonil(index) {
+            const personilData = [
+                {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
+                {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
+            ];
+            
             const person = personilData[index];
             document.getElementById('personilModalLabel').textContent = 'Edit Data Dosen';
             document.getElementById('personil-nama').value = person.nama;
@@ -278,7 +279,7 @@
                 github: document.getElementById('personil-github').value,
                 linkedin: document.getElementById('personil-linkedin').value
             };
-            
+
             console.log('Form data:', formData);
             // Add save logic here (AJAX call to backend)
             

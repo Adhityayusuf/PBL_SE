@@ -42,16 +42,16 @@
                     
                     <div class="d-flex align-items-center mb-3">
                         <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle me-3 shadow-sm" 
-                            style="width: 45px; height: 45px; min-width: 45px;">
-                            <i class="bi bi-github fs-4"></i>
+                            style="width: 35px; height: 35px; min-width: 35px;">
+                            <i class="bi bi-github fs-5"></i>
                         </div>
                         <input type="url" class="form-control" id="personil-github" name="github" placeholder="">
                     </div>
 
                     <div class="d-flex align-items-center">
                         <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle me-3 shadow-sm" 
-                            style="width: 45px; height: 45px; min-width: 45px;">
-                            <i class="bi bi-linkedin fs-4"></i>
+                            style="width: 35px; height: 35px; min-width: 35px;">
+                            <i class="bi bi-linkedin fs-5"></i>
                         </div>
                         <input type="url" class="form-control" id="personil-linkedin" name="linkedin" placeholder="">
                     </div>

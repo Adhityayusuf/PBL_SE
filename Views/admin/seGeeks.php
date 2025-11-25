@@ -109,9 +109,9 @@
             border-color: #d0d0d0;
         }
         .pagination .page-item.active .page-link {
-            background-color: #0d6efd;
+            background-color: #0863C7;
             color: white;
-            border-color: #0d6efd;
+            border-color: #0863C7;
             border-radius: 6px;
         }
         .pagination .page-item.disabled .page-link {
