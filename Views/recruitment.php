@@ -21,6 +21,8 @@ $customCSS = "
     .form-card {
         background: #CDE0EC;
         border-radius: 12px;
+        width: 550px;
+        height: 500px;
         padding: 30px;
         position: relative;
         box-shadow: 0 4px 20px rgba(0,0,0,0.2);
@@ -29,10 +31,12 @@ $customCSS = "
 
     /* Maskot harus di dalam kotak */
     .form-card img {
-        width: 90px;
+        width: 100px;
         position: absolute;
-        top: -25px;
-        right: -10px;
+        //top: -25px;
+        right: 15px;
+        // padding: 10px 10px;
+        transform: translateX(-15px);
     }
 
     /* Tombol daftar warna kuning */
@@ -185,4 +189,8 @@ $(document).ready(function () {
     });
 });
 </script>
-<?php include_once __DIR__ . '/layout/footer.php';
+
+<?php
+require_once __DIR__ . "/layout/footer.php";
+?>
+
