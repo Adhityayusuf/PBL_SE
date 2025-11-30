@@ -4,49 +4,44 @@ require_once __DIR__ . '/../Models/AdminModel.php';
 
 class authController{
 
-    // public function __construct(){
-    //     $username = "admin";
-    //     $password = "adminlabse";
+    public function createDefaultAdmin(){
+        $username = "admin";
+        $password = "adminlabse";
+        $email = "admin@lab.se.com";
 
-    //     $userModel = new UserModel();
-    //     $user = $userModel->getUserByUsername($username);
-    //     if ($user) {
-    //         return false;
-    //     }
-    //     $userModel->addUser($username, $password);
-    // }
+        $adminModel = new AdminModel();
+        $user = $adminModel->getUserByUsername($username);
+        if ($user) {
+            return false;
+        }
+        $adminModel->addUser($username, $password, $email);
+    }
 
+    public function indexLogin(){
+        include_once __DIR__ . '/../Views/login.php';
+    }
 
     public function login($username, $password){
         session_start();
+        $username = trim($_POST['username'] ?? '');
+        $password = trim($_POST['password'] ?? '');
+
         $adminModel = new AdminModel();
         $user = $adminModel->getUserByUsername($username);
         
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['uadmin'] = $user['username'];
-            return true;
+            header("Location: ../views/admin/profil.php");
+            exit;
         }
-        return false;
-    }
-}
-
-
-// Process login form submission dari login.php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'login') {
-    $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-
-    $authController = new authController();
-    
-    $user = $authController->login($username, $password);
-
-    if ($user) {
-        header("Location: ../views/admin/home.php");
-        exit;
-    } else {
         header("Location: ../views/login.php?error=1");
         exit;
     }
-}
 
+    public function logout() {
+        session_destroy();
+        header("Location: ../views/login.php");
+        exit;
+    }
+}
 ?>
