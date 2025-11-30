@@ -7,11 +7,11 @@ if (isset($_GET['error'])) {
 
 $title = "Login Admin";
 $customCSS = " 
-    body{ background:#f6f8fb; }
+    body{ background:#f6f8fb; font-family: 'Poppins', sans-serif; }
     .auth-wrap { height:100vh; display:flex; align-items:center; justify-content:center; }
     .auth-card{ border-radius:18px; overflow:hidden; box-shadow:0 8px 30px rgba(8,30,60,0.12); }
 
-    .left-pane{ background-image:url('./assets/bg.png'); background-size:cover; background-position:center; background-repeat:no-repeat; color:#fff; padding:48px 36px; min-height:420px;display:flex; flex-direction:column;
+    .left-pane{ background-image:url('/Views/assets/bg.png'); background-size:cover; background-position:center; background-repeat:no-repeat; color:#fff; padding:48px 36px; min-height:420px;display:flex; flex-direction:column;
     align-items:flex-start;justify-content:center; position:relative; }
 
     .left-pane *{ position:relative;}
@@ -47,16 +47,15 @@ include_once __DIR__ . '/layout/header.php';
         <div class="col-md-6 left-pane">
           <h3 class="brand-title">Laboratorium<br>Software Engineering</h3>
           <p style="opacity:.9;max-width:360px">Platform internal untuk praktikum dan proyek bersama tim Software Engineering.</p>
-          <img src="./assets/maskot.png" alt="mascot" class="mascot">
+          <img src="/Views/assets/maskot.png" alt="mascot" class="mascot">
         </div>
         <div class="col-md-6 right-pane">
           <div class="signin-card">
-            <img src="./assets/logo.png" alt="logo" class="logo">
-
+            <img src="/Views/assets/logo.png" alt="logo" class="logo">
             <h4 class="mb-3">Sign In</h4>
             <?= $message ?>
 
-            <form action="../Controllers/authController.php" method="POST">
+            <form action="index.php?action=logindo" method="POST">
               <div class="mb-3">
                 <input id="email" class="form-control" type="text" name="username" placeholder="Username" required>
               </div>
