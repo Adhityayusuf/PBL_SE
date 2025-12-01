@@ -1,0 +1,4 @@
+CREATE TABLE prodi (
+    id_prodi SERIAL PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL
+);

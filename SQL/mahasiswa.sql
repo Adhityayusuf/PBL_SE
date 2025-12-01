@@ -1,13 +1,14 @@
-CREATE TABLE mahasiswa (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nama VARCHAR(255) NOT NULL,
-    nim VARCHAR(50) UNIQUE NOT NULL,
-    prodi_id VARCHAR(30) NOT NULL,
-    angkatan SMALLINT NOT NULL,
-    status VARCHAR(10) NOT NULL DEFAULT 'menunggu'
-        CHECK (status IN ('setuju', 'menunggu')),
+CREATE TYPE status_mhs AS ENUM ('menunggu', 'setuju');
 
-     CONSTRAINT fk_prodi
+CREATE TABLE mahasiswa (
+    id_mahasiswa SERIAL PRIMARY KEY,
+    nim VARCHAR(25) UNIQUE NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    prodi_id int NOT NULL,
+    angkatan VARCHAR(150) NOT NULL,
+    status status_mhs NOT NULL DEFAULT 'menunggu',
+
+    CONSTRAINT fk_prodi
         FOREIGN KEY (prodi_id)
         REFERENCES prodi(id_prodi)
         ON UPDATE CASCADE
