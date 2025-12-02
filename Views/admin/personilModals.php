@@ -34,7 +34,15 @@
                         <option value="Ruang Dosen 2">Ruang Dosen 2</option>
                         <option value="Ruang Dosen 3">Ruang Dosen 3</option>
                         <option value="Ruang Dosen 4">Ruang Dosen 4</option>
+                        <option value="Ruang Dosen 5">Ruang Dosen 5</option>
+                        <option value="Ruang Dosen 6">Ruang Dosen 6</option>
                     </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="personil-photo" class="form-label">URL Foto</label>
+                    <input type="url" class="form-control" id="personil-photo" name="photo_url" placeholder="https://example.com/foto.jpg">
+                    <small class="text-muted">Masukkan URL lengkap gambar (gunakan format https://)</small>
                 </div>
 
                 <div class="mb-3">

@@ -120,6 +120,7 @@ $customCSS = "
 
 ";
 require_once __DIR__ . "/layout/header.php";
+require_once __DIR__ . "/layout/navbar.php";
 ?>
 
 <div class="container title-section">
@@ -129,41 +130,13 @@ require_once __DIR__ . "/layout/header.php";
 <div class="container pb-5">
 
     <?php 
-    // contoh data dosen (bisa diganti dengan database nanti)
-    $dosenList = [
-        [
-            "nama" => "Abdul Qodir Al-Jailani",
-            "role" => "Head of Laboratory",
-            "nip" => "-",
-            "email" => "nakama@polinema.ac.id",
-            "ruang" => "Ruang dosen 6",
-            "foto" => "assets/personil1.jpg"
-        ],
-        [
-            "nama" => "Abdul Qodir Al-Jailani",
-            "role" => "Head of Laboratory",
-            "nip" => "-",
-            "email" => "nakama@polinema.ac.id",
-            "ruang" => "Ruang dosen 6",
-            "foto" => "assets/personil2.jpg"
-        ],
-        [
-            "nama" => "Abdul Qodir Al-Jailani",
-            "role" => "Head of Laboratory",
-            "nip" => "-",
-            "email" => "nakama@polinema.ac.id",
-            "ruang" => "Ruang dosen 6",
-            "foto" => "assets/personil3.jpg"
-        ],
-        [
-            "nama" => "Abdul Qodir Al-Jailani",
-            "role" => "Head of Laboratory",
-            "nip" => "-",
-            "email" => "nakama@polinema.ac.id",
-            "ruang" => "Ruang dosen 6",
-            "foto" => "assets/personil4.jpg"
-        ],
-    ];?>
+    // Load database and model (model extends Database internally)
+    require_once __DIR__ . "/../Core/Database.php";
+    require_once __DIR__ . "/../Models/PersonilModel.php";
+
+    $personilModel = new PersonilModel();
+    $dosenList = $personilModel->getAllPersonil();
+    ?>
 
     <?php foreach ($dosenList as $dosen) : ?>
 
@@ -172,24 +145,34 @@ require_once __DIR__ . "/layout/header.php";
 
             <div class="dosen-card">
                 <div class="img-container">
-                    <img src="<?php echo $dosen['foto']; ?>" class="dosen-img" alt="Foto Dosen">
+                    <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
                 </div>
 
                 <div class="card-content">
                     
                     <div class="name"><?php echo $dosen['nama']; ?></div>
-                    <div class="role"><?php echo $dosen['role']; ?></div>
+                    <div class="role"><?php echo $dosen['jabatan']; ?></div>
 
                     <div class="detail-info">
-                        <div><?php echo $dosen['nip'] == '-' ? 'NIP' : $dosen['nip']; ?></div>
-                        <div><?php echo $dosen['email']; ?></div>
-                        <div><?php echo $dosen['ruang']; ?></div>
+                        <div><?php echo $dosen['nip']; ?></div>
+                        <div><?php echo $dosen['email'] ?? '-'; ?></div>
+                        <div><?php echo $dosen['ruang_dosen'] ?? '-'; ?></div>
                     </div>
 
                     <div class="icon-list">
-                        <a href="#" class="icon-circle"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="icon-circle"><i class="bi bi-github"></i></a>
-                        <a href="#" class="icon-circle"><i class="bi bi-envelope-fill"></i></a>
+                        <?php 
+                        $sosial = !empty($dosen['content_sosial']) ? json_decode($dosen['content_sosial'], true) : [];
+                        if (!empty($sosial['linkedin'])): ?>
+                        <a href="<?php echo $sosial['linkedin']; ?>" class="icon-circle" target="_blank"><i class="bi bi-linkedin"></i></a>
+                        <?php endif; 
+                        if (!empty($sosial['github'])): ?>
+                        <a href="<?php echo $sosial['github']; ?>" class="icon-circle" target="_blank"><i class="bi bi-github"></i></a>
+                        <?php endif; 
+                        if (!empty($sosial['email'])): ?>
+                        <a href="mailto:<?php echo $sosial['email']; ?>" class="icon-circle"><i class="bi bi-envelope-fill"></i></a>
+                        <?php else: ?>
+                        <a href="mailto:<?php echo $dosen['email']; ?>" class="icon-circle"><i class="bi bi-envelope-fill"></i></a>
+                        <?php endif; ?>
                     </div>
 
                 </div>

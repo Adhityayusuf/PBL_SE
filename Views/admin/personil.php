@@ -19,7 +19,7 @@
 
         .card {
             border: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 0 10px rgba(170, 117, 117, 0.05);
             border-radius: 10px;
         }
 
@@ -41,14 +41,19 @@
         .table thead th {
             border-bottom: 2px solid #dee2e6;
             font-weight: 600;
-            color: #495057;
+            color: #060606ff;
             padding: 12px 16px;
+            font-size: 0.85em;
         }
 
         .table tbody td {
             padding: 12px 16px;
             vertical-align: middle;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .table tbody tr:hover {
@@ -162,33 +167,60 @@
                     </thead>
                     <tbody>
                         <?php
-                        $personilData = [
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                            ['nama' => 'Ketiwav Goreng', 'nip' => '123456789876', 'jabatan' => 'Ketua Lab', 'email' => 'dipshey@polinema.ac.id', 'ruang' => 'Ruang Dosen 3', 'linkedin' => '#', 'github' => '#'],
-                        ];
+                        require_once __DIR__ . "/../../Core/Database.php";
+                        require_once __DIR__ . "/../../Models/PersonilModel.php";
 
-                        foreach ($personilData as $index => $person) {
+                        $model = new PersonilModel();
+                        
+                        // Paginasi
+                        $items_per_page = 10;
+                        $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                        
+                        $all_personil = $model->getAllPersonil();
+                        $total_items = count($all_personil);
+                        $total_pages = ceil($total_items / $items_per_page);
+                        
+                        // Validasi halaman
+                        if ($current_page > $total_pages && $total_pages > 0) {
+                            $current_page = $total_pages;
+                        }
+                        
+                        $offset = ($current_page - 1) * $items_per_page;
+                        $personilList = array_slice($all_personil, $offset, $items_per_page);
+
+                        foreach ($personilList as $person) {
+                            $sosial = [];
+                            if (!empty($person['content_sosial'])) {
+                                $sosial = json_decode($person['content_sosial'], true) ?: [];
+                            }
+                            $linkedin = !empty($sosial['linkedin']) ? $sosial['linkedin'] : ($sosial['linkedin'] ?? '#');
+                            $github = !empty($sosial['github']) ? $sosial['github'] : ($sosial['github'] ?? '#');
+                            $email = !empty($person['email']) ? $person['email'] : '';
+
                             echo '<tr>';
-                            echo '<td>' . $person['nama'] . '</td>';
-                            echo '<td>' . $person['nip'] . '</td>';
-                            echo '<td>' . $person['jabatan'] . '</td>';
-                            echo '<td>' . $person['email'] . '</td>';
-                            echo '<td>' . $person['ruang'] . '</td>';
+                            echo '<td>' . htmlspecialchars($person['nama']) . '</td>';
+                            echo '<td>' . htmlspecialchars($person['nip']) . '</td>';
+                            echo '<td>' . htmlspecialchars($person['jabatan']) . '</td>';
+                            echo '<td>' . htmlspecialchars($email) . '</td>';
+                            echo '<td>' . htmlspecialchars($person['ruang_dosen']) . '</td>';
                             echo '<td>';
-                            echo '<a href="' . $person['linkedin'] . '" class="btn-social me-1" target="_blank"><i class="bi bi-linkedin"></i></a>';
-                            echo '<a href="' . $person['github'] . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>';
+                            echo '<a href="' . htmlspecialchars($linkedin) . '" class="btn-social me-1" target="_blank"><i class="bi bi-linkedin"></i></a>';
+                            echo '<a href="' . htmlspecialchars($github) . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>';
                             echo '</td>';
                             echo '<td>';
-                            echo '<button class="btn border-0 bg-transparent p-0 me-2" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(' . $index . ')"><i class="bi bi-pencil-square text-primary fs-4"></i></button>';
-                            echo '<button class="btn border-0 bg-transparent p-0" onclick="deletePersonil(' . $index . ')"><i class="bi bi-trash text-danger fs-4"></i></button>';
+                            // edit button with data attributes
+                            $dataAttr = 'data-id="' . $person['id_personil'] . '" '
+                                     . 'data-nama="' . htmlspecialchars($person['nama'], ENT_QUOTES) . '" '
+                                     . 'data-nip="' . htmlspecialchars($person['nip'], ENT_QUOTES) . '" '
+                                     . 'data-jabatan="' . htmlspecialchars($person['jabatan'], ENT_QUOTES) . '" '
+                                     . 'data-email="' . htmlspecialchars($email, ENT_QUOTES) . '" '
+                                     . 'data-ruang="' . htmlspecialchars($person['ruang_dosen'], ENT_QUOTES) . '" '
+                                     . 'data-linkedin="' . htmlspecialchars($linkedin, ENT_QUOTES) . '" '
+                                     . 'data-github="' . htmlspecialchars($github, ENT_QUOTES) . '" '
+                                     . 'data-photo="' . htmlspecialchars($person['photo_url'] ?? '', ENT_QUOTES) . '"';
+
+                            echo '<button class="btn border-0 bg-transparent p-0 me-2" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(this)" ' . $dataAttr . '><i class="bi bi-pencil-square text-primary fs-4"></i></button>';
+                            echo '<button class="btn border-0 bg-transparent p-0" onclick="deletePersonil(' . intval($person['id_personil']) . ')"><i class="bi bi-trash text-danger fs-4"></i></button>';
                             echo '</td>';
                             echo '</tr>';
                         }
@@ -197,29 +229,68 @@
                     </table>
                 </div>
             </div>
+            <!-- Pagination Info -->
+            <div class="text-center mt-3 mb-2">
+                <small class="text-muted">
+                    Menampilkan <?php echo !empty($personilList) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
+                </small>
+            </div>
+
             <!-- Pagination -->
             <div class="d-flex justify-content-center mt-4">
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">Previous</span>
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">Next</span>
-                            </a>
-                        </li>
+                        <?php 
+                        // Tombol Previous
+                        if ($current_page > 1) {
+                            echo '<li class="page-item">';
+                            echo '<a class="page-link" href="?page=' . ($current_page - 1) . '" aria-label="Previous">';
+                            echo '<span aria-hidden="true">Previous</span>';
+                            echo '</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled">';
+                            echo '<span class="page-link">Previous</span>';
+                            echo '</li>';
+                        }
+                        
+                        // Nomor halaman
+                        $start_page = max(1, $current_page - 2);
+                        $end_page = min($total_pages, $current_page + 2);
+                        
+                        if ($start_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                            if ($start_page > 2) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                        }
+                        
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            if ($i == $current_page) {
+                                echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                            } else {
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                            }
+                        }
+                        
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+                        }
+                        
+                        // Tombol Next
+                        if ($current_page < $total_pages) {
+                            echo '<li class="page-item">';
+                            echo '<a class="page-link" href="?page=' . ($current_page + 1) . '" aria-label="Next">';
+                            echo '<span aria-hidden="true">Next</span>';
+                            echo '</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled">';
+                            echo '<span class="page-link">Next</span>';
+                            echo '</li>';
+                        }
+                        ?>
                     </ul>
                 </nav>
             </div>
@@ -239,53 +310,115 @@
             document.getElementById('personil-ruang').value = '';
             document.getElementById('personil-github').value = '';
             document.getElementById('personil-linkedin').value = '';
+            document.getElementById('personil-photo').value = '';
             document.getElementById('personil-id').value = '';
         }
 
-        function editPersonil(index) {
-            const personilData = [
-                {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
-                {nama: 'Ketiwav Goreng', nip: '123456789876', jabatan: 'Ketua Lab', email: 'dipshey@polinema.ac.id', ruang: 'Ruang Dosen 3', linkedin: '#', github: '#'},
-            ];
-            
-            const person = personilData[index];
+        function editPersonil(button) {
+            // button is the element with data-* attributes
+            const id = button.getAttribute('data-id');
+            const nama = button.getAttribute('data-nama') || '';
+            const nip = button.getAttribute('data-nip') || '';
+            const jabatan = button.getAttribute('data-jabatan') || '';
+            const email = button.getAttribute('data-email') || '';
+            const ruang = button.getAttribute('data-ruang') || '';
+            const github = button.getAttribute('data-github') || '';
+            const linkedin = button.getAttribute('data-linkedin') || '';
+            const photo = button.getAttribute('data-photo') || '';
+
             document.getElementById('personilModalLabel').textContent = 'Edit Data Dosen';
-            document.getElementById('personil-nama').value = person.nama;
-            document.getElementById('personil-nip').value = person.nip;
-            document.getElementById('personil-jabatan').value = person.jabatan;
-            document.getElementById('personil-email').value = person.email;
-            document.getElementById('personil-ruang').value = person.ruang;
-            document.getElementById('personil-github').value = person.github;
-            document.getElementById('personil-linkedin').value = person.linkedin;
-            document.getElementById('personil-id').value = index;
+            document.getElementById('personil-nama').value = nama;
+            document.getElementById('personil-nip').value = nip;
+            document.getElementById('personil-jabatan').value = jabatan;
+            document.getElementById('personil-email').value = email;
+            document.getElementById('personil-ruang').value = ruang;
+            document.getElementById('personil-github').value = github;
+            document.getElementById('personil-linkedin').value = linkedin;
+            document.getElementById('personil-photo').value = photo;
+            document.getElementById('personil-id').value = id;
         }
 
-        function deletePersonil(index) {
+        function deletePersonil(id) {
             if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                console.log('Delete personil at index:', index);
-                // Add delete logic here
+                const formData = new FormData();
+                formData.append('action', 'delete');
+                formData.append('id_personil', id);
+
+                fetch('../../Controllers/personilController.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Data berhasil dihapus');
+                        location.reload(); // Reload page to refresh table
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Gagal menghapus data');
+                });
             }
         }
 
         // Form submit handler
         document.getElementById('savePersonilBtn').addEventListener('click', function() {
-            const formData = {
-                id: document.getElementById('personil-id').value,
-                nama: document.getElementById('personil-nama').value,
-                nip: document.getElementById('personil-nip').value,
-                jabatan: document.getElementById('personil-jabatan').value,
-                email: document.getElementById('personil-email').value,
-                ruang: document.getElementById('personil-ruang').value,
-                github: document.getElementById('personil-github').value,
-                linkedin: document.getElementById('personil-linkedin').value
-            };
+            const id = document.getElementById('personil-id').value;
+            const nama = document.getElementById('personil-nama').value;
+            const nip = document.getElementById('personil-nip').value;
+            const jabatan = document.getElementById('personil-jabatan').value;
+            const email = document.getElementById('personil-email').value;
+            const ruang = document.getElementById('personil-ruang').value;
+            const github = document.getElementById('personil-github').value;
+            const linkedin = document.getElementById('personil-linkedin').value;
+            const photo = document.getElementById('personil-photo').value;
 
-            console.log('Form data:', formData);
-            // Add save logic here (AJAX call to backend)
+            // Validasi
+            if (!nama || !nip || !jabatan) {
+                alert('Nama, NIP, dan Jabatan harus diisi');
+                return;
+            }
+
+            const formData = new FormData();
             
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('personilModal'));
-            modal.hide();
+            if (id) {
+                // Update mode
+                formData.append('action', 'update');
+                formData.append('id_personil', id);
+            } else {
+                // Add mode
+                formData.append('action', 'add');
+            }
+
+            formData.append('nama', nama);
+            formData.append('nip', nip);
+            formData.append('jabatan', jabatan);
+            formData.append('email', email);
+            formData.append('ruang_dosen', ruang);
+            formData.append('github', github);
+            formData.append('linkedin', linkedin);
+            formData.append('photo_url', photo);
+
+            fetch('../../Controllers/personilController.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload(); // Reload page to refresh table
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Gagal menyimpan data');
+            });
         });
     </script>
 </body>
