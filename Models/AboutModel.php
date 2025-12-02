@@ -22,5 +22,16 @@
             return $row ? json_decode($row, true) : null;
         }
 
+        public function updateVisi($visi){
+            $sql = "UPDATE about SET data = jsonb_set(data, '{visi}', :visi) WHERE title = 'Profil Lab SE'";
+            $result = $this->conn->prepare($sql);
+            $result->execute(['visi' => json_encode($visi)]);
+        }
+        public function updateMisi($misi){
+            $sql = "UPDATE about SET data = jsonb_set(data, '{misi}', :misi) WHERE title = 'Profil Lab SE'";
+            $result = $this->conn->prepare($sql);
+            $result->execute(['misi' => json_encode($misi)]);
+        }
+
     }
 ?>
