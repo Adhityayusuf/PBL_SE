@@ -145,7 +145,7 @@ require_once __DIR__ . "/layout/navbar.php";
 
             <div class="dosen-card">
                 <div class="img-container">
-                    <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
+                    <img src="assets/<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
                 </div>
 
                 <div class="card-content">
@@ -161,7 +161,7 @@ require_once __DIR__ . "/layout/navbar.php";
 
                     <div class="icon-list">
                         <?php 
-                        $sosial = !empty($dosen['content_sosial']) ? json_decode($dosen['content_sosial'], true) : [];
+                        $sosial = !empty($dosen['content_social']) ? json_decode($dosen['content_social'], true) : [];
                         if (!empty($sosial['linkedin'])): ?>
                         <a href="<?php echo $sosial['linkedin']; ?>" class="icon-circle" target="_blank"><i class="bi bi-linkedin"></i></a>
                         <?php endif; 
