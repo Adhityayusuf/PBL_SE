@@ -5,7 +5,7 @@
 -- Dumped from database version 17.4
 -- Dumped by pg_dump version 17.4
 
--- Started on 2025-12-02 08:10:14
+-- Started on 2025-12-02 12:14:34
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -539,11 +539,11 @@ COPY public.mahasiswa (id_mahasiswa, nim, nama, prodi_id, angkatan, status) FROM
 --
 
 COPY public.personil (id_personil, nip, nama, email, jabatan, ruang_dosen, content_social, photo_url) FROM stdin;
-1	198001012005011001	Dr. Budi Santoso, M.Kom.	budi.s@uni.ac.id	Kepala Lab SE	D-201	{"github": "budidev", "linkedin": "budi_s"}	personil1.jpg
-2	199002022015012002	Siti Aisyah, S.T., M.Eng.	siti.a@uni.ac.id	Dosen Pembimbing	D-202	{"linkedin": "siti_ai"}	personil2.jpg
-3	198505152010031003	Rudi Herman, S.Kom., M.TI.	rudi.h@uni.ac.id	Dosen Riset	D-203	{"twitter": "@rudi_ti"}	personil3.jpg
-4	199507252019013004	Lina Putri, M.Cs.	lina.p@uni.ac.id	Asisten Lab	D-204	{"instagram": "lina.put"}	personil4.jpg
 5	198811302012024005	Joko Susilo, Ph.D.	joko.s@uni.ac.id	Penguji Software	D-205	{"github": "joko_sus"}	personil5.jpg
+4	199507252019013004	Lina Putri, M.Cs.	lina.p@uni.ac.id	Asisten Lab	D-204	{"instagram": "lina.put"}	personil4.jpg
+3	198505152010031003	Rudi Herman, S.Kom., M.TI.	rudi.h@uni.ac.id	Dosen Riset	D-203	{"twitter": "@rudi_ti"}	personil3.jpg
+2	199002022015012002	Siti Aisyah, S.T., M.Eng.	siti.a@uni.ac.id	Dosen Pembimbing	D-202	{"linkedin": "siti_ai"}	personil2.jpg
+1	198001012005011001	Dr. Budi Santoso, M.Kom.	budi.s@uni.ac.id	Kepala Lab SE	D-201	{"github": "budidev", "linkedin": "budi_s"}	personil1.jpg
 \.
 
 
@@ -586,7 +586,7 @@ COPY public.profile (id_profile, tipe_konten, isi_konten, last_updated, image_ur
 3	3	2024: Penguatan dasar pemrograman dan SDLC.	2025-12-02 06:33:03.038644+07	\N
 4	4	Web Development	2025-12-02 06:33:03.038644+07	bi-code-slash
 5	5	Tersedia 30 unit komputer spek tinggi untuk praktikum pemrograman lanjut.	2025-12-02 06:33:03.038644+07	assets/fasilitas/komputer.jpg
-1	1	Lab Software Engineering berfokus pada pengembangan sistem berbasis rekayasa perangkat lunak, mulai dari analisis kebutuhan, desain, implementasi, hingga pengujian.	2025-12-02 06:33:03.038644+07	../assets/maskot.png
+1	1	Lab Software Engineering berfokus pada pengembangan sistem berbasis rekayasa perangkat lunak, mulai dari analisis kebutuhan, desain, implementasi, hingga pengujian.	2025-12-02 06:33:03.038644+07	maskot.png
 \.
 
 
@@ -866,7 +866,7 @@ ALTER TABLE ONLY public.profile
     ADD CONSTRAINT profile_tipe_konten_fkey FOREIGN KEY (tipe_konten) REFERENCES public.tipe_konten(id_tipe_konten);
 
 
--- Completed on 2025-12-02 08:10:14
+-- Completed on 2025-12-02 12:14:35
 
 --
 -- PostgreSQL database dump complete
