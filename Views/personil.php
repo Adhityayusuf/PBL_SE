@@ -118,6 +118,43 @@ $customCSS = "
         background: #333;
     }
 
+    .pagination {
+        margin: 0;
+        gap: 8px;
+        display: inline-flex;
+    }
+
+    .pagination .page-link {
+        border: 1px solid #fff;
+        color: #6c757d;
+        padding: 8px 12px;
+        border-radius: 6px;
+        min-width: 40px;
+        text-align: center;
+        transition: all 0.3s ease;
+        background: #ffffff;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #dcdcdcff;
+        border-color: #ccc;
+        color: #0863C7;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #0863C7;
+        color: white;
+        border-color: #0863C7;
+        border-radius: 6px;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        background-color: #ffffff;
+        border-color: #e0e0e0;
+        color: #ccc;
+        cursor: not-allowed;
+    }
+
 ";
 require_once __DIR__ . "/layout/header.php";
 require_once __DIR__ . "/layout/navbar.php";
@@ -135,7 +172,20 @@ require_once __DIR__ . "/layout/navbar.php";
     require_once __DIR__ . "/../Models/PersonilModel.php";
 
     $personilModel = new PersonilModel();
-    $dosenList = $personilModel->getAllPersonil();
+    $all_personil = $personilModel->getAllPersonil();
+
+    // Pagination: 10 items per page
+    $items_per_page = 10;
+    $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $total_items = count($all_personil);
+    $total_pages = $total_items > 0 ? (int) ceil($total_items / $items_per_page) : 1;
+
+    if ($current_page > $total_pages) {
+        $current_page = $total_pages;
+    }
+
+    $offset = ($current_page - 1) * $items_per_page;
+    $dosenList = array_slice($all_personil, $offset, $items_per_page);
     ?>
 
     <?php foreach ($dosenList as $dosen) : ?>
@@ -145,7 +195,7 @@ require_once __DIR__ . "/layout/navbar.php";
 
             <div class="dosen-card">
                 <div class="img-container">
-                    <img src="assets/<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
+                    <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
                 </div>
 
                 <div class="card-content">
@@ -182,6 +232,64 @@ require_once __DIR__ . "/layout/navbar.php";
     </div>
 
     <?php endforeach; ?>
+
+    <!-- Pagination controls -->
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mt-3 mb-2">
+                <small style="color: white;">
+                    Menampilkan <?php echo !empty($dosenList) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php
+                        // Previous
+                        if ($current_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . ($current_page - 1) . '">Previous</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
+                        }
+
+                        $start_page = max(1, $current_page - 2);
+                        $end_page = min($total_pages, $current_page + 2);
+
+                        if ($start_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                            if ($start_page > 2) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                        }
+
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            if ($i == $current_page) {
+                                echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                            } else {
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                            }
+                        }
+
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+                        }
+
+                        // Next
+                        if ($current_page < $total_pages) {
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . ($current_page + 1) . '">Next</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled"><span class="page-link">Next</span></li>';
+                        }
+                        ?>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 
 </div>
 

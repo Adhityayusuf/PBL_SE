@@ -40,9 +40,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="personil-photo" class="form-label">URL Foto</label>
-                    <input type="url" class="form-control" id="personil-photo" name="photo_url" placeholder="https://example.com/foto.jpg">
-                    <small class="text-muted">Masukkan URL lengkap gambar (gunakan format https://)</small>
+                    <label for="personil-photo" class="form-label">Foto</label>
+                    <input type="file" class="form-control" id="personil-photo" name="photo" accept="image/*">
+                    <small class="text-muted">Unggah file gambar (JPG, PNG, GIF). Ukuran maksimal: 2MB</small>
+                    <div id="photo-preview" class="mt-2" style="display: none;">
+                        <img id="photo-img" src="" alt="Preview Foto" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                    </div>
                 </div>
 
                 <div class="mb-3">

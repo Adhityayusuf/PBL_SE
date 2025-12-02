@@ -141,10 +141,10 @@
 
             <!-- Search and Add Button -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="search-box">
+                <form method="get" class="search-box" style="display:inline-block;">
                     <i class="bi bi-search"></i>
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
+                    <input type="text" name="search" class="form-control" placeholder="Search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                </form>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="resetForm()">
                     <i class="bi bi-plus-lg me-2"></i>Tambahkan Dosen
                 </button>
@@ -177,6 +177,19 @@
                         $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
                         
                         $all_personil = $model->getAllPersonil();
+
+                        // Server-side search (by nama)
+                        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+                        if ($search !== '') {
+                            $all_personil = array_filter($all_personil, function($p) use ($search) {
+                                return stripos($p['nama'] ?? '', $search) !== false;
+                            });
+                            // reindex
+                            $all_personil = array_values($all_personil);
+                        }
+
+                        $search_query = $search !== '' ? '&search=' . urlencode($search) : '';
+
                         $total_items = count($all_personil);
                         $total_pages = ceil($total_items / $items_per_page);
                         
@@ -190,8 +203,8 @@
 
                         foreach ($personilList as $person) {
                             $sosial = [];
-                            if (!empty($person['content_sosial'])) {
-                                $sosial = json_decode($person['content_sosial'], true) ?: [];
+                            if (!empty($person['content_social'])) {
+                                $sosial = json_decode($person['content_social'], true) ?: [];
                             }
                             $linkedin = !empty($sosial['linkedin']) ? $sosial['linkedin'] : ($sosial['linkedin'] ?? '#');
                             $github = !empty($sosial['github']) ? $sosial['github'] : ($sosial['github'] ?? '#');
@@ -244,7 +257,7 @@
                         // Tombol Previous
                         if ($current_page > 1) {
                             echo '<li class="page-item">';
-                            echo '<a class="page-link" href="?page=' . ($current_page - 1) . '" aria-label="Previous">';
+                            echo '<a class="page-link" href="?page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
                             echo '<span aria-hidden="true">Previous</span>';
                             echo '</a></li>';
                         } else {
@@ -258,7 +271,7 @@
                         $end_page = min($total_pages, $current_page + 2);
                         
                         if ($start_page > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="?page=1' . $search_query . '">1</a></li>';
                             if ($start_page > 2) {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                             }
@@ -268,7 +281,7 @@
                             if ($i == $current_page) {
                                 echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
                             } else {
-                                echo '<li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $i . $search_query . '">' . $i . '</a></li>';
                             }
                         }
                         
@@ -276,13 +289,13 @@
                             if ($end_page < $total_pages - 1) {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                             }
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
                         }
                         
                         // Tombol Next
                         if ($current_page < $total_pages) {
                             echo '<li class="page-item">';
-                            echo '<a class="page-link" href="?page=' . ($current_page + 1) . '" aria-label="Next">';
+                            echo '<a class="page-link" href="?page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
                             echo '<span aria-hidden="true">Next</span>';
                             echo '</a></li>';
                         } else {
@@ -312,6 +325,7 @@
             document.getElementById('personil-linkedin').value = '';
             document.getElementById('personil-photo').value = '';
             document.getElementById('personil-id').value = '';
+            document.getElementById('photo-preview').style.display = 'none';
         }
 
         function editPersonil(button) {
@@ -334,8 +348,16 @@
             document.getElementById('personil-ruang').value = ruang;
             document.getElementById('personil-github').value = github;
             document.getElementById('personil-linkedin').value = linkedin;
-            document.getElementById('personil-photo').value = photo;
             document.getElementById('personil-id').value = id;
+            
+            // Show photo preview jika ada photo_url
+            if (photo) {
+                document.getElementById('photo-img').src = photo;
+                document.getElementById('photo-preview').style.display = 'block';
+            } else {
+                document.getElementById('photo-preview').style.display = 'none';
+            }
+            document.getElementById('personil-photo').value = '';
         }
 
         function deletePersonil(id) {
@@ -374,11 +396,17 @@
             const ruang = document.getElementById('personil-ruang').value;
             const github = document.getElementById('personil-github').value;
             const linkedin = document.getElementById('personil-linkedin').value;
-            const photo = document.getElementById('personil-photo').value;
+            const photoFile = document.getElementById('personil-photo').files[0];
 
             // Validasi
             if (!nama || !nip || !jabatan) {
                 alert('Nama, NIP, dan Jabatan harus diisi');
+                return;
+            }
+
+            // Validasi ukuran file jika ada
+            if (photoFile && photoFile.size > 2 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar (maksimal 2MB)');
                 return;
             }
 
@@ -400,7 +428,9 @@
             formData.append('ruang_dosen', ruang);
             formData.append('github', github);
             formData.append('linkedin', linkedin);
-            formData.append('photo_url', photo);
+            if (photoFile) {
+                formData.append('photo', photoFile);
+            }
 
             fetch('../../Controllers/personilController.php', {
                 method: 'POST',
@@ -419,6 +449,19 @@
                 console.error('Error:', error);
                 alert('Gagal menyimpan data');
             });
+        });
+
+        // Preview image when file is selected
+        document.getElementById('personil-photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('photo-img').src = event.target.result;
+                    document.getElementById('photo-preview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
         });
     </script>
 </body>
