@@ -1,9 +1,0 @@
-CREATE TABLE admins (
-    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-)
-
-SELECT * FROM admins;
-
-TRUNCATE admins;
