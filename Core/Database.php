@@ -1,10 +1,10 @@
 <?php
 class Database {
-        private $host = 'pbl-db.c7k9dfm2qjsk.ap-southeast-1.rds.amazonaws.com';
-        private $port = '61432';
-        private $username = 'ardhan';
-        private $password = 'ardhan';
-        private $dbname = 'pbl';
+        private $host = 'localhost';
+        private $port = '5432';
+        private $username = 'postgres';
+        private $password = '123';
+        private $dbname = 'lab_se';
         protected $conn;
 
     public function __construct(){
