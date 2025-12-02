@@ -45,6 +45,7 @@ $customCSS = "
 ";
 
 require_once __DIR__ . "/layout/header.php";
+include_once __DIR__ . "/layout/navbar.php";
 ?>
 
 <div class="container header-section">
@@ -72,25 +73,23 @@ require_once __DIR__ . "/layout/header.php";
     <div class="row g-4 justify-content-center">
 
         <!-- Visi -->
-        <div class="col-lg-5 col-md-6">
-            <div class="vision-mission-card">
+        <div class="col-lg-5 col-md-6 d-flex">
+            <div class="vision-mission-card h-100">
                 <div class="title-underline">Visi</div>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                   <?= $visi  ?>
                 </p>
             </div>
         </div>
 
         <!-- Misi -->
-        <div class="col-lg-5 col-md-6">
-            <div class="vision-mission-card">
+        <div class="col-lg-5 col-md-6 d-flex">
+            <div class="vision-mission-card h-100">
                 <div class="title-underline">Misi</div>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    <?php foreach($misi as $item): ?>
+                        &#8226; <?= $item ?><br>
+                    <?php endforeach; ?>
                 </p>
             </div>
         </div>
