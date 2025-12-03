@@ -166,37 +166,38 @@ require_once __DIR__ . "/layout/navbar.php";
 
 <div class="container pb-5">
 
-<?php
-require_once __DIR__ . "/../Core/Database.php";
-require_once __DIR__ . "/../Models/PersonilModel.php";
+    <?php
+    require_once __DIR__ . "/../Core/Database.php";
+    require_once __DIR__ . "/../Models/PersonilModel.php";
 
-$personilModel = new PersonilModel();
-$all_personil = $personilModel->getAllPersonil();
+    $personilModel = new PersonilModel();
+    $all_personil = $personilModel->getAllPersonil();
 
-$search = trim($_GET['search'] ?? '');
-if ($search !== '') {
-    $all_personil = array_values(array_filter($all_personil, function ($p) use ($search) {
-        return stripos($p['nama'] ?? '', $search) !== false;
-    }));
-}
+    $search = trim($_GET['search'] ?? '');
+    if ($search !== '') {
+        $all_personil = array_values(array_filter($all_personil, function ($p) use ($search) {
+            return stripos($p['nama'] ?? '', $search) !== false;
+        }));
+    }
 
-$search_query = $search !== '' ? '&search=' . urlencode($search) : '';
+    $search_query = $search !== '' ? '&search=' . urlencode($search) : '';
 
-$items_per_page = 10;
-$current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $items_per_page = 6;
+    $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-$total_items = count($all_personil);
-$total_pages = $total_items > 0 ? ceil($total_items / $items_per_page) : 1;
+    $total_items = count($all_personil);
+    $total_pages = ceil($total_items / $items_per_page);
 
-if ($current_page > $total_pages) {
-    $current_page = $total_pages;
-}
+    if ($current_page > $total_pages && $total_pages > 0) {
+        $current_page = $total_pages;
+    }
 
-$offset = ($current_page - 1) * $items_per_page;
-$dosenList = array_slice($all_personil, $offset, $items_per_page);
+    $offset = ($current_page - 1) * $items_per_page;
+    $dosenList = array_slice($all_personil, $offset, $items_per_page);
 ?>
 
 <?php foreach ($dosenList as $dosen): ?>
+
 <div class="row justify-content-center mb-5">
     <div class="col-12">
         <div class="dosen-card">
