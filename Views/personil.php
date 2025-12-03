@@ -32,8 +32,8 @@ $customCSS = "
         align-items: center;
         padding: 40px;
         gap: 40px;
-        max-width: 800px;
-        min-height: 280px;
+        max-width: 600px;
+        min-height: 250px;
         margin: 0 auto;
     }
 
@@ -196,13 +196,14 @@ require_once __DIR__ . "/layout/navbar.php";
     $dosenList = array_slice($all_personil, $offset, $items_per_page);
 ?>
 
+<div class="row justify-content-center">
 <?php foreach ($dosenList as $dosen): ?>
-
-<div class="row justify-content-center mb-5">
-    <div class="col-12">
-        <div class="dosen-card">
+    
+    <div class="col-md-6 mb-5 d-flex justify-content-center">
+        <div class="dosen-card" style="width: 100%;">
             <div class="img-container">
-                <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" class="dosen-img" alt="Foto Dosen">
+                <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" 
+                     class="dosen-img" alt="Foto Dosen">
             </div>
 
             <div class="card-content">
@@ -240,8 +241,10 @@ require_once __DIR__ . "/layout/navbar.php";
             </div>
         </div>
     </div>
-</div>
+
 <?php endforeach; ?>
+</div>
+
 
 
 <!-- Pagination -->
