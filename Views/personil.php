@@ -32,7 +32,7 @@ $customCSS = "
         align-items: center;
         padding: 40px;
         gap: 40px;
-        max-width: 600px;
+        max-width: 800px;
         min-height: 250px;
         margin: 0 auto;
     }
