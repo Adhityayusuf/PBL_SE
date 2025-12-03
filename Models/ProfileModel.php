@@ -63,8 +63,17 @@ class ProfileModel {
         return $this->fetchAllData($sql, [$limit]); 
     }
 
+    public function getVisi() {
+        $sql = "SELECT isi_konten 
+                FROM profile 
+                WHERE tipe_konten = 2";
+        return $this->fetchOne($sql);
+    }
+    public function getMisi() {
+        $sql = "SELECT isi_konten from profile WHERE tipe_konten = 2";
+        return $this->fetchOne($sql);
+    }
 
-    // --- METHOD UTAMA ---
     public function getProfileData() {
         return [
             'title'            => 'Lab Software Engineering - Home',
@@ -75,6 +84,8 @@ class ProfileModel {
             'roadmap'          => $this->getRoadmap(),
             'personil'         => $this->getPersonil(),
             'artikel'          => $this->getArtikel(3),
+            'visi'             => $this->getVisi(),
+            'misi'             => $this->getMisi(),
 
             // Path CSS sudah benar asalkan BASE_PATH benar
             'customCSS'        => @file_get_contents(BASE_PATH . '../Views/assets/css/home.css')
