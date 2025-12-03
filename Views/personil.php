@@ -138,6 +138,76 @@ $customCSS = "
         color: #ccc;
         cursor: not-allowed;
     }
+    
+    @media (max-width: 1400px) {
+        .dosen-card {
+            max-width: 100%;
+            padding: 30px;
+            gap: 25px;
+        }
+
+        .dosen-img {
+            width: 200px;
+            height: 260px;
+        }
+    }
+
+    /* Laptop 1200px ke bawah */
+    @media (max-width: 1200px) {
+        .dosen-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .img-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .dosen-img {
+            width: 180px;
+            height: 230px;
+        }
+
+        .card-content {
+            align-items: center;
+        }
+
+        .detail-info {
+            text-align: center;
+        }
+
+        .icon-list {
+            justify-content: center;
+        }
+    }
+
+    /* Tablet */
+    @media (max-width: 992px) {
+        .dosen-card {
+            padding: 25px;
+        }
+
+        .dosen-img {
+            width: 150px;
+            height: 190px;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .dosen-card {
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .dosen-img {
+            width: 140px;
+            height: 180px;
+        }
+    }
+    
 ";
 
 require_once __DIR__ . "/layout/header.php";
