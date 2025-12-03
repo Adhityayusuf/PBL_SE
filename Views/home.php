@@ -106,7 +106,7 @@ require_once BASE_PATH . 'layout/navbar.php';
             <?php foreach ($personil as $p): ?>
                 <div class="item">
                     <div class="team-member-card">
-                        <img src="assets/<?php echo htmlspecialchars($p['photo_url'] ?? $p['img'] ?? 'personil_default.jpg'); ?>" alt="<?php echo htmlspecialchars($p['nama']); ?>">
+                        <img src="<?php echo htmlspecialchars($p['photo_url'] ?? $p['img'] ?? 'personil_default.jpg'); ?>" alt="<?php echo htmlspecialchars($p['nama']); ?>">
                         <div class="team-member-info">
                             <h5><?php echo htmlspecialchars($p['nama']); ?></h5>
                             <p><?php echo htmlspecialchars($p['jabatan']); ?></p>
@@ -118,7 +118,7 @@ require_once BASE_PATH . 'layout/navbar.php';
             <p class="text-center text-light">Data Personil belum tersedia.</p>
         <?php endif; ?>
     </div>
-    <a href="#" class="btn btn-data-dosen">Lihat Data Dosen</a>
+    <a href="personil.php" class="btn btn-data-dosen">Lihat Data Dosen</a>
 </section>
 
 <hr class="my-5 opacity-25">
