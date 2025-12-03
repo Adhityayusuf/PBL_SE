@@ -1,222 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+// 1. LOGIKA PHP (Ambil Data)
+require_once __DIR__ . '/../Models/ArtikelModel.php';
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Artikel - Roblox Age Estimation</title>
+$id_artikel = isset($_GET['id']) ? $_GET['id'] : null;
+$artikel = null;
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+if ($id_artikel) {
+    $model = new ArtikelModel();
+    $artikel = $model->getArtikelById($id_artikel);
+}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+// Jika tidak ada artikel, lempar balik ke blog
+if (!$artikel) {
+    header("Location: blog.php");
+    exit;
+}
 
-    <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #032b57;
-            color: white;
-            margin: 0;
-            padding: 0;
-            padding-top: 100px;
-            /* auto fix semua section */
-        }
+// 2. KONFIGURASI TAMPILAN
+$title = htmlspecialchars($artikel['title']) . " - Lab SE";
 
-        .blog-header {
-            padding-top: 150px;
-            /* aman untuk fixed navbar */
-        }
+$customCSS = "
+    body {
+        background: #06213D;
+        font-family: 'Poppins', sans-serif;
+        color: white;
+    }
 
-        .blog-header h1 {
-            font-size: 48px;
-            font-weight: 700;
-            color: white;
-        }
+    /* Icon Mobile */
+    .navbar-toggler { border-color: rgba(255,255,255,0.5) !important; }
+    .navbar-toggler-icon { filter: invert(1) grayscale(100%) brightness(200%); }
 
-        .blog-header p {
-            max-width: 500px;
-            color: white;
-            opacity: 0.8;
-        }
+    /* Dropdown Menu */
+    .dropdown-menu {
+        background-color: white !important;
+        border-radius: 12px;
+        margin-top: 15px;
+        border: none;
+    }
+    .dropdown-item { color: #06213D !important; font-weight: 500; }
+    .dropdown-item:hover { background-color: #f0f0f0 !important; color: #0863C7 !important; }
 
-        .category-tag {
-            background: #757575ff;
-            padding: 6px 14px;
-            color: #000;
-            display: inline-block;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-        }
+    /* === STYLE KHUSUS KONTEN ARTIKEL === */
+    .article-container {
+        padding-top: 20px; 
+        padding-bottom: 80px;
+        max-width: 900px; /* Lebar konten bacaan agar nyaman */
+        margin: 0 auto;
+    }
 
-        h1 {
-            margin-top: 20px;
-            font-size: 38px;
-            font-weight: 700;
-        }
+    /* Kategori Label */
+    .category-tag {
+        background: #FFC107;
+        padding: 6px 16px;
+        color: #06213D;
+        display: inline-block;
+        border-radius: 50px;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-        }
+    /* Judul Artikel */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        line-height: 1.3;
+    }
 
-        /* HERO IMAGE + SIDE TEXT layout */
-        .hero-section {
-            display: block;
-            margin-top: 30px;
-        }
+    /* Info Penulis */
+    .author-meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding-bottom: 20px;
+    }
+    .author-icon {
+        width: 45px;
+        height: 45px;
+        background: white;
+        border-radius: 50%;
+        color: #06213D;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 15px;
+    }
+    .author-info {
+        font-size: 0.9rem;
+    }
+    .author-name { font-weight: 700; color: white; display: block; }
+    .publish-date { color: #a0aec0; }
 
-        .hero-img {
-            width: 100%;
-            height: 380px;
-            /* boleh disesuaikan */
-            background: #d9d9d9;
-            border-radius: 10px;
-        }
+    /* Hero Image */
+    .hero-section {
+        width: 100%;
+        height: 450px;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .hero-img {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
 
-        .side-text {
-            font-size: 16px;
-            color: #e9e9e9;
-        }
+    /* Isi Konten */
+    .content-body {
+        line-height: 1.9;
+        color: #e4e4e4;
+        font-size: 1.1rem;
+        text-align: justify;
+    }
+    .content-body p { margin-bottom: 25px; }
 
-        @media (max-width: 850px) {
-            .hero-section {
-                grid-template-columns: 1fr;
-            }
-        }
+    /* Tombol Kembali */
+    .back-container {
+        margin-top: 60px;
+        text-align: center;
+    }
+    .back-btn {
+        padding: 12px 35px;
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: inline-block;
+    }
+    .back-btn:hover {
+        background: white;
+        color: #06213D;
+        transform: translateY(-3px);
+    }
+";
 
-        .author {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
+// 3. INCLUDE HEADER & NAVBAR (URUTAN PENTING)
+require_once __DIR__ . '/layout/header.php';
 
-        .author .icon {
-            width: 38px;
-            height: 38px;
-            background: #d9d9d9;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
+// Include Navbar DI LUAR container artikel agar full width
+include __DIR__ . '/layout/navbar.php'; 
+?>
 
-        p {
-            line-height: 1.7;
-            margin: 18px 0;
-            color: #e4e4e4;
-        }
-
-        /* IMAGE + TEXT SIDE BY SIDE (BOTTOM SECTION) */
-        .bottom-flex {
-            display: flex;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .bottom-img {
-            flex: 1;
-            background: #d9d9d9;
-            height: 350px;
-            border-radius: 12px;
-        }
-
-        .bottom-card {
-            flex: 1;
-            background: #0e3a72;
-            padding: 22px;
-            border-radius: 12px;
-            height: fit-content;
-        }
-
-        @media (max-width: 850px) {
-            .bottom-flex {
-                flex-direction: column;
-            }
-        }
-
-        .back-btn {
-            margin-top: 40px;
-            display: inline-block;
-            padding: 10px 22px;
-            background: white;
-            color: black;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        footer {
-            margin-top: 90px;
-            background: #001b36;
-            padding: 50px 40px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            color: #ddd;
-        }
-
-        @media (max-width: 768px) {
-            footer {
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <?php include '../layout/navbar.php'; ?>
-
-    <div class="container mt-4">
-        <span class="category-tag">Category 1</span>
-        <h1>Roblox will require age estimation to chat starting next year</h1>
-
-        <!-- HERO SECTION WITH IMAGE + SIDE NOTE TEXT -->
-        <div class="hero-section">
-            <div class="hero-img"></div>
-        </div>
-
-        <div class="author">
-            <div class="icon"></div>
-            <small>Mr Ironi • 08/07/2025</small>
-        </div>
-
-        <p>Roblox will soon require that users go through an age estimation process if they want to be able to chat with other people on the platform. The requirement will be in effect for all users starting in early January.</p>
-
-        <p>Beginning in December, Roblox will require users in some markets to go through the age estimation process to be able to chat with others.</p>
-
-        <p>After going through the age estimation process, Roblox will assign users into groups.</p>
-
-        <!-- BOTTOM SECTION: IMAGE + CARD (LIKE FIGMA) -->
-        <div class="bottom-flex">
-            <div class="bottom-img"></div>
-
-            <div class="bottom-card">
-                <p><strong>Elisa (estimated age 12):</strong> Elisa has access to chat with users aged 15 or younger.</p>
-                <p><strong>Marcus (estimated age 18):</strong> Marcus can chat with users 16+ and add younger siblings as Trusted Connections.</p>
-            </div>
-        </div>
-
-        <a href="#" class="back-btn">Back →</a>
+<div class="container article-container">
+    
+    <div class="text-center">
+        <span class="category-tag">
+            <?= htmlspecialchars($artikel['nama_kategori'] ?? 'Umum') ?>
+        </span>
     </div>
 
-    <footer>
-        <div>
-            <strong>Laboratorium Software Engineering</strong><br />
-            Jl. Soekarno Hatta No.9, Malang
-        </div>
-        <div>
-            <h4>Menu Cepat</h4>
-            Home<br />Blog Artikel<br />Personil<br />Recruitment
-        </div>
-        <div>
-            <h4>Kontak Kami</h4>
-            labse@gmail.com<br />+62 12 1234 0000
-        </div>
-    </footer>
-</body>
+    <h1 class="text-center"><?= htmlspecialchars($artikel['title']) ?></h1>
 
-</html>
+    <p class="text-center text-light mb-4" style="opacity: 0.8; font-size: 1.1rem;">
+        <?= htmlspecialchars($artikel['subtitle']) ?>
+    </p>
+
+    <div class="d-flex justify-content-center">
+        <div class="author-meta border-0">
+            <div class="author-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <div class="author-info text-start">
+                <span class="author-name"><?= htmlspecialchars($artikel['penulis']) ?></span>
+                <span class="publish-date"><?= date('d F Y', strtotime($artikel['tanggal_publikasi'])) ?></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <?php $bgImage = !empty($artikel['image_url']) ? $artikel['image_url'] : 'assets/bg.png'; ?>
+        <div class="hero-img" style="background-image: url('<?= htmlspecialchars($bgImage) ?>');"></div>
+    </div>
+
+    <div class="content-body">
+        <?= nl2br(htmlspecialchars($artikel['isi_konten'])) ?>
+    </div>
+
+    <div class="back-container">
+        <a href="blog.php" class="back-btn">
+            <i class="bi bi-arrow-left me-2"></i> Kembali ke Blog
+        </a>
+    </div>
+
+</div>
+
+<?php include __DIR__ . '/layout/footer.php'; ?>
