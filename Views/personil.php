@@ -141,71 +141,159 @@ $customCSS = "
     
     @media (max-width: 1400px) {
         .dosen-card {
-            max-width: 100%;
-            padding: 30px;
-            gap: 25px;
+            padding: 22px;
         }
 
         .dosen-img {
-            width: 200px;
-            height: 260px;
-        }
-    }
-
-    /* Laptop 1200px ke bawah */
-    @media (max-width: 1200px) {
-        .dosen-card {
-            flex-direction: column;
-            text-align: center;
-            padding: 25px;
+            width: 170px;
+            height: 215px;
         }
 
-        .img-container {
-            display: flex;
-            justify-content: center;
+        .name {
+            font-size: 22px;
         }
 
-        .dosen-img {
-            width: 180px;
-            height: 230px;
-        }
-
-        .card-content {
-            align-items: center;
+        .role {
+            font-size: 15px;
         }
 
         .detail-info {
-            text-align: center;
+            font-size: 15px;
         }
-
-        .icon-list {
-            justify-content: center;
-        }
-    }
-
-    /* Tablet */
-    @media (max-width: 992px) {
-        .dosen-card {
-            padding: 25px;
-        }
-
-        .dosen-img {
-            width: 150px;
-            height: 190px;
+        
+        .icon-circle {
+            width: 38px;
+            height: 38px;
+            font-size: 19px;
         }
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
+    /* ============================
+    ≤ 1200px
+    ============================ */
+    @media (max-width: 1200px) {
         .dosen-card {
-            flex-direction: column;
             padding: 20px;
         }
 
         .dosen-img {
-            width: 140px;
-            height: 180px;
+            width: 160px;
+            height: 205px;
         }
+
+        .name {
+            font-size: 21px;
+        }
+
+        .role {
+            font-size: 15px;
+        }
+
+        .detail-info {
+            font-size: 14px;
+        }
+        .icon-circle {
+            width: 35px;
+            height: 35px;
+            font-size: 18px;
+        }
+    }
+
+    /* ============================
+    ≤ 992px (Tablet)
+    ============================ */
+    @media (max-width: 992px) {
+        .dosen-card {
+            padding: 18px;
+        }
+
+        .dosen-img {
+            width: 150px;
+            height: 195px;
+        }
+
+        .name {
+            font-size: 20px;
+        }
+
+        .role {
+            font-size: 14px;
+        }
+
+        .detail-info {
+            font-size: 13px;
+        }
+        
+        .icon-circle {
+            width: 32px;
+            height: 32px;
+            font-size: 17px;
+        }
+    }
+
+    /* ============================
+    ≤ 768px (HP Landscape)
+    ============================ */
+    @media (max-width: 768px) {
+        .dosen-card {
+            padding: 16px;
+        }
+
+        .dosen-img {
+            width: 140px;
+            height: 185px;
+        }
+
+        .name {
+            font-size: 19px;
+        }
+
+        .role {
+            font-size: 14px;
+        }
+
+        .detail-info {
+            font-size: 13px;
+        }
+        
+        .icon-circle {
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+        }
+    }
+
+    /* ============================
+    ≤ 576px (HP Kecil)
+    ============================ */
+    @media (max-width: 576px) {
+        .dosen-card {
+            padding: 15px;
+        }
+
+        .dosen-img {
+            width: 130px;
+            height: 170px;
+        }
+
+        .name {
+            font-size: 18px;
+        }
+
+        .role {
+            font-size: 13px;
+        }
+
+        .detail-info {
+            font-size: 12px;
+        }
+        
+        .icon-circle {
+            width: 28px;
+            height: 28px;
+            font-size: 15px;
+        }
+
     }
     
 ";
@@ -221,16 +309,16 @@ require_once __DIR__ . "/layout/navbar.php";
 <!-- SEARCH BAR -->
 <div class="container mb-5" style="max-width: 500px;">
     <form method="get" class="position-relative">
-        <i class="bi bi-search" 
-           style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#6c757d;">
+        <i class="bi bi-search"
+            style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#6c757d;">
         </i>
 
-        <input type="text" 
-               name="search" 
-               class="form-control"
-               placeholder="Search"
-               value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
-               style="padding-left:45px; height:45px; border-radius:10px;">
+        <input type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search"
+            value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+            style="padding-left:45px; height:45px; border-radius:10px;">
     </form>
 </div>
 
@@ -264,121 +352,121 @@ require_once __DIR__ . "/layout/navbar.php";
 
     $offset = ($current_page - 1) * $items_per_page;
     $dosenList = array_slice($all_personil, $offset, $items_per_page);
-?>
+    ?>
 
-<div class="row justify-content-center">
-<?php foreach ($dosenList as $dosen): ?>
-    
-    <div class="col-md-6 mb-5 d-flex justify-content-center">
-        <div class="dosen-card" style="width: 100%;">
-            <div class="img-container">
-                <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>" 
-                     class="dosen-img" alt="Foto Dosen">
+    <div class="row justify-content-center">
+        <?php foreach ($dosenList as $dosen): ?>
+
+            <div class="col-md-6 mb-5 d-flex justify-content-center">
+                <div class="dosen-card" style="width: 100%;">
+                    <div class="img-container">
+                        <img src="<?php echo $dosen['photo_url'] ?? 'assets/default.jpg'; ?>"
+                            class="dosen-img" alt="Foto Dosen">
+                    </div>
+
+                    <div class="card-content">
+                        <div class="name"><?php echo $dosen['nama']; ?></div>
+                        <div class="role"><?php echo $dosen['jabatan']; ?></div>
+
+                        <div class="detail-info">
+                            <div><?php echo $dosen['nip']; ?></div>
+                            <div><?php echo $dosen['email'] ?? '-'; ?></div>
+                            <div><?php echo $dosen['ruang_dosen'] ?? '-'; ?></div>
+                        </div>
+
+                        <div class="icon-list">
+                            <?php
+                            $social = !empty($dosen['content_social'])
+                                ? json_decode($dosen['content_social'], true)
+                                : [];
+
+                            if (!empty($social['linkedin'])): ?>
+                                <a href="<?php echo $social['linkedin']; ?>" class="icon-circle" target="_blank">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            <?php endif;
+
+                            if (!empty($social['github'])): ?>
+                                <a href="<?php echo $social['github']; ?>" class="icon-circle" target="_blank">
+                                    <i class="bi bi-github"></i>
+                                </a>
+                            <?php endif; ?>
+
+                            <a href="mailto:<?php echo $social['email'] ?? $dosen['email']; ?>" class="icon-circle">
+                                <i class="bi bi-envelope-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="card-content">
-                <div class="name"><?php echo $dosen['nama']; ?></div>
-                <div class="role"><?php echo $dosen['jabatan']; ?></div>
-
-                <div class="detail-info">
-                    <div><?php echo $dosen['nip']; ?></div>
-                    <div><?php echo $dosen['email'] ?? '-'; ?></div>
-                    <div><?php echo $dosen['ruang_dosen'] ?? '-'; ?></div>
-                </div>
-
-                <div class="icon-list">
-                    <?php 
-                    $social = !empty($dosen['content_social']) 
-                              ? json_decode($dosen['content_social'], true) 
-                              : [];
-
-                    if (!empty($social['linkedin'])): ?>
-                        <a href="<?php echo $social['linkedin']; ?>" class="icon-circle" target="_blank">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    <?php endif;
-
-                    if (!empty($social['github'])): ?>
-                        <a href="<?php echo $social['github']; ?>" class="icon-circle" target="_blank">
-                            <i class="bi bi-github"></i>
-                        </a>
-                    <?php endif; ?>
-
-                    <a href="mailto:<?php echo $social['email'] ?? $dosen['email']; ?>" class="icon-circle">
-                        <i class="bi bi-envelope-fill"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
-<?php endforeach; ?>
-</div>
 
 
+    <!-- Pagination -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <small style="color: white;">
+                Menampilkan
+                <?php echo !empty($dosenList) ? $offset + 1 : 0; ?> -
+                <?php echo min($offset + $items_per_page, $total_items); ?>
+                dari <?php echo $total_items; ?> data
+            </small>
 
-<!-- Pagination -->
-<div class="row">
-    <div class="col-12 text-center">
-        <small style="color: white;">
-            Menampilkan 
-            <?php echo !empty($dosenList) ? $offset + 1 : 0; ?> - 
-            <?php echo min($offset + $items_per_page, $total_items); ?> 
-            dari <?php echo $total_items; ?> data
-        </small>
+            <div class="d-flex justify-content-center mt-3">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
 
-        <div class="d-flex justify-content-center mt-3">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
+                        <!-- Previous -->
+                        <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                            <a class="page-link"
+                                href="<?php echo $current_page > 1 ? '?page=' . ($current_page - 1) . $search_query : '#'; ?>">
+                                Previous
+                            </a>
+                        </li>
 
-                    <!-- Previous -->
-                    <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
-                        <a class="page-link" 
-                           href="<?php echo $current_page > 1 ? '?page=' . ($current_page - 1) . $search_query : '#'; ?>">
-                           Previous
-                        </a>
-                    </li>
+                        <!-- Halaman -->
+                        <?php
+                        $start_page = max(1, $current_page - 2);
+                        $end_page = min($total_pages, $current_page + 2);
 
-                    <!-- Halaman -->
-                    <?php
-                    $start_page = max(1, $current_page - 2);
-                    $end_page = min($total_pages, $current_page + 2);
-
-                    if ($start_page > 1) {
-                        echo '<li class="page-item"><a class="page-link" href="?page=1'.$search_query.'">1</a></li>';
-                        if ($start_page > 2) {
-                            echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                        if ($start_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="?page=1' . $search_query . '">1</a></li>';
+                            if ($start_page > 2) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
                         }
-                    }
 
-                    for ($i = $start_page; $i <= $end_page; $i++) {
-                        $active = $i == $current_page ? 'active' : '';
-                        echo '<li class="page-item '.$active.'">
-                                <a class="page-link" href="?page='.$i.$search_query.'">'.$i.'</a>
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            $active = $i == $current_page ? 'active' : '';
+                            echo '<li class="page-item ' . $active . '">
+                                <a class="page-link" href="?page=' . $i . $search_query . '">' . $i . '</a>
                               </li>';
-                    }
-
-                    if ($end_page < $total_pages) {
-                        if ($end_page < $total_pages - 1) {
-                            echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                         }
-                        echo '<li class="page-item"><a class="page-link" href="?page='.$total_pages.$search_query.'">'.$total_pages.'</a></li>';
-                    }
-                    ?>
 
-                    <!-- Next -->
-                    <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
-                        <a class="page-link" 
-                           href="<?php echo $current_page < $total_pages ? '?page=' . ($current_page + 1) . $search_query : '#'; ?>">
-                           Next
-                        </a>
-                    </li>
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                        }
+                        ?>
 
-                </ul>
-            </nav>
+                        <!-- Next -->
+                        <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                            <a class="page-link"
+                                href="<?php echo $current_page < $total_pages ? '?page=' . ($current_page + 1) . $search_query : '#'; ?>">
+                                Next
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
 
