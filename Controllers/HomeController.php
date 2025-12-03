@@ -3,10 +3,19 @@
 require_once __DIR__ . '/../Models/ProfileModel.php';
 
 class HomeController {
+    private $profileModel;
+
+    public function __construct() {
+        $this->profileModel = new ProfileModel();
+    }
 
     public function index() {
-        $model = new ProfileModel();
-        $data = $model->getProfileData(); 
+        $data = $this->profileModel->getProfileData();
+
+        if (!isset($data['scopes'])) {
+            $data['scopes'] = $this->profileModel->getScopes(); 
+        }
+
         return $data;
     }
 }

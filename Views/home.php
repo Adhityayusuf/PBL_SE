@@ -115,7 +115,7 @@ require_once BASE_PATH . 'layout/navbar.php';
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-             <p class="text-center text-light">Data Personil belum tersedia.</p>
+            <p class="text-center text-light">Data Personil belum tersedia.</p>
         <?php endif; ?>
     </div>
     <a href="#" class="btn btn-data-dosen">Lihat Data Dosen</a>
@@ -126,10 +126,36 @@ require_once BASE_PATH . 'layout/navbar.php';
 <section id="focus-scope-section" class="container py-5 text-center">
     <h2 class="section-title-flex mb-4">Focus dan Scope Penelitian</h2>
     <div class="row g-4 justify-content-center mt-5">
-        <div class="col-lg-3 col-md-4 col-sm-6"><div class="icon-box"><i class="bi bi-code-slash text-warning"></i></div><p class="text-light mt-2">Web Development</p></div>
-        <div class="col-lg-3 col-md-4 col-sm-6"><div class="icon-box"><i class="bi bi-phone text-warning"></i></div><p class="text-light mt-2">Mobile Development</p></div>
-        <div class="col-lg-3 col-md-4 col-sm-6"><div class="icon-box"><i class="bi bi-bug text-warning"></i></div><p class="text-light mt-2">Software Testing</p></div>
-        <div class="col-lg-3 col-md-4 col-sm-6"><div class="icon-box"><i class="bi bi-gear text-warning"></i></div><p class="text-light mt-2">Software Process & Methodology</p></div>
+        
+        <?php 
+        // Pastikan variabel scopes tersedia
+        $scopes = $scopes ?? []; 
+        ?>
+
+        <?php if (!empty($scopes)): ?>
+            <?php foreach ($scopes as $scope): 
+                // 1. Decode JSON (karena Judul disimpan dalam format JSON di kolom isi_konten)
+                $data = json_decode($scope['isi_konten'], true);
+                
+                // 2. Ambil Judul (Gunakan null coalescing operator agar aman)
+                $title = $data['title'] ?? 'Judul Tidak Tersedia';
+                
+                // 3. Ambil Icon (Disimpan di kolom image_url)
+                $icon = $scope['image_url'] ?? 'bi-code-slash';
+            ?>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="icon-box">
+                    <i class="bi <?php echo htmlspecialchars($icon); ?> text-warning"></i>
+                </div>
+                <p class="text-light mt-2"><?php echo htmlspecialchars($title); ?></p>
+            </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-12">
+                <p class="text-light">Data Focus & Scope belum tersedia.</p>
+            </div>
+        <?php endif; ?>
+
     </div>
 </section>
 
@@ -148,7 +174,7 @@ require_once BASE_PATH . 'layout/navbar.php';
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-             <p class="text-center text-light">Data Roadmap belum tersedia.</p>
+            <p class="text-center text-light">Data Roadmap belum tersedia.</p>
         <?php endif; ?>
     </div>
 </section>
@@ -182,7 +208,7 @@ require_once BASE_PATH . 'layout/navbar.php';
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-             <p class="text-center text-light">Data Artikel belum tersedia.</p>
+            <p class="text-center text-light">Data Artikel belum tersedia.</p>
         <?php endif; ?>
     </div>
     <div class="d-flex justify-content-center">

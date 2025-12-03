@@ -1,17 +1,15 @@
 <?php
-include_once __DIR__ . '/../Controllers/AboutController.php';
+include_once __DIR__ . '/../Controllers/aboutController.php';
 include_once __DIR__ . '/../Controllers/authController.php';
-include_once __DIR__ . '/../Controllers/RecruitmentController.php';
+include_once __DIR__ . '/../Controllers/personilController.php';
+include_once __DIR__ . '/../Controllers/HomeController.php';
 
-$aboutController = new AboutController();
+$aboutController = new aboutController();
 $authController = new authController();
-$recruitmentController = new RecruitmentController();
 
 switch($_GET['action'] ?? ''){
     case 'visiMisi':
-        $visi = $aboutController->getVisi();
-        $misi = $aboutController->getMisi();
-        include_once __DIR__ . '/../Views/visiMisi.php';
+        $aboutController->visiMisi(); 
         break;
     case 'login':
         $authController->indexLogin();
@@ -33,14 +31,6 @@ switch($_GET['action'] ?? ''){
     case 'recruitment':
         $recruitmentController->index();
         include_once __DIR__ . '/../Views/recruitment.php';
-        break;
-    case 'updateVisi':
-        $visi = $_POST['visi'] ?? '';
-        $aboutController->updateVisi($visi);
-        break;
-    case 'updateMisi':
-        $misi = $_POST['misi'] ?? '';
-        $aboutController->updateMisi($misi);
         break;
     default:
         include_once __DIR__ . '/../Views/home.php';

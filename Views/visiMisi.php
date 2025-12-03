@@ -77,7 +77,7 @@ include_once __DIR__ . "/layout/navbar.php";
             <div class="vision-mission-card h-100">
                 <div class="title-underline">Visi</div>
                 <p>
-                   <?= $visi  ?>
+                    <?= nl2br(htmlspecialchars($visi ?? 'Data Visi belum tersedia')) ?>
                 </p>
             </div>
         </div>
@@ -87,9 +87,15 @@ include_once __DIR__ . "/layout/navbar.php";
             <div class="vision-mission-card h-100">
                 <div class="title-underline">Misi</div>
                 <p>
-                    <?php foreach($misi as $item): ?>
-                        &#8226; <?= $item ?><br>
-                    <?php endforeach; ?>
+                    <?php if(isset($misi) && is_array($misi)): ?>
+                        <?php foreach($misi as $item): ?>
+                            <?php if(trim($item) != ''): ?>
+                                &#8226; <?= htmlspecialchars($item) ?><br>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        Data Misi belum tersedia.
+                    <?php endif; ?>
                 </p>
             </div>
         </div>

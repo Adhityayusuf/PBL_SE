@@ -587,6 +587,7 @@ COPY public.profile (id_profile, tipe_konten, isi_konten, last_updated, image_ur
 4	4	Web Development	2025-12-02 06:33:03.038644+07	bi-code-slash
 5	5	Tersedia 30 unit komputer spek tinggi untuk praktikum pemrograman lanjut.	2025-12-02 06:33:03.038644+07	assets/fasilitas/komputer.jpg
 1	1	Lab Software Engineering berfokus pada pengembangan sistem berbasis rekayasa perangkat lunak, mulai dari analisis kebutuhan, desain, implementasi, hingga pengujian.	2025-12-02 06:33:03.038644+07	maskot.png
+6   2   1. Menyelenggarakan pendidikan berkualitas di bidang RPL.\n2. Mengembangkan penelitian terapan yang inovatif.\n3. Membangun kerjasama dengan industri teknologi.    2025-12-03 19:19:05.818548+07   \N
 \.
 
 

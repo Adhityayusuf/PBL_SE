@@ -28,7 +28,9 @@ class ProfileModel {
                 FROM profile 
                 WHERE tipe_konten = 1
                 LIMIT 1";
-        return $this->fetchOne($sql); 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);  
     }
 
     public function getPrestasi() {
@@ -75,10 +77,95 @@ class ProfileModel {
             'roadmap'          => $this->getRoadmap(),
             'personil'         => $this->getPersonil(),
             'artikel'          => $this->getArtikel(3),
+            'scopes'           => $this->getScopes(),
 
             // Path CSS sudah benar asalkan BASE_PATH benar
             'customCSS'        => @file_get_contents(BASE_PATH . '../Views/assets/css/home.css')
         ];
+    }
+
+    // --- BAGIAN ADMIN (TAMBAHAN BARU) ---
+
+    // 1. Ambil Konten Berdasarkan ID (Untuk Visi, Misi, Tentang)
+    public function getContentById($id) {
+        $sql = "SELECT * FROM profile WHERE id_profile = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // 2. Update Konten Text (Visi, Misi, Tentang)
+    public function updateContent($id, $content) {
+        $sql = "UPDATE profile SET isi_konten = :content, last_updated = NOW() WHERE id_profile = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute(['content' => $content, 'id' => $id]);
+    }
+
+    // 3. Ambil Semua Scope (Focus)
+    public function getAllScopes() {
+        $sql = "SELECT * FROM profile WHERE tipe_konten = 4 ORDER BY id_profile ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // 4. Tambah Scope Baru
+    public function addScope($title, $description, $iconClass) {
+        // Simpan Title dan Description sebagai JSON
+        $content = json_encode(['title' => $title, 'description' => $description]);
+        
+        // Simpan Icon Class ke kolom image_url (karena kolom ini VARCHAR/TEXT)
+        $sql = "INSERT INTO profile (tipe_konten, isi_konten, image_url, last_updated) 
+                VALUES (4, :desc, :icon, NOW())"; 
+        
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute(['desc' => $content, 'icon' => $iconClass]);
+    }
+
+    // 5. Update Scope
+    public function updateScope($id, $title, $description, $iconClass) {
+        $content = json_encode(['title' => $title, 'description' => $description]);
+        
+        $sql = "UPDATE profile SET isi_konten = :content, image_url = :icon, last_updated = NOW() WHERE id_profile = :id";
+        
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute(['content' => $content, 'icon' => $iconClass, 'id' => $id]);
+    }
+
+    // 6. Hapus Scope
+    public function deleteScope($id) {
+        $sql = "DELETE FROM profile WHERE id_profile = :id AND tipe_konten = 4";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute(['id' => $id]);
+    }
+
+    // Ambil data Scope untuk ditampilkan di Home
+    public function getScopes() {
+        // Tipe konten 4 adalah Scope/Focus sesuai logika admin sebelumnya
+        $sql = "SELECT isi_konten, image_url FROM profile WHERE tipe_konten = 4";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Ambil Visi (ID 2)
+    public function getVisiData() {
+        // Kita kunci ke id_profile = 2 agar spesifik
+        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 2"; 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res ? $res['isi_konten'] : 'Visi belum diisi.';
+    }
+
+    // Ambil Misi (ID 6 yang baru kita buat)
+    public function getMisiData() {
+        // Kita kunci ke id_profile = 6
+        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 6"; 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res ? $res['isi_konten'] : 'Misi belum diisi.';
     }
 }
 ?>

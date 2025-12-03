@@ -1,3 +1,23 @@
+<?php
+// Include Model untuk mengambil data
+require_once __DIR__ . '/../../Models/ProfileModel.php';
+$model = new ProfileModel();
+
+// Ambil Data dari DB
+// Asumsi ID di database.sql: 1=Tentang, 2=Visi. 
+// Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
+// atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
+$tentang = $model->getContentById(1);
+$visi    = $model->getContentById(2); 
+$misi    = $model->getContentById(6); 
+
+// Jika data kosong (null), beri default agar tidak error
+$isiTentang = $tentang['isi_konten'] ?? 'Data belum tersedia.';
+$isiVisi    = $visi['isi_konten'] ?? 'Data belum tersedia.';
+$isiMisi    = $misi['isi_konten'] ?? 'Data belum tersedia.';
+$scopes = $model->getAllScopes();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,9 +69,14 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5 class="card-title fw-bold">Tentang Lab</h5>
-                            <p class="card-text text-muted">Lab Software Engineering merupakan salah satu laboratorium di bawah Jurusan Teknologi Informasi, Politeknik Negeri Malang.</p>
+                            <p class="card-text text-muted"><?php echo nl2br(htmlspecialchars($isiTentang)); ?></p>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editTentangLabModal">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editTentangLabModal"
+                                data-content="<?php echo htmlspecialchars($isiTentang); ?>">
+                            Edit
+                        </button>
                     </div>
                 </div>
             </div>
@@ -61,9 +86,16 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5 class="card-title fw-bold">Visi</h5>
-                            <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                            <p class="card-text text-muted"><?php echo nl2br(htmlspecialchars($isiVisi)); ?></p>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editVisiMisiModal" data-type="Visi">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editVisiMisiModal" 
+                                data-type="Visi"
+                                data-id="2"
+                                data-content="<?php echo htmlspecialchars($isiVisi); ?>">
+                            Edit
+                        </button>
                     </div>
                 </div>
             </div>
@@ -73,9 +105,16 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h5 class="card-title fw-bold">Misi</h5>
-                            <p class="card-text text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore</p>
+                            <p class="card-text text-muted"><?php echo nl2br(htmlspecialchars($isiMisi)); ?></p>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editVisiMisiModal" data-type="Misi">Edit</button>
+                        <button class="btn btn-outline-primary btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editVisiMisiModal" 
+                                data-type="Misi"
+                                data-id="6"
+                                data-content="<?php echo htmlspecialchars($isiMisi); ?>">
+                            Edit
+                        </button>
                     </div>
                 </div>
             </div>
@@ -83,45 +122,101 @@
             <div class="card" style="max-width: 700px;">
                 <div class="card-body">
                     <h5 class="card-title fw-bold mb-3">Scope dan Focus Lab</h5>
-                    
-                    <div class="scope-item">
-                        <span>Web Development</span>
-                        <div>
-                            <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Web Development">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm">Hapus</button>
-                        </div>
-                    </div>
 
-                    <div class="scope-item">
-                        <span>Mobile Development</span>
-                        <div>
-                            <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Mobile Development">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm">Hapus</button>
-                        </div>
-                    </div>
+                    <?php if (!empty($scopes)): 
+                            foreach($scopes as $scope): 
+                            $data = json_decode($scope['isi_konten'], true);
+                            $judul = $data['title'] ?? 'Tanpa Judul';
+                            $deskripsi = $data['description'] ?? '';
+                            // Icon disimpan di kolom image_url (text)
+                            $icon = $scope['image_url'] ?? '';
+                        ?>
                     
                     <div class="scope-item">
-                        <span>Software Testing & Quality Assurance</span>
+                        <span>
+                                <i class="bi <?php echo htmlspecialchars($icon); ?> me-2"></i> 
+                                <?php echo htmlspecialchars($judul); ?>
+                            </span>
                         <div>
-                            <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Software Testing & Quality Assurance">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm">Hapus</button>
-                        </div>
-                    </div>
-                    
-                    <div class="scope-item">
-                        <span>Software Development Process & Methodology</span>
-                        <div>
-                            <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Software Development Process & Methodology">Edit</button>
-                            <button class="btn btn-outline-danger btn-sm">Hapus</button>
-                        </div>
-                    </div>
+                            <button class="btn btn-outline-primary btn-sm me-2" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#editScopeModal" 
+                                    data-name="<?php echo htmlspecialchars($judul); ?>"
+                                    data-desc="<?php echo htmlspecialchars($deskripsi); ?>"
+                                    data-icon="<?php echo htmlspecialchars($scope['image_url']); ?>" data-id="<?php echo $scope['id_profile']; ?>">
+                                Edit
+                            </button>
 
+                            <form action="../../Controllers/AdminProfileController.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus scope ini?');">
+                                    <input type="hidden" name="action" value="delete_scope">
+                                    <input type="hidden" name="id_to_delete" value="<?php echo $scope['id_profile']; ?>">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                </form>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-muted small text-center my-3">Belum ada data Focus & Scope.</p>
+                    <?php endif; ?>
                     <a href="#" class="btn btn-link mt-3 p-0" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Tambah Focus">Tambah Focus</a>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Script untuk mempassing data saat tombol edit diklik
+        
+        // 1. Tentang Lab
+        const tentangModal = document.getElementById('editTentangLabModal');
+        tentangModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const content = button.getAttribute('data-content');
+            tentangModal.querySelector('textarea[name="isi_tentang"]').value = content;
+        });
+
+        // 2. Visi Misi
+        const visiMisiModal = document.getElementById('editVisiMisiModal');
+        visiMisiModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const type = button.getAttribute('data-type');
+            const id = button.getAttribute('data-id');
+            const content = button.getAttribute('data-content');
+            
+            visiMisiModal.querySelector('.modal-title').textContent = type;
+            visiMisiModal.querySelector('#visiMisiType').value = id; // ID Profile
+            visiMisiModal.querySelector('textarea[name="isi_visimisi"]').value = content;
+        });
+
+        // 3. Scope / Focus (Logic Update)
+        const scopeModal = document.getElementById('editScopeModal');
+        scopeModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const name = button.getAttribute('data-name');
+            const desc = button.getAttribute('data-desc') || '';
+            const icon = button.getAttribute('data-icon') || '';
+            const scopeId = button.getAttribute('data-id') || '';
+            
+            const inputName = scopeModal.querySelector('#scope-name');
+            const inputDesc = scopeModal.querySelector('#scope-description');
+            const inputIcon = scopeModal.querySelector('#scope-icon');
+            const inputId = scopeModal.querySelector('#scope-id');
+
+            if (name === 'Tambah Focus') {
+                scopeModal.querySelector('.modal-title').textContent = 'Tambah Fokus Lab';
+                inputName.value = '';
+                inputDesc.value = '';
+                inputIcon.value = '';
+                inputId.value = '';
+            } else {
+                scopeModal.querySelector('.modal-title').textContent = 'Edit Fokus Lab';
+                inputName.value = name;
+                inputDesc.value = desc; 
+                inputIcon.value = icon; 
+                inputId.value = scopeId;
+            }
+        });
+        </script>
 </body>
 </html>
