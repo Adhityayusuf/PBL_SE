@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengelolaan Personil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <style>
+<?php 
+    $title = "Pengelolaan Personil";
+    $customCSS = "       
         body {
             background-color: #f8f9fa;
         }
@@ -127,23 +120,28 @@
             border-color: #e0e0e0;
             color: #adb5bd;
             cursor: not-allowed;
-        }
-    </style>
-</head>
-<body>
-    <div class="d-flex">
-    <?php 
-    include '../layout/sidebar.php'; 
+        }";
+
+    include __DIR__ . '/../layout/header.php';
     ?>
+    <div class="d-flex">
+    <?php include __DIR__ . '/../layout/sidebar.php'; ?> 
+
         <div class="main-content">
             <h3 class="fw-bold mb-4">Pengelolaan Personil</h3>
             <hr class="mt-0 mb-4">
 
             <!-- Search and Add Button -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <form method="get" class="search-box" style="display:inline-block;">
-                    <i class="bi bi-search"></i>
+                <form method="GET" class="position-relative" action="index.php"> 
+                <input type="hidden" name="action" value="personilAdmin">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    
                     <input type="text" name="search" class="form-control" placeholder="Search" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                </div>
                 </form>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="resetForm()">
                     <i class="bi bi-plus-lg me-2"></i>Tambahkan Dosen
@@ -166,78 +164,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        require_once __DIR__ . "/../../Core/Database.php";
-                        require_once __DIR__ . "/../../Models/PersonilModel.php";
-
-                        $model = new PersonilModel();
-                        
-                        // Paginasi
-                        $items_per_page = 10;
-                        $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-                        
-                        $all_personil = $model->getAllPersonil();
-
-                        // Server-side search (by nama)
-                        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-                        if ($search !== '') {
-                            $all_personil = array_filter($all_personil, function($p) use ($search) {
-                                return stripos($p['nama'] ?? '', $search) !== false;
-                            });
-                            // reindex
-                            $all_personil = array_values($all_personil);
-                        }
-
-                        $search_query = $search !== '' ? '&search=' . urlencode($search) : '';
-
-                        $total_items = count($all_personil);
-                        $total_pages = ceil($total_items / $items_per_page);
-                        
-                        // Validasi halaman
-                        if ($current_page > $total_pages && $total_pages > 0) {
-                            $current_page = $total_pages;
-                        }
-                        
-                        $offset = ($current_page - 1) * $items_per_page;
-                        $personilList = array_slice($all_personil, $offset, $items_per_page);
-
-                        foreach ($personilList as $person) {
-                            $sosial = [];
-                            if (!empty($person['content_social'])) {
-                                $sosial = json_decode($person['content_social'], true) ?: [];
-                            }
-                            $linkedin = !empty($sosial['linkedin']) ? $sosial['linkedin'] : ($sosial['linkedin'] ?? '#');
-                            $github = !empty($sosial['github']) ? $sosial['github'] : ($sosial['github'] ?? '#');
-                            $email = !empty($person['email']) ? $person['email'] : '';
-
-                            echo '<tr>';
-                            echo '<td>' . htmlspecialchars($person['nama']) . '</td>';
-                            echo '<td>' . htmlspecialchars($person['nip']) . '</td>';
-                            echo '<td>' . htmlspecialchars($person['jabatan']) . '</td>';
-                            echo '<td>' . htmlspecialchars($email) . '</td>';
-                            echo '<td>' . htmlspecialchars($person['ruang_dosen']) . '</td>';
-                            echo '<td>';
-                            echo '<a href="' . htmlspecialchars($linkedin) . '" class="btn-social me-1" target="_blank"><i class="bi bi-linkedin"></i></a>';
-                            echo '<a href="' . htmlspecialchars($github) . '" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>';
-                            echo '</td>';
-                            echo '<td>';
-                            // edit button with data attributes
-                            $dataAttr = 'data-id="' . $person['id_personil'] . '" '
-                                     . 'data-nama="' . htmlspecialchars($person['nama'], ENT_QUOTES) . '" '
-                                     . 'data-nip="' . htmlspecialchars($person['nip'], ENT_QUOTES) . '" '
-                                     . 'data-jabatan="' . htmlspecialchars($person['jabatan'], ENT_QUOTES) . '" '
-                                     . 'data-email="' . htmlspecialchars($email, ENT_QUOTES) . '" '
-                                     . 'data-ruang="' . htmlspecialchars($person['ruang_dosen'], ENT_QUOTES) . '" '
-                                     . 'data-linkedin="' . htmlspecialchars($linkedin, ENT_QUOTES) . '" '
-                                     . 'data-github="' . htmlspecialchars($github, ENT_QUOTES) . '" '
-                                     . 'data-photo="' . htmlspecialchars($person['photo_url'] ?? '', ENT_QUOTES) . '"';
-
-                            echo '<button class="btn border-0 bg-transparent p-0 me-2" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="editPersonil(this)" ' . $dataAttr . '><i class="bi bi-pencil-square text-primary fs-4"></i></button>';
-                            echo '<button class="btn border-0 bg-transparent p-0" onclick="deletePersonil(' . intval($person['id_personil']) . ')"><i class="bi bi-trash text-danger fs-4"></i></button>';
-                            echo '</td>';
-                            echo '</tr>';
-                        }
-                        ?>
+                    <?php foreach ($personilList as $person): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($person['nama']) ?></td>
+                            <td><?= htmlspecialchars($person['nip']) ?></td>
+                            <td><?= htmlspecialchars($person['jabatan']) ?></td>
+                            <td><?= htmlspecialchars($person['email'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($person['ruang_dosen'] ?? '') ?></td>
+                            <td>
+                                <a href="<?= htmlspecialchars($person['linkedin']) ?>" class="btn-social me-1" target="_blank"><i class="bi bi-linkedin"></i></a>
+                                <a href="<?= htmlspecialchars($person['github']) ?>" class="btn-social" target="_blank"><i class="bi bi-github"></i></a>
+                            </td>
+                            <td>
+                                <button class="btn border-0 bg-transparent p-0 me-2" 
+                                    data-id="<?= $person['id_personil'] ?>"
+                                    data-nama="<?= htmlspecialchars($person['nama'], ENT_QUOTES) ?>"
+                                    data-nip="<?= htmlspecialchars($person['nip'], ENT_QUOTES) ?>"
+                                    data-jabatan="<?= htmlspecialchars($person['jabatan'], ENT_QUOTES) ?>"
+                                    data-email="<?= htmlspecialchars($person['email'] ?? '', ENT_QUOTES) ?>"
+                                    data-ruang="<?= htmlspecialchars($person['ruang_dosen'] ?? '', ENT_QUOTES) ?>"
+                                    data-linkedin="<?= htmlspecialchars($person['linkedin'], ENT_QUOTES) ?>"
+                                    data-github="<?= htmlspecialchars($person['github'], ENT_QUOTES) ?>"
+                                    data-photo="<?= htmlspecialchars($person['photo_url'] ?? '', ENT_QUOTES) ?>"
+                                    data-bs-toggle="modal" data-bs-target="#personilModal"
+                                    onclick="editPersonil(this)">
+                                    <i class="bi bi-pencil-square text-primary fs-4"></i>
+                                </button>
+                                <button class="btn border-0 bg-transparent p-0" onclick="deletePersonil(<?= $person['id_personil'] ?>)">
+                                    <i class="bi bi-trash text-danger fs-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                     </table>
                 </div>
@@ -366,7 +324,7 @@
                 formData.append('action', 'delete');
                 formData.append('id_personil', id);
 
-                fetch('../../Controllers/personilController.php', {
+                fetch('/Controllers/api/personilApi.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -432,7 +390,7 @@
                 formData.append('photo', photoFile);
             }
 
-            fetch('../../Controllers/personilController.php', {
+            fetch('/Controllers/api/personilApi.php', {
                 method: 'POST',
                 body: formData
             })
