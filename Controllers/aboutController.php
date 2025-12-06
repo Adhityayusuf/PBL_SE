@@ -1,37 +1,38 @@
 <?php
-require_once __DIR__ . '/../Models/ProfileModel.php';
+require_once __DIR__ . '/../Core/Database.php';
+require_once __DIR__ . '/../Models/AboutModel.php';
 
-class aboutController{
-    private $profileModel;
+class AboutController{
+    private $aboutModel;
 
     public function __construct(){
-        $this->profileModel = new ProfileModel();
+        $this->aboutModel = new AboutModel();
     }
 
     public function visiMisi(){
-        // 1. Ambil data dari tabel 'profile' (ID 2 & 6)
-        $visiData = $this->profileModel->getVisiData(); 
-        $misiRaw = $this->profileModel->getMisiData();
-
-        // 2. Masukkan ke variabel $visi & $misi (JANGAN GANTI NAMA INI)
-        $visi = !empty($visiData) ? $visiData : 'Data Visi Kosong/Tidak Ditemukan (Cek ID 2)';
-        
-        // Pecah Misi jadi array
-        $misi = [];
-        if ($misiRaw && trim($misiRaw) !== '') {
-            // Pecah text menjadi array berdasarkan baris baru (Enter)
-            // PHP_EOL mendeteksi \n atau \r\n
-            $misi = explode("\n", $misiRaw);
-            
-            // Bersihkan spasi berlebih di setiap butir
-            $misi = array_map('trim', $misi);
-            
-            // Hapus baris kosong
-            $misi = array_filter($misi);
-        }
-
-        // 3. Panggil View (Variabel $visi dan $misi akan otomatis terkirim ke sini)
+        $visi = $this->aboutModel->getVisi();
+        $misi = $this->aboutModel->getMisi();
         include_once __DIR__ . '/../Views/visiMisi.php';
     }
+
+    private function getVisi(){
+        return $this->aboutModel->getVisi();
+    }
+
+    private function getMisi(){
+        return $this->aboutModel->getMisi();
+    }
+
+    public function getTentang(){
+        return $this->aboutModel->getTentang();
+    }
+
+    public function updateVisi($visi){
+        $this->aboutModel->updateVisi($visi);
+    }
+    public function updateMisi($misi){
+        $this->aboutModel->updateMisi($misi);
+    }
 }
+
 ?>
