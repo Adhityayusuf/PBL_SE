@@ -43,6 +43,34 @@ class PersonilController {
         include __DIR__ . "/../Views/personil.php";
     }
 
+    public function indexAdmin(){
+        $all_personil = $this->model->getAllPersonil();
+
+        $search = trim($_GET['search'] ?? '');
+        if ($search !== '') {
+            $all_personil = array_values(array_filter($all_personil, fn($p) => stripos($p['nama'] ?? '', $search) !== false));
+        }
+
+        $items_per_page = 10;
+        $current_page = max(1, intval($_GET['page'] ?? 1));
+        $total_items = count($all_personil);
+        $total_pages = max(1, ceil($total_items / $items_per_page));
+
+        if ($current_page > $total_pages) $current_page = $total_pages;
+        $offset = ($current_page - 1) * $items_per_page;
+
+        $personilList = array_slice($all_personil, $offset, $items_per_page);
+
+        // parsing social links
+        foreach ($personilList as &$p) {
+            $social = json_decode($p['content_social'] ?? '', true) ?: [];
+            $p['linkedin'] = $social['linkedin'] ?? '#';
+            $p['github'] = $social['github'] ?? '#';
+        }
+
+        include __DIR__ . '/../Views/admin/personil2.php';
+    }
+
     private function handlePhotoUpload() {
         if (!isset($_FILES['photo']) || $_FILES['photo']['error'] === UPLOAD_ERR_NO_FILE) {
             return null; // Tidak ada file
@@ -67,7 +95,7 @@ class PersonilController {
         // Generate nama file unik
         $file_ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $new_filename = 'personil_' . time() . '_' . uniqid() . '.' . $file_ext;
-        $file_path = $upload_dir . $new_filename;
+        $file_path = $this->upload_dir . $new_filename;
 
         if (!move_uploaded_file($file['tmp_name'], $file_path)) {
             throw new Exception('Gagal menyimpan file');
@@ -80,7 +108,7 @@ class PersonilController {
     public function api(){
         header('Content-Type: application/json');
         
-        $action = $_GET['action'] ?? $_POST['action'] ?? null;
+        $action = $_POST['action'] ?? $_GET['action'] ?? null;
         $response = ['success' => false, 'message' => 'Action tidak dikenali'];
 
         try {
@@ -112,7 +140,7 @@ class PersonilController {
         }
 
         // Handle photo upload
-        $photo_url = handlePhotoUpload();
+        $photo_url = $this->handlePhotoUpload();
 
         // Buat JSON untuk content_social
         $content_social = null;
@@ -124,7 +152,7 @@ class PersonilController {
             ]);
         }
 
-        if ($model->addPersonil($nip, $nama, $email, $jabatan, $ruang_dosen, $content_social, $photo_url)) {
+        if ($this->model->addPersonil($nip, $nama, $email, $jabatan, $ruang_dosen, $content_social, $photo_url)) {
             return ['success' => true, 'message' => 'Data berhasil ditambahkan'];
         } else {
             return ['success' => false, 'message' => 'Gagal menambahkan data'];
@@ -148,10 +176,10 @@ class PersonilController {
 
         // Handle photo upload (opsional untuk update)
         $photo_url = false; // false = tidak ada foto baru
-        $old_personil = $model->getPersonilById($id_personil);
+        $old_personil = $this->model->getPersonilById($id_personil);
         
         if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-            $photo_url = handlePhotoUpload();
+            $photo_url = $this->handlePhotoUpload();
             
             // Hapus foto lama jika ada
             if ($old_personil && !empty($old_personil['photo_url'])) {
@@ -176,7 +204,7 @@ class PersonilController {
             $photo_url = $old_personil['photo_url'] ?? null;
         }
 
-        if ($model->updatePersonil($id_personil, $nip, $nama, $email, $jabatan, $ruang_dosen, $content_social, $photo_url)) {
+        if ($this->model->updatePersonil($id_personil, $nip, $nama, $email, $jabatan, $ruang_dosen, $content_social, $photo_url)) {
             return ['success' => true, 'message' => 'Data berhasil diperbarui'];
         } else {
             return ['success' => false, 'message' => 'Gagal memperbarui data'];
@@ -193,7 +221,7 @@ class PersonilController {
         }
 
         // Hapus foto jika ada
-        $personil = $model->getPersonilById($id_personil);
+        $personil = $this->model->getPersonilById($id_personil);
         if ($personil && !empty($personil['photo_url'])) {
             $photo_path = __DIR__ . '/../Views/' . $personil['photo_url'];
             if (file_exists($photo_path)) {
@@ -201,11 +229,14 @@ class PersonilController {
             }
         }
 
-        if ($model->deletePersonil($id_personil)) {
+        if ($this->model->deletePersonil($id_personil)) {
             return ['success' => true, 'message' => 'Data berhasil dihapus'];
         } else {
             return ['success' => false, 'message' => 'Gagal menghapus data'];
         }
     }
 }
+
+// $controller = new PersonilController();
+// $controller->api();
 ?>
