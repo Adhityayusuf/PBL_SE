@@ -308,7 +308,8 @@ require_once __DIR__ . "/layout/navbar.php";
 
 <!-- SEARCH BAR -->
 <div class="container mb-5" style="max-width: 500px;">
-    <form method="get" class="position-relative">
+    <form method="get" class="position-relative" action="index.php">
+        <input type="hidden" name="action" value="personil">
         <i class="bi bi-search"
             style="position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#6c757d;">
         </i>
@@ -319,41 +320,11 @@ require_once __DIR__ . "/layout/navbar.php";
             placeholder="Search"
             value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
             style="padding-left:45px; height:45px; border-radius:10px;">
+        <button type="submit" style="display:none;"></button>
     </form>
 </div>
 
 <div class="container pb-5">
-
-    <?php
-    require_once __DIR__ . "/../Core/Database.php";
-    require_once __DIR__ . "/../Models/PersonilModel.php";
-
-    $personilModel = new PersonilModel();
-    $all_personil = $personilModel->getAllPersonil();
-
-    $search = trim($_GET['search'] ?? '');
-    if ($search !== '') {
-        $all_personil = array_values(array_filter($all_personil, function ($p) use ($search) {
-            return stripos($p['nama'] ?? '', $search) !== false;
-        }));
-    }
-
-    $search_query = $search !== '' ? '&search=' . urlencode($search) : '';
-
-    $items_per_page = 6;
-    $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-
-    $total_items = count($all_personil);
-    $total_pages = ceil($total_items / $items_per_page);
-
-    if ($current_page > $total_pages && $total_pages > 0) {
-        $current_page = $total_pages;
-    }
-
-    $offset = ($current_page - 1) * $items_per_page;
-    $dosenList = array_slice($all_personil, $offset, $items_per_page);
-    ?>
-
     <div class="row justify-content-center">
         <?php foreach ($dosenList as $dosen): ?>
 
@@ -422,7 +393,7 @@ require_once __DIR__ . "/layout/navbar.php";
                         <!-- Previous -->
                         <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
                             <a class="page-link"
-                                href="<?php echo $current_page > 1 ? '?page=' . ($current_page - 1) . $search_query : '#'; ?>">
+                                href="<?php echo $current_page > 1 ? 'index.php?action=personil&page=' . ($current_page - 1) . $search_query : '#'; ?>">
                                 Previous
                             </a>
                         </li>
@@ -433,7 +404,7 @@ require_once __DIR__ . "/layout/navbar.php";
                         $end_page = min($total_pages, $current_page + 2);
 
                         if ($start_page > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page=1' . $search_query . '">1</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="index.php?action=personil&page=1' . $search_query . '">1</a></li>';
                             if ($start_page > 2) {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                             }
@@ -442,7 +413,7 @@ require_once __DIR__ . "/layout/navbar.php";
                         for ($i = $start_page; $i <= $end_page; $i++) {
                             $active = $i == $current_page ? 'active' : '';
                             echo '<li class="page-item ' . $active . '">
-                                <a class="page-link" href="?page=' . $i . $search_query . '">' . $i . '</a>
+                                <a class="page-link" href="index.php?action=personil&page=' . $i . $search_query . '">' . $i . '</a>
                               </li>';
                         }
 
@@ -450,14 +421,14 @@ require_once __DIR__ . "/layout/navbar.php";
                             if ($end_page < $total_pages - 1) {
                                 echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                             }
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="index.php?action=personil&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
                         }
                         ?>
 
                         <!-- Next -->
                         <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
                             <a class="page-link"
-                                href="<?php echo $current_page < $total_pages ? '?page=' . ($current_page + 1) . $search_query : '#'; ?>">
+                                href="<?php echo $current_page < $total_pages ? 'index.php?action=personil&page=' . ($current_page + 1) . $search_query : '#'; ?>">
                                 Next
                             </a>
                         </li>
