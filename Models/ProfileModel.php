@@ -1,13 +1,10 @@
 <?php
 require_once __DIR__ . '/../core/Database.php';
 
-class ProfileModel {
-
-    private $conn;
+class ProfileModel extends Database{
 
     public function __construct() {
-        $db = new Database();
-        $this->conn = $db->getConnection();
+        parent::__construct();
     }
     
     private function fetchAllData($sql, $params = []) {
@@ -81,19 +78,12 @@ class ProfileModel {
             'title'            => 'Lab Software Engineering - Home',
             
             'about_lab'        => $this->getTentangLab(),
-            'achievement'      => $this->getPrestasi(), 
-            
+            'achievement'      => $this->getPrestasi(),             
             'roadmap'          => $this->getRoadmap(),
             'personil'         => $this->getPersonil(),
             'artikel'          => $this->getArtikel(3),
-<<<<<<< HEAD
             'scopes'           => $this->getScopes(),
-=======
-            'visi'             => $this->getVisi(),
-            'misi'             => $this->getMisi(),
->>>>>>> 199944b5a2f96d74a578a5e4df282d211392ac51
 
-            // Path CSS sudah benar asalkan BASE_PATH benar
             'customCSS'        => @file_get_contents(BASE_PATH . '../Views/assets/css/home.css')
         ];
     }
@@ -155,7 +145,6 @@ class ProfileModel {
 
     // Ambil data Scope untuk ditampilkan di Home
     public function getScopes() {
-        // Tipe konten 4 adalah Scope/Focus sesuai logika admin sebelumnya
         $sql = "SELECT isi_konten, image_url FROM profile WHERE tipe_konten = 4";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -164,22 +153,20 @@ class ProfileModel {
 
     // Ambil Visi (ID 2)
     public function getVisiData() {
-        // Kita kunci ke id_profile = 2 agar spesifik
-        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 2"; 
+        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 2";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $res ? $res['isi_konten'] : 'Visi belum diisi.';
+        return $res ? $res['isi_konten'] : null;
     }
 
-    // Ambil Misi (ID 6 yang baru kita buat)
+    // Ambil Misi (ID 6)
     public function getMisiData() {
-        // Kita kunci ke id_profile = 6
-        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 6"; 
+        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 6";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $res ? $res['isi_konten'] : 'Misi belum diisi.';
+        return $res ? $res['isi_konten'] : null;
     }
 }
 ?>

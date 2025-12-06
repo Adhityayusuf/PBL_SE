@@ -1,4 +1,16 @@
 <?php
+// ambil data dari model secara manual
+if (!isset($visi) || !isset($misi)) {
+    require_once __DIR__ . '/../Models/ProfileModel.php';
+    $profileModel = new ProfileModel();
+
+    // Ambil data visi
+    $visi = $profileModel->getVisiData();
+
+    // Ambil data misi
+    $misiRaw = $profileModel->getMisiData();
+}
+
 $title = "About Page";
 
 $customCSS = "
@@ -77,7 +89,7 @@ include_once __DIR__ . "/layout/navbar.php";
             <div class="vision-mission-card h-100">
                 <div class="title-underline">Visi</div>
                 <p>
-                    <?= nl2br(htmlspecialchars($visi ?? 'Data Visi belum tersedia')) ?>
+                    <?= empty($visi) ? 'Data Visi belum tersedia.' : nl2br(htmlspecialchars($visi)) ?>
                 </p>
             </div>
         </div>
@@ -87,15 +99,7 @@ include_once __DIR__ . "/layout/navbar.php";
             <div class="vision-mission-card h-100">
                 <div class="title-underline">Misi</div>
                 <p>
-                    <?php if(isset($misi) && is_array($misi)): ?>
-                        <?php foreach($misi as $item): ?>
-                            <?php if(trim($item) != ''): ?>
-                                &#8226; <?= htmlspecialchars($item) ?><br>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        Data Misi belum tersedia.
-                    <?php endif; ?>
+                    <?= empty($misiRaw) ? 'Data Misi belum tersedia.' : nl2br(htmlspecialchars($misiRaw)) ?>
                 </p>
             </div>
         </div>
