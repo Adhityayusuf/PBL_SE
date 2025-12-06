@@ -10,7 +10,7 @@
 
         public function index(){
             $recruitmentList = $this->recruitmentModel->getAllMahasiswa();
-            include_once __DIR__ . '/../Views/recruitment.php';
+            include_once __DIR__ . '/../Views/recruitment.php'; 
         }
 
         public function addMahasiswa(){

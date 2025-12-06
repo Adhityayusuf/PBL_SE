@@ -30,7 +30,7 @@ class RecruitmentModel extends Database{
     //     $sql = "SELECT * FROM mahasiswa WHERE status = 'menunggu'";
     //     $result = $this->conn->prepare($sql);
     //     $result->execute();
-    //     return $result->fetchAll(PDO::FETCH_ASSOC);
+    //     return $result->fetchAll(PDO::FETCH_ASSOC); 
     // }
 
     public function approveMahasiswa($id){

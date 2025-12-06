@@ -115,7 +115,7 @@ include_once __DIR__ . "/layout/navbar.php";
 
             <p class="desc mx-auto">
                 <br>Bergabunglah dengan Software Engineering Geeks untuk mengasah skillmu dalam desain arsitektur,
-                pengembangan web & mobile, pengujian perangkat lunak, hingga praktik DevOps modern. Kami adalah
+                pengembangan web & mobile, pengujian perangkat lunak, hingga praktik DevOps modern. Kami adalah 
                 wadah bagi talenta yang bersemangat menciptakan solusi teknologi revolusioner.
             </p>
         
