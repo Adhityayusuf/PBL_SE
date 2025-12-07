@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . "/../Core/Database.php";
 require_once __DIR__ . "/../Models/PersonilModel.php";
 
@@ -68,7 +67,7 @@ class PersonilController {
             $p['github'] = $social['github'] ?? '#';
         }
 
-        include __DIR__ . '/../Views/admin/personil2.php';
+        include __DIR__ . '/../Views/admin/personil.php';
     }
 
     private function handlePhotoUpload() {
