@@ -1,27 +1,8 @@
 <?php
-require_once __DIR__ . '/../../Controllers/BlogController.php';
-require_once __DIR__ . '/../../Models/KategoriModel.php';
+    $title = 'Pengelolaan Blog Artikel';
 
-// Ambil Data Artikel
-$controller = new BlogController();
-$artikelList = $controller->index();
-
-// Ambil Data Kategori untuk Dropdown Modal
-$kategoriModel = new KategoriModel();
-$kategoriList = $kategoriModel->getAll();
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengelolaan Blog Artikel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
+    $customCSS = "
+               body {
             background: #F5F5F7;
             overflow-x: hidden;
         }
@@ -69,20 +50,19 @@ $kategoriList = $kategoriModel->getAll();
             object-fit: cover;
             border-radius: 8px;
         }
-    </style>
-</head>
-
-<body>
-
+    ";
+    include_once __DIR__ . '/../layout/header.php';
+?>
     <div class="d-flex">
 
-        <?php include '../layout/sidebar.php'; ?>
+    <?php include __DIR__ . '/layout/sidebar.php'; ?> 
 
         <div class="main-content">
             <h4 class="fw-bold mb-3">Pengelolaan Blog Artikel</h4>
 
             <div class="d-flex justify-content-between mb-3">
-                <form action="" method="GET" class="w-25">
+               <form action="/admin/index.php" method="GET" class="w-25 d-flex">
+                    <input type="hidden" name="action" value="blog">
                     <input type="text" name="search" class="form-control" placeholder="Search..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
                 </form>
 
@@ -119,7 +99,7 @@ $kategoriList = $kategoriModel->getAll();
                                     data-image="<?= htmlspecialchars($row['image_url'] ?? '') ?>">
                                     <td><?= $index + 1 ?></td>
                                     <td>
-                                        <img src="../<?= !empty($row['image_url']) ? $row['image_url'] : 'assets/bg.png' ?>" class="thumb-img" alt="img">
+                                        <img src="<?= !empty($row['image_url']) ? $row['image_url'] : 'assets/bg.png' ?>" class="thumb-img" alt="img">
                                     </td>
                                     <td><?= htmlspecialchars($row['title']) ?></td>
                                     <td><?= htmlspecialchars($row['nama_kategori'] ?? '-') ?></td>
