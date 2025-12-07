@@ -31,7 +31,7 @@ class authController{
         
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['uadmin'] = $user['username'];
-            header("Location: ../views/admin/profil.php");
+            header("Location: /admin/index.php?action=personil");
             exit;
         }
         header("Location: ../views/login.php?error=1");
@@ -40,7 +40,7 @@ class authController{
 
     public function logout() {
         session_destroy();
-        header("Location: ../views/login.php");
+        header("Location: index.php?action=login");
         exit;
     }
 }

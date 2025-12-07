@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Core/Database.php';
 require_once __DIR__ . '/../Models/ProfileModel.php';
 
 class AdminProfileController {
@@ -6,6 +7,24 @@ class AdminProfileController {
 
     public function __construct() {
         $this->model = new ProfileModel();
+    }
+
+    public function index() {
+    // Ambil Data dari DB
+    // Asumsi ID di database.sql: 1=Tentang, 2=Visi. 
+    // Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
+    // atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
+        $tentang = $this->model->getContentById(1);
+        $visi    = $this->model->getVisiData(); 
+        $misi    = $this->model->getMisiData(); 
+
+        // Jika data kosong (null), beri default agar tidak error
+        $isiTentang = $tentang['isi_konten'] ?? 'Data belum tersedia.';
+        $isiVisi    = $visi ?? 'Data belum tersedia.';
+        $isiMisi    = $misi ?? 'Data belum tersedia.';
+        $scopes = $this->model->getAllScopes();
+        
+        include '../Views/admin/profil.php';
     }
 
     public function handleRequest() {
@@ -16,14 +35,14 @@ class AdminProfileController {
                 $id = 1; 
                 $content = $_POST['isi_tentang'];
                 $this->model->updateContent($id, $content);
-                header("Location: ../Views/admin/profil.php?status=success");
+                header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
             case 'update_visimisi':
                 $id = $_POST['id_profile']; 
                 $content = $_POST['isi_visimisi'];
                 $this->model->updateContent($id, $content);
-                header("Location: ../Views/admin/profil.php?status=success");
+                header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
             case 'save_scope':
@@ -42,13 +61,13 @@ class AdminProfileController {
                     $icon = $icon ?: 'bi-code-slash'; 
                     $this->model->addScope($name, $desc, $icon);
                 }
-                header("Location: ../Views/admin/profil.php?status=success");
+                header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
             case 'delete_scope':
                 $id = $_POST['id_to_delete'];
                 $this->model->deleteScope($id);
-                header("Location: ../Views/admin/profil.php?status=deleted");
+                header("Location: /admin/index.php?action=profil&status=success");
                 break;
         }
     }

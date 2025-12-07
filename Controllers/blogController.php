@@ -1,27 +1,34 @@
 <?php
 require_once __DIR__ . '/../Models/ArtikelModel.php';
-
-session_start();
+require_once __DIR__ . '/../Models/KategoriModel.php';
 
 class BlogController {
     private $model;
+    private $kategoriModel;
 
     public function __construct() {
         $this->model = new ArtikelModel();
+        $this->kategoriModel = new KategoriModel();
     }
 
     public function handleRequest() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $action = $_POST['action'] ?? '';
 
-            if ($action === 'add') {
+            if ($action === 'addArtikel') {
                 $this->store();
-            } elseif ($action === 'edit') {
+            } elseif ($action === 'editArtikel') {
                 $this->update();
-            } elseif ($action === 'delete') {
+            } elseif ($action === 'deleteArtikel') {
                 $this->delete();
             }
         }
+    }
+    public function showAdminArtikel() {
+        $artikelList = $this->index();        
+        $kategoriList = $this->getKategori(); 
+
+        include __DIR__ . '/../Views/admin/blogArtikel.php';
     }
 
     public function index() {
@@ -31,6 +38,10 @@ class BlogController {
         // Kirim keyword ke model
         return $this->model->getAllArtikel($keyword);
     }
+    
+    private function getKategori() {
+        return $this->kategoriModel->getAll();
+    }
 
     // --- LOGIKA UPLOAD GAMBAR ---
     private function uploadImage() {
@@ -38,7 +49,7 @@ class BlogController {
             return null; // Tidak ada gambar diupload
         }
 
-        $targetDir = __DIR__ . "/../Views/assets/uploads/";
+        $targetDir = __DIR__ . '/../Views/assets/uploads/';
         
         // Buat folder jika belum ada
         if (!file_exists($targetDir)) {
@@ -47,7 +58,7 @@ class BlogController {
 
         $fileName = time() . '_' . basename($_FILES["gambar"]["name"]);
         $targetFilePath = $targetDir . $fileName;
-        $dbFilePath = "assets/uploads/" . $fileName; // Path untuk disimpan di DB
+        $dbFilePath = "/Views/assets/uploads/" . $fileName; // Path untuk disimpan di DB
 
         // Cek tipe file (Opsional: validasi jpg/png)
         $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
@@ -74,7 +85,8 @@ class BlogController {
         } else {
             $_SESSION['error'] = "Gagal menambahkan artikel.";
         }
-        header("Location: ../Views/admin/blogArtikel.php");
+ 
+        header("Location: /admin/index.php?action=blog");
         exit;
     }
 
@@ -94,7 +106,8 @@ class BlogController {
         } else {
             $_SESSION['error'] = "Gagal memperbarui artikel.";
         }
-        header("Location: ../Views/admin/blogArtikel.php");
+        
+        header("Location: /admin/index.php?action=blog");
         exit;
     }
 
@@ -105,7 +118,8 @@ class BlogController {
         } else {
             $_SESSION['error'] = "Gagal menghapus artikel.";
         }
-        header("Location: ../Views/admin/blogArtikel.php");
+        
+        header("Location: /admin/index.php?action=blog");
         exit;
     }
 }

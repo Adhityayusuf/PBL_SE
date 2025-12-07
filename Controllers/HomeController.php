@@ -16,6 +16,6 @@ class HomeController {
             $data['scopes'] = $this->profileModel->getScopes(); 
         }
 
-        return $data;
+        include_once __DIR__ . '/../Views/home.php';
     }
 }

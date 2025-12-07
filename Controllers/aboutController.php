@@ -1,37 +1,24 @@
 <?php
 require_once __DIR__ . '/../Core/Database.php';
-require_once __DIR__ . '/../Models/AboutModel.php';
+require_once __DIR__ . '/../Models/ProfileModel.php';
 
 class AboutController{
-    private $aboutModel;
+    private $profileModel;
 
     public function __construct(){
-        $this->aboutModel = new AboutModel();
+        $this->profileModel = new ProfileModel();
     }
 
     public function visiMisi(){
-        $visi = $this->aboutModel->getVisi();
-        $misi = $this->aboutModel->getMisi();
+        $visi = $this->profileModel->getVisiData();
+        $misiDisplay = $this->profileModel->getMisiData();
+
+        if(strpos($misiDisplay, '\n') !== false){
+            $misi = nl2br(str_replace('\n', "\n", $misiDisplay));
+        } else {
+            $misi = $misiDisplay;
+        }
         include_once __DIR__ . '/../Views/visiMisi.php';
-    }
-
-    private function getVisi(){
-        return $this->aboutModel->getVisi();
-    }
-
-    private function getMisi(){
-        return $this->aboutModel->getMisi();
-    }
-
-    public function getTentang(){
-        return $this->aboutModel->getTentang();
-    }
-
-    public function updateVisi($visi){
-        $this->aboutModel->updateVisi($visi);
-    }
-    public function updateMisi($misi){
-        $this->aboutModel->updateMisi($misi);
     }
 }
 
