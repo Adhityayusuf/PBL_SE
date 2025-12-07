@@ -94,7 +94,7 @@
 
             <div class="col-md-6 col-lg-6 mb-4">
                 <div class="footer-logo-container">
-                    <img src="assets/maskot.png" alt="Lab SE Logo" class="img-fluid">
+                    <img src="/Views/assets/maskot.png" alt="Lab SE Logo" class="img-fluid">
                     <div class="footer-logo-text">
                         <span class="lab-name d-block">Laboratorium</span>
                         <span class="lab-name d-block">Software Engineering</span>

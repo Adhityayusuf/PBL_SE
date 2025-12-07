@@ -1,23 +1,4 @@
 <?php
-// 1. LOGIKA PHP (Database & Model)
-require_once __DIR__ . '/../Models/ArtikelModel.php';
-require_once __DIR__ . '/../Models/KategoriModel.php';
-
-$artikelModel = new ArtikelModel();
-$kategoriModel = new KategoriModel();
-$kategoriList = $kategoriModel->getAll();
-
-$filterKategori = isset($_GET['kategori']) ? $_GET['kategori'] : 'all';
-$searchKeyword = isset($_GET['search']) ? $_GET['search'] : null;
-
-if ($searchKeyword) {
-    $artikelList = $artikelModel->getAllArtikel($searchKeyword);
-} elseif ($filterKategori === 'all') {
-    $artikelList = $artikelModel->getAllArtikel();
-} else {
-    $artikelList = $artikelModel->getArtikelByKategori($filterKategori);
-}
-
 // 2. KONFIGURASI TAMPILAN
 $title = "Blog Artikel - Lab SE";
 
@@ -155,23 +136,24 @@ include __DIR__ . '/layout/navbar.php';
                 Temukan wawasan terbaru seputar teknologi, tutorial koding, dan update kegiatan dari Lab Software Engineering.
             </p>
         </div>
-        <img src="assets/maskot.png" alt="Mascot" style="width:180px; transform: scaleX(-1); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));">
+        <img src="/Views/assets/maskot.png" alt="Mascot" style="width:180px; transform: scaleX(-1); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));">
     </div>
 
     <div class="d-flex align-items-center gap-2 mt-4 flex-wrap">
-        <a href="blog.php?kategori=all"
+        <a href="/index.php?action=blog&kategori=all"
             class="filter-btn <?= $filterKategori === 'all' ? 'btn-active' : 'btn-inactive' ?>">
             All Article
         </a>
 
         <?php foreach ($kategoriList as $kat): ?>
-            <a href="blog.php?kategori=<?= $kat['id_kategori'] ?>"
+            <a href="/index.php?action=blog&kategori=<?= $kat['id_kategori'] ?>"
                 class="filter-btn <?= $filterKategori == $kat['id_kategori'] ? 'btn-active' : 'btn-inactive' ?>">
                 <?= htmlspecialchars($kat['nama']) ?>
             </a>
         <?php endforeach; ?>
 
-        <form action="blog.php" method="GET" class="ms-auto mt-2 mt-md-0">
+        <form action="/index.php" method="GET" class="ms-auto mt-2 mt-md-0">
+            <input type="hidden" name="action" value="blog">
             <input type="text" name="search" placeholder="Search..." class="form-control px-4 py-2" style="border-radius: 30px;" value="<?= htmlspecialchars($searchKeyword ?? '') ?>">
         </form>
     </div>
@@ -184,14 +166,14 @@ include __DIR__ . '/layout/navbar.php';
                 <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px;">
                     <i class="bi bi-journal-x" style="font-size: 3rem; opacity: 0.5;"></i>
                     <h4 class="mt-3 text-white-50">Tidak ada artikel ditemukan.</h4>
-                    <a href="blog.php?kategori=all" class="btn btn-outline-light mt-3">Reset Filter</a>
+                    <a href="/index.php?action=blog&kategori=all" class="btn btn-outline-light mt-3">Reset Filter</a>
                 </div>
             </div>
         <?php else: ?>
             <?php foreach ($artikelList as $row): ?>
                 <div class="col-md-6 col-lg-4">
                     <div class="blog-card-custom">
-                        <?php $bgImage = !empty($row['image_url']) ? $row['image_url'] : 'assets/acv1.jpg'; ?>
+                        <?php $bgImage = !empty($row['image_url']) ? $row['image_url'] : '/assets/acv1.jpg'; ?>
                         <div class="blog-card-header" style="background-image: url('<?= htmlspecialchars($bgImage) ?>');"></div>
                         
                         <div class="blog-card-body">
@@ -209,7 +191,7 @@ include __DIR__ . '/layout/navbar.php';
                                 <?= htmlspecialchars($row['subtitle']) ?>
                             </p>
 
-                            <a href="artikel.php?id=<?= $row['id_artikel'] ?>" class="read-now">Read Now</a>
+                            <a href="/index.php?action=artikel&id=<?= $row['id_artikel'] ?>" class="read-now">Read Now</a>
                         </div>
 
                         <div class="blog-card-footer">

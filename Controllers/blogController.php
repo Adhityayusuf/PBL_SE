@@ -24,6 +24,33 @@ class BlogController {
             }
         }
     }
+
+    public function indexUser() {
+        $filterKategori = $_GET['kategori'] ?? 'all';
+        $searchKeyword  = $_GET['search'] ?? null;
+
+        if ($searchKeyword) {
+            $artikelList = $this->model->getAllArtikel($searchKeyword);
+        } elseif ($filterKategori === 'all') {
+            $artikelList = $this->model->getAllArtikel();
+        } else {
+            $artikelList = $this->model->getArtikelByKategori($filterKategori);
+        }
+
+        $kategoriList = $this->getKategori();
+
+        include __DIR__ . '/../Views/blog.php';
+    }
+
+    public function show($id_artikel) {
+        $artikel = $this->model->getArtikelById($id_artikel);
+        if (!$artikel) {
+            header("Location: /index.php?action=blog");
+            exit;
+        }
+        include __DIR__ . '/../Views/artikel.php';
+    }
+
     public function showAdminArtikel() {
         $artikelList = $this->index();        
         $kategoriList = $this->getKategori(); 

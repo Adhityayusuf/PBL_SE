@@ -24,7 +24,11 @@ if ($method === 'GET') {
         case 'login': $authController->indexLogin(); break;
         case 'personil': $personilController->index();break;
         case 'recruitment': $recruitmentController->index(); break;
-        case 'blog': $blogController->index(); break;
+        case 'blog': $blogController->indexUser(); break;
+        case 'artikel': // halaman detail artikel
+            $id = $_GET['id'] ?? null;
+            $blogController->show($id);
+            break;
         case 'home': $homeController->index(); break;
         default: header("Location: /index.php?action=home"); break;
 

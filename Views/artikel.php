@@ -1,21 +1,4 @@
 <?php
-// 1. LOGIKA PHP (Ambil Data)
-require_once __DIR__ . '/../Models/ArtikelModel.php';
-
-$id_artikel = isset($_GET['id']) ? $_GET['id'] : null;
-$artikel = null;
-
-if ($id_artikel) {
-    $model = new ArtikelModel();
-    $artikel = $model->getArtikelById($id_artikel);
-}
-
-// Jika tidak ada artikel, lempar balik ke blog
-if (!$artikel) {
-    header("Location: blog.php");
-    exit;
-}
-
 // 2. KONFIGURASI TAMPILAN
 $title = htmlspecialchars($artikel['title']) . " - Lab SE";
 
@@ -188,7 +171,7 @@ include __DIR__ . '/layout/navbar.php';
     </div>
 
     <div class="back-container">
-        <a href="blog.php" class="back-btn">
+        <a href="/index.php?action=blog" class="back-btn">
             <i class="bi bi-arrow-left me-2"></i> Kembali ke Blog
         </a>
     </div>
