@@ -53,7 +53,7 @@ include_once __DIR__ . "/layout/navbar.php";
 
         <!-- foto gedung yh -->
         <div class="col-lg-4 col-md-5 text-center">
-            <img src="assets/polinema1.png" 
+            <img src="/Views/assets/polinema1.png" 
             alt="Gedung Polinema" 
             class="building-img">
         </div>

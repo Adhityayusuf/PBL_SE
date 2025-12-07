@@ -123,7 +123,7 @@ include_once __DIR__ . "/layout/navbar.php";
 
         <div class="col-md-4 ps-4">
             <div class="form-card">
-                <img src="assets/sip.png" alt="Mascot">
+                <img src="/Views/assets/sip.png" alt="Mascot">
 
                 <h4 class="fw-bold mb-3 ps-3 pt-3 fs-2">Jadilah Bagian dari<br>Inovasi Teknologi!</h4>
 

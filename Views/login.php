@@ -55,7 +55,8 @@ include_once __DIR__ . '/layout/header.php';
             <h4 class="mb-3">Sign In</h4>
             <?= $message ?>
 
-            <form action="index.php?action=logindo" method="POST">
+            <form method="POST" action="/index.php">
+              <input type="hidden" name="action" value="logindo">
               <div class="mb-3">
                 <input id="email" class="form-control" type="text" name="username" placeholder="Username" required>
               </div>
@@ -69,7 +70,7 @@ include_once __DIR__ . '/layout/header.php';
               </div>
 
               <div class="d-grid">
-                <button type="submit" name="action" value="login" class="btn btn-sign">Sign In</button>
+                <button type="submit" class="btn btn-sign">Sign In</button>
               </div>
             </form>
 
