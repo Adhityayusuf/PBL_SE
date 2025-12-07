@@ -3,7 +3,7 @@ $title = "Profile Personil Dosen";
 
 $customCSS = "
     body {
-        background: #082a4c;
+        background: #06315A;
         font-family: 'Poppins', sans-serif;
         color: white;
     }

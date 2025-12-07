@@ -4,7 +4,7 @@ $title = "Blog Artikel - Lab SE";
 
 $customCSS = "
     body {
-        background: #06213D;
+        background: #06315A;
         font-family: 'Poppins', sans-serif;
         color: white;
     }

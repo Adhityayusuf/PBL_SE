@@ -1,22 +1,20 @@
-<nav class="navbar navbar-expand-lg">
-    <div class="container">
+<nav class="navbar navbar-custom navbar-expand-lg sticky-top">
+    
+    <div class="container-custom"> 
 
-        <!-- Logo -->
         <a class="navbar-brand" href="/index.php?action=home">
-            <img src="/Views/assets/logo.png" alt="Logo">
+            <img src="/Views/assets/logo.png" alt="Logo Lab SE">
         </a>
 
-        <!-- Toggle untuk mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-            <span class="navbar-toggler-icon"></span>
+            <i class="bi bi-list text-dark"></i> 
         </button>
 
-        <!-- Menu -->
         <div class="collapse navbar-collapse" id="mainNavbar">
 
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=home">Home</a>
+                    <a class="nav-link active" href="index.php?action=home">Home</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -42,11 +40,9 @@
                     <a class="nav-link" href="/index.php?action=recruitment">Recruitment</a>
                 </li>
             </ul>
-
-            <a href="/index.php?action=login" class="btn btn-lab-admin">
+            <a href="/index.php?action=login" class="btn-lab-admin">
                 <i class="bi bi-lock"></i> Admin
             </a>
-
         </div>
     </div>
 </nav>

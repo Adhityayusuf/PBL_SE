@@ -3,7 +3,8 @@ $title = "Recruitment Page";
 
 $customCSS = "
     body {
-        background: #003a6b;
+        // background: #003a6b;
+        background: #06315A;
         font-family: 'Poppins', sans-serif;
     }
 

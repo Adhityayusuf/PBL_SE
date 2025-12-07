@@ -14,12 +14,14 @@ require_once BASE_PATH . 'layout/header.php';
 require_once BASE_PATH . 'layout/navbar.php'; 
 ?>
 
-<section class="container py-5 text-center">
-    <h2 class="fw-bold fs-3">Welcome To</h2>
-    <h1 class="fw-bold fs-1">Laboratorium Software Engineering</h1>
-    <h1 class="fw-bold text-warning fs-2">Jurusan Teknologi Informasi</h1>
-    <br><br>
-    <p class="text-light fs-5">“Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”</p>
+<section class="py-5 hero-section d-flex text-center">
+    <div class="container">
+            <h2 class="fw-bold fs-3">Welcome To</h2>
+            <h1 class="fw-bold fs-1">Laboratorium Software Engineering</h1>
+            <h1 class="fw-bold text-warning fs-2">Jurusan Teknologi Informasi</h1>
+            <br><br>
+            <p class="text-light fs-5">“Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”</p>
+    </div>
 </section>
 
 <hr class="my-5 opacity-25">

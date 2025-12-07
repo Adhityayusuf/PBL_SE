@@ -7,6 +7,18 @@ body {
     color: aliceblue;
 }
 
+.hero-section {
+    height: 100vh; /* full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+
 .section-title-flex {
     color: aliceblue;
     font-weight: 700;
@@ -23,35 +35,6 @@ body {
     height: 40px;
     object-fit: contain;
     margin-right: 15px;
-}
-
-.navbar-custom {
-    background-color: white;
-    border-bottom: 3px solid #06315A;
-}
-
-.nav-link.active {
-    border-bottom: 3px solid black;
-}
-
-.dropdown-menu {
-    border-radius: 0;
-    border: none;
-    background-color: black;
-    padding: 0;
-    min-width: 250px;
-    margin-top: 0;
-}
-
-.dropdown-item {
-    color: white !important;
-    padding: 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dropdown-item:hover {
-    background-color: #06315A;
-    color: white !important;
 }
 
 .about-card {
