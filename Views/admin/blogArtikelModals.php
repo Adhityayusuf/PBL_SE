@@ -4,8 +4,8 @@
             <div class="modal-body p-4">
                 <h5 class="modal-title fw-bold mb-4">Tambah Artikel</h5>
 
-                <form action="../../Controllers/BlogController.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="action" value="add">
+                <form action="/admin/index.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="addArtikel">
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Judul</label>
@@ -63,8 +63,8 @@
             <div class="modal-body p-4">
                 <h5 class="modal-title fw-bold mb-4">Edit Artikel</h5>
 
-                <form id="formEdit" action="../../Controllers/BlogController.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="action" value="edit">
+                <form id="formEdit" action="/admin/index.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="editArtikel">
                     <input type="hidden" name="id" id="editId">
                     <input type="hidden" name="old_image" id="editOldImage">
                     <div class="mb-3">
@@ -123,8 +123,8 @@
 <div class="modal fade" id="modalHapus" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="../../Controllers/BlogController.php" method="POST">
-                <input type="hidden" name="action" value="delete">
+            <form action="/admin/index.php" method="POST">
+                <input type="hidden" name="action" value="deleteArtikel">
                 <div class="modal-header">
                     <h5 class="modal-title">Hapus Artikel</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

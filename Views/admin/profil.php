@@ -1,65 +1,39 @@
-<?php
-// Include Model untuk mengambil data
-require_once __DIR__ . '/../../Models/ProfileModel.php';
-$model = new ProfileModel();
+<?php 
+$title = "Pengelolaan Profil Lab";
+$customCSS = "
+    body {
+        background-color: #f8f9fa; 
+    }
+    .main-content {
+        padding: 30px;
+        width: calc(100% - 270px);
+    }
+    .card {
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        border-radius: 10px;
+    }
+    .scope-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .scope-item:last-child {
+        border-bottom: none;
+    }";
 
-// Ambil Data dari DB
-// Asumsi ID di database.sql: 1=Tentang, 2=Visi. 
-// Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
-// atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
-$tentang = $model->getContentById(1);
-$visi    = $model->getContentById(2); 
-$misi    = $model->getContentById(6); 
+    include_once __DIR__ . '/../layout/header.php';
 
-// Jika data kosong (null), beri default agar tidak error
-$isiTentang = $tentang['isi_konten'] ?? 'Data belum tersedia.';
-$isiVisi    = $visi['isi_konten'] ?? 'Data belum tersedia.';
-$isiMisi    = $misi['isi_konten'] ?? 'Data belum tersedia.';
-$scopes = $model->getAllScopes();
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengelolaan Profil Lab</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <style>
-        /*konten admin*/
-        body {
-            background-color: #f8f9fa; 
-        }
-        .main-content {
-            padding: 30px;
-            width: calc(100% - 270px);
-        }
-        .card {
-            margin-bottom: 20px;
-            border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
-            border-radius: 10px;
-        }
-        .scope-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .scope-item:last-child {
-            border-bottom: none;
-        }
-    </style>
-</head>
+
 <body>
     <div class="d-flex">
-    <?php 
-    include '../layout/sidebar.php'; 
-    include 'profilModals.php';
-    ?>
+    <?php include __DIR__ .'/layout/sidebar.php'; include 'profilModals.php';?>
         <div class="main-content">
             <h3 class="fw-bold mb-4">Pengelolaan Profil Lab</h3>
             <hr class="mt-0 mb-4">
@@ -147,7 +121,7 @@ $scopes = $model->getAllScopes();
                                 Edit
                             </button>
 
-                            <form action="../../Controllers/AdminProfileController.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus scope ini?');">
+                            <form action="/admin/index.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus scope ini?');">
                                     <input type="hidden" name="action" value="delete_scope">
                                     <input type="hidden" name="id_to_delete" value="<?php echo $scope['id_profile']; ?>">
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>

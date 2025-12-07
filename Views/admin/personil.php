@@ -122,10 +122,10 @@
             cursor: not-allowed;
         }";
 
-    include __DIR__ . '/../layout/header.php';
+    include __DIR__ . '/layout/header.php';
     ?>
     <div class="d-flex">
-    <?php include __DIR__ . '/../layout/sidebar.php'; ?> 
+    <?php include __DIR__ . '/layout/sidebar.php'; ?> 
 
         <div class="main-content">
             <h3 class="fw-bold mb-4">Pengelolaan Personil</h3>

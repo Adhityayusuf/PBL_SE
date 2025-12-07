@@ -5,7 +5,7 @@
         <h5 class="modal-title fs-3 fw-bold" id="editTentangLabModalLabel">Tentang Lab</h5>
     </div>
     <div class="modal-body pt-0">
-        <form id="tentangLabForm" action="../../Controllers/AdminProfileController.php" method="POST"> 
+        <form id="tentangLabForm" action="/admin/index.php" method="POST"> 
             <input type="hidden" name="action" value="update_tentang">
             <textarea class="form-control" rows="5" name="isi_tentang"></textarea>
         </form>
@@ -25,7 +25,7 @@
         <h5 class="modal-title fs-3 fw-bold" id="editVisiMisiModalLabel">Visi</h5> 
     </div>
     <div class="modal-body pt-0">
-        <form id="visiMisiForm" action="../../Controllers/AdminProfileController.php" method="POST">
+        <form id="visiMisiForm" action="/admin/index.php" method="POST">
             <input type="hidden" name="action" value="update_visimisi">
             <input type="hidden" name="id_profile" id="visiMisiType">
             <textarea class="form-control" rows="5" name="isi_visimisi"></textarea>
@@ -47,7 +47,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <form id="scopeForm" action="../../Controllers/AdminProfileController.php" method="POST">
+        <form id="scopeForm" action="/admin/index.php" method="POST">
         <input type="hidden" name="action" value="save_scope">
         
         <div class="mb-3">

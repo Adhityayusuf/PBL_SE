@@ -125,7 +125,7 @@
 <body>
     <div class="d-flex">
         <?php 
-        include '../layout/sidebar.php'; 
+        include __DIR__ . '/layout/sidebar.php'; 
         ?>
 
         <div class="main-content">
