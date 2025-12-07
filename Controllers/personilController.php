@@ -100,7 +100,7 @@ class PersonilController {
             throw new Exception('Gagal menyimpan file');
         }
 
-        return 'assets/personil/' . $new_filename;
+        return '/Views/assets/personil/' . $new_filename;
     }
 
     // Routing API
