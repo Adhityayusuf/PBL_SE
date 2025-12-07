@@ -2,44 +2,49 @@
 require_once __DIR__ . '/../Core/Database.php';
 require_once __DIR__ . '/../Models/ProfileModel.php';
 
-class AdminProfileController {
+class AdminProfileController
+{
     private $model;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->model = new ProfileModel();
     }
 
-    public function index() {
-    // Ambil Data dari DB
-    // Asumsi ID di database.sql: 1=Tentang, 2=Visi. 
-    // Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
-    // atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
+    public function index()
+    {
+        // Ambil Data dari DB
+        // Asumsi ID di database.sql: 1=Tentang, 2=Visi. 
+        // Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
+        // atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
         $tentang = $this->model->getContentById(1);
-        $visi    = $this->model->getVisiData(); 
-        $misi    = $this->model->getMisiData(); 
+        $visi    = $this->model->getVisiData();
+        $misi    = $this->model->getMisiData();
 
         // Jika data kosong (null), beri default agar tidak error
         $isiTentang = $tentang['isi_konten'] ?? 'Data belum tersedia.';
         $isiVisi    = $visi ?? 'Data belum tersedia.';
         $isiMisi    = $misi ?? 'Data belum tersedia.';
         $scopes = $this->model->getAllScopes();
-        
+        $roadmaps = $this->model->getAllRoadmaps();
+
         include '../Views/admin/profil.php';
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $action = $_POST['action'] ?? '';
 
         switch ($action) {
             case 'update_tentang':
-                $id = 1; 
+                $id = 1;
                 $content = $_POST['isi_tentang'];
                 $this->model->updateContent($id, $content);
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
             case 'update_visimisi':
-                $id = $_POST['id_profile']; 
+                $id = $_POST['id_profile'];
                 $content = $_POST['isi_visimisi'];
                 $this->model->updateContent($id, $content);
                 header("Location: /admin/index.php?action=profil&status=success");
@@ -50,7 +55,7 @@ class AdminProfileController {
                 $name = $_POST['scope_name'];
                 $desc = $_POST['scope_description'];
                 // UBAHAN DISINI: Ambil text icon, bukan file
-                $icon = $_POST['scope_icon']; 
+                $icon = $_POST['scope_icon'];
 
                 if (!empty($id)) {
                     // Update
@@ -58,7 +63,7 @@ class AdminProfileController {
                 } else {
                     // Add New
                     // Default icon jika kosong
-                    $icon = $icon ?: 'bi-code-slash'; 
+                    $icon = $icon ?: 'bi-code-slash';
                     $this->model->addScope($name, $desc, $icon);
                 }
                 header("Location: /admin/index.php?action=profil&status=success");
@@ -69,6 +74,32 @@ class AdminProfileController {
                 $this->model->deleteScope($id);
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
+
+            // AdminProfileController.php (di dalam handleRequest)
+
+            case 'save_roadmap':
+                $id = $_POST['id_profile'] ?? '';
+                $content = $_POST['isi_roadmap'] ?? '';
+
+                if (empty($content)) {
+                    header("Location: /admin/index.php?action=profil&status=error_content_empty");
+                    break;
+                }
+
+                if (!empty($id)) {
+                    $this->model->updateContent($id, $content);
+                } else {
+                    $this->model->addRoadmap($content);
+                }
+                header("Location: /admin/index.php?action=profil&status=success");
+                break;
+
+
+            case 'delete_roadmap':
+                $id = $_POST['id_to_delete'];
+                $this->model->deleteRoadmap($id);
+                header("Location: /admin/index.php?action=profil&status=success");
+                break;
         }
     }
 }
@@ -76,4 +107,3 @@ class AdminProfileController {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controller = new AdminProfileController();
 }
-?>

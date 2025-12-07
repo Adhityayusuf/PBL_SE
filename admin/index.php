@@ -48,6 +48,8 @@ if ($method === 'POST') {
         case 'update_visimisi':
         case 'save_scope':
         case 'delete_scope':
+        case 'save_roadmap':
+        case 'delete_roadmap';
             $adminProfile->handleRequest();
             break;
         case 'add':
