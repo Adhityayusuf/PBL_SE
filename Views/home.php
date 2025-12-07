@@ -1,14 +1,9 @@
 <?php
 define('BASE_PATH', __DIR__ . '/');
 
-require_once BASE_PATH . '../controllers/HomeController.php';
-
-$controller = new HomeController();
-$data = $controller->index();
-
 extract($data); 
 
-$about_lab = $about_lab ?? ['isi_konten' => 'Konten Belum Tersedia.', 'image_url' => '/assets/maskot.png'];
+$about_lab = $about_lab ?? ['isi_konten' => 'Konten Belum Tersedia.', 'image_url' => '/Views/assets/maskot.png'];
 $achievement = $achievement ?? [];
 $total_achievement = count($achievement);
 $personil = $personil ?? [];
@@ -33,7 +28,7 @@ require_once BASE_PATH . 'layout/navbar.php';
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-7 col-md-6 text-center">
-                <img src="assets/<?php echo htmlspecialchars($about_lab['image_url']); ?>" class="img-fluid maskot-img" alt="Maskot Lab SE">
+                <img src="/Views/assets/<?php echo htmlspecialchars($about_lab['image_url']); ?>" class="img-fluid maskot-img" alt="Maskot Lab SE">
             </div>
             <div class="col-lg-5 col-md-6">
                 <div class="about-card p-5">
@@ -78,14 +73,14 @@ require_once BASE_PATH . 'layout/navbar.php';
                     <?php foreach ($achievement as $a): ?>
                         <img 
                             id="sliderImage<?php echo $i; ?>" 
-                            src="assets/<?php echo htmlspecialchars($a['image_url']); ?>" 
+                            src="/Views/assets/<?php echo htmlspecialchars($a['image_url']); ?>" 
                             alt="<?php echo htmlspecialchars($a['prestasi']); ?>"
                             <?php if ($i > 1) echo 'style="display:none;"'; // Sembunyikan gambar kedua dst ?>
                         >
                         <?php $i++; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <img id="sliderImage1" src="assets/placeholder.jpg" alt="No Achievement Found">
+                    <img id="sliderImage1" src="/Views/assets/placeholder.jpg" alt="No Achievement Found">
                 <?php endif; ?>
             </div>
         </div>
@@ -97,7 +92,7 @@ require_once BASE_PATH . 'layout/navbar.php';
 
 <section id="personil-section" class="team-carousel-section">
     <div class="title-container d-flex justify-content-center align-items-center">
-        <img src="assets/our_team.png" class="section-icon" alt="Our Team Icon">
+        <img src="/Views/assets/our_team.png" class="section-icon" alt="Our Team Icon">
         <h2 class="section-title-flex">OUR TEAM</h2>
     </div>
 
@@ -118,7 +113,7 @@ require_once BASE_PATH . 'layout/navbar.php';
             <p class="text-center text-light">Data Personil belum tersedia.</p>
         <?php endif; ?>
     </div>
-    <a href="personil.php" class="btn btn-data-dosen">Lihat Data Dosen</a>
+    <a href="/index.php?action=personil" class="btn btn-data-dosen">Lihat Data Dosen</a>
 </section>
 
 <hr class="my-5 opacity-25">
@@ -212,7 +207,7 @@ require_once BASE_PATH . 'layout/navbar.php';
         <?php endif; ?>
     </div>
     <div class="d-flex justify-content-center">
-        <a href="#" class="btn btn-data-dosen">Lihat lebih banyak</a>
+        <a href="/index.php?action=blog" class="btn btn-data-dosen">Lihat lebih banyak</a>
     </div>
 </section>
 
