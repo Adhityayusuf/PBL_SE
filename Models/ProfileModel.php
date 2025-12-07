@@ -1,8 +1,6 @@
 <?php
-require_once __DIR__ . '/../core/Database.php';
 
 class ProfileModel extends Database{
-
     public function __construct() {
         parent::__construct();
     }
@@ -84,7 +82,7 @@ class ProfileModel extends Database{
             'artikel'          => $this->getArtikel(3),
             'scopes'           => $this->getScopes(),
 
-            'customCSS'        => @file_get_contents(BASE_PATH . '../Views/assets/css/home.css')
+            'customCSS' => @file_get_contents(__DIR__ . '/../Views/assets/css/home.css')
         ];
     }
 
