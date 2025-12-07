@@ -11,11 +11,14 @@ include_once __DIR__ . '/../Controllers/AdminProfileController.php';
 include_once __DIR__ . '/../Controllers/PersonilController.php';
 include_once __DIR__ . '/../Controllers/BlogController.php';
 include_once __DIR__ . '/../Controllers/AuthController.php';
+include_once __DIR__ . '/../Controllers/geekController.php';
+
 // include_once __DIR__ . '/../Controllers/AdminSettingsController.php';
 
 $adminProfile = new AdminProfileController();
 $personilController = new PersonilController();
 $blogController = new BlogController();
+$geekController = new GeekController();
 // $settingsController = new AdminSettingsController();
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -30,7 +33,7 @@ if ($method === 'GET') {
             $blogController->showAdminArtikel();
             break;
         case 'segeeks': 
-            include_once __DIR__ . '/../Views/admin/segeeks.php';
+            $geekController->index();
             break;
         case 'profil': 
         default: 
@@ -66,6 +69,13 @@ if ($method === 'POST') {
             $profile->updateMisi($_POST['misi']);
             break;
 
+        case 'approveGeek':
+            $geekController->approve();
+            break;
+
+        case 'deleteGeek' :
+            $geekController->delete();
+            break;
         default:
             http_response_code(405);
             echo "POST admin endpoint tidak valid.";
