@@ -2,8 +2,8 @@
     <div class="container">
 
         <!-- Logo -->
-        <a class="navbar-brand" href="index.php?action=home">
-            <img src="assets/logo.png" alt="Logo">
+        <a class="navbar-brand" href="/index.php?action=home">
+            <img src="/Views/assets/logo.png" alt="Logo">
         </a>
 
         <!-- Toggle untuk mobile -->
@@ -24,26 +24,26 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="index.php?action=home#tentang-lab">Sejarah</a></li>
-                        <li><a class="dropdown-item" href="index.php?action=visiMisi">Visi Misi</a></li>
+                        <li><a class="dropdown-item" href="/index.php?action=home#tentang-lab">Tentang Lab</a></li>
+                        <li><a class="dropdown-item" href="/index.php?action=visiMisi">Visi Misi</a></li>
                         <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=blog">Blog</a>
+                    <a class="nav-link" href="/index.php?action=blog">Blog</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=personil">Personil</a>
+                    <a class="nav-link" href="/index.php?action=personil">Personil</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=recruitment">Recruitment</a>
+                    <a class="nav-link" href="/index.php?action=recruitment">Recruitment</a>
                 </li>
             </ul>
 
-            <a href="index.php?action=login" class="btn btn-lab-admin">
+            <a href="/index.php?action=login" class="btn btn-lab-admin">
                 <i class="bi bi-lock"></i> Admin
             </a>
 

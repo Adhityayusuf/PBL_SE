@@ -112,11 +112,11 @@
 
             <div class="col-md-3 col-lg-3 mb-4">
                 <h5>Menu Cepat</h5>
-                <a href="home.php" class="menu-link">Home</a>
-                <a href="visiMisi.php" class="menu-link">Visi Misi</a>
-                <a href="blog.php" class="menu-link">Blog Artikel</a>
-                <a href="personil.php" class="menu-link">Personil</a>
-                <a href="recruitment.php" class="menu-link">Recruitment</a>
+                <a href="/index.php?action=home" class="menu-link">Home</a>
+                <a href="/index.php?action=visiMisi" class="menu-link">Visi Misi</a>
+                <a href="/index.php?action=blog" class="menu-link">Blog Artikel</a>
+                <a href="/index.php?action=personil" class="menu-link">Personil</a>
+                <a href="/index.php?action=recruitment" class="menu-link">Recruitment</a>
             </div>
 
             <div class="col-md-3 col-lg-3 mb-4">
