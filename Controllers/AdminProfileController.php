@@ -75,6 +75,5 @@ class AdminProfileController {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $controller = new AdminProfileController();
-    $controller->handleRequest();
 }
 ?>
