@@ -443,3 +443,31 @@ body {
     font-size: 2.5rem !important;
     color: #FFC107 !important;
 }
+.icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #02294A;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.icon-box:hover {
+    transform: translateY(-5px); /* Terangkat 5px */
+    box-shadow: 0 10px 20px rgb(237, 233, 233); /* Shadow lebih besar */
+    cursor: pointer;
+}
+
+.icon-box i {
+    font-size: 2.5rem !important;
+    color: #FFC107 !important;
+    transition: color 0.3s ease; /* Smooth warna */
+}
+
+.icon-box:hover i {
+    color: #FFD700; /* Warna ikon lebih cerah saat hover */
+}
