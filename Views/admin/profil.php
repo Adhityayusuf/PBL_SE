@@ -23,6 +23,18 @@ $customCSS = "
     }
     .scope-item:last-child {
         border-bottom: none;
+    }
+        
+    .prestasi-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    }
+    
+    .prestasi-item:last-child {
+        border-bottom: none;
     }";
 
 include_once __DIR__ . '/../layout/header.php';
@@ -93,6 +105,47 @@ include_once __DIR__ . '/../layout/header.php';
                     </div>
                 </div>
             </div>
+
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-3">Prestasi Lab</h5>
+
+                    <?php if (!empty($prestasi)):
+                        foreach ($prestasi as $ach): ?>
+                            <div class="prestasi-item">
+                                <span>
+                                    <?php echo htmlspecialchars($ach['prestasi']); ?>
+                                    <small class="text-muted ms-2">(<?php echo htmlspecialchars($ach['image_url']); ?>)</small>
+                                </span>
+                                <div>
+                                    <button class="btn btn-outline-primary btn-sm me-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editPrestasiModal"
+                                        data-id="<?php echo $ach['id_prestasi']; ?>"
+                                        data-prestasi="<?php echo htmlspecialchars($ach['prestasi']); ?>"
+                                        data-image="<?php echo htmlspecialchars($ach['image_url']); ?>">
+                                        Edit
+                                    </button>
+
+                                    <form action="/admin/index.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus prestasi ini?');">
+                                        <input type="hidden" name="action" value="delete_prestasi">
+                                        <input type="hidden" name="id_to_delete" value="<?php echo $ach['id_prestasi']; ?>">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-muted small text-center my-3">Belum ada data Prestasi.</p>
+                    <?php endif; ?>
+
+                    <a href="#" class="btn btn-link mt-3 p-0"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editPrestasiModal">Tambah Prestasi</a>
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="col-md-5">
@@ -209,6 +262,25 @@ include_once __DIR__ . '/../layout/header.php';
             visiMisiModal.querySelector('textarea[name="isi_visimisi"]').value = content;
         });
 
+        const prestasiModal = document.getElementById('editPrestasiModal');
+        prestasiModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id') || '';
+            const prestasi = button.getAttribute('data-prestasi') || '';
+            const image = button.getAttribute('data-image') || '';
+
+            prestasiModal.querySelector('#prestasiId').value = id;
+            prestasiModal.querySelector('#prestasiName').value = prestasi;
+            prestasiModal.querySelector('#prestasiImage').value = image;
+
+            if (id === '') {
+                prestasiModal.querySelector('.modal-title').textContent = 'Tambah Prestasi';
+            } else {
+                prestasiModal.querySelector('.modal-title').textContent = 'Edit Prestasi';
+            }
+        });
+
+
         // 3. Scope / Focus (Logic Update)
         const scopeModal = document.getElementById('editScopeModal');
         scopeModal.addEventListener('show.bs.modal', event => {
@@ -238,7 +310,6 @@ include_once __DIR__ . '/../layout/header.php';
             }
         });
 
-        // ... (Bagian script lainnya)
 
         // 4. Roadmap (Perbaikan JS)
         const roadmapModal = document.getElementById('editRoadmapModal');

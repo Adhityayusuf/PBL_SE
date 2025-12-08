@@ -35,7 +35,7 @@ class ProfileModel extends Database
 
     public function getPrestasi()
     {
-        $sql = "SELECT prestasi, image_url 
+        $sql = "SELECT id_prestasi, prestasi, image_url 
                 FROM prestasi 
                 ORDER BY id_prestasi DESC";
         return $this->fetchAllData($sql);
@@ -220,5 +220,51 @@ class ProfileModel extends Database
         $sql = "DELETE FROM profile WHERE id_profile = :id AND tipe_konten = 3";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute(['id' => $id]);
+    }
+
+    public function getAllPrestasi()
+    {
+        $sql = "SELECT id_prestasi, prestasi, image_url
+            FROM prestasi
+            ORDER BY id_prestasi ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addPrestasi($judul, $link_gambar)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO prestasi (prestasi, image_url) VALUES (:prestasi, :image_url)");
+        $stmt->execute([
+            ':prestasi' => $judul,
+            ':image_url' => $link_gambar
+        ]);
+    }
+
+    // Update prestasi
+    public function updatePrestasi($id, $judul, $link)
+    {
+        $sql = "UPDATE prestasi SET prestasi=:prestasi, image_url=:link WHERE id_prestasi=:id_prestasi";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':prestasi' => $judul,
+            ':link' => $link,
+            ':id_prestasi' => $id
+        ]);
+    }
+
+    // Hapus prestasi
+    public function deletePrestasi($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM prestasi WHERE id_prestasi=:id");
+        $stmt->execute([':id' => $id]);
+    }
+
+    public function getPrestasiById($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM prestasi WHERE id_prestasi=:id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

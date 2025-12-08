@@ -50,6 +50,8 @@ if ($method === 'POST') {
         case 'delete_scope':
         case 'save_roadmap':
         case 'delete_roadmap';
+        case 'update_prestasi';
+        case 'delete_prestasi';
             $adminProfile->handleRequest();
             break;
         case 'add':

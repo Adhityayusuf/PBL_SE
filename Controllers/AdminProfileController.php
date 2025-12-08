@@ -27,6 +27,7 @@ class AdminProfileController
         $isiMisi    = $misi ?? 'Data belum tersedia.';
         $scopes = $this->model->getAllScopes();
         $roadmaps = $this->model->getAllRoadmaps();
+        $prestasi = $this->model->getAllPrestasi();
 
         include '../Views/admin/profil.php';
     }
@@ -99,6 +100,53 @@ class AdminProfileController
                 $id = $_POST['id_to_delete'];
                 $this->model->deleteRoadmap($id);
                 header("Location: /admin/index.php?action=profil&status=success");
+                break;
+
+            case 'update_prestasi':
+                $id = $_POST['id_prestasi'] ?? '';
+                $judul = $_POST['prestasi'] ?? '';
+
+                // Tangani file upload
+                $link = ''; // default
+                if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
+                    $uploadDir = __DIR__ . '/../Views/assets/uploads/prestasi/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+
+                    $fileTmp  = $_FILES['image_url']['tmp_name'];
+                    $fileName = basename($_FILES['image_url']['name']);
+                    $fileExt  = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $newName  = uniqid('prestasi_') . '.' . $fileExt;
+                    $destination = $uploadDir . $newName;
+
+                    if (move_uploaded_file($fileTmp, $destination)) {
+                        $link = $newName; // path relatif untuk akses di web
+                    }
+                } else {
+                    // Jika edit tapi tidak upload file baru, ambil link lama dari DB
+                    if (!empty($id)) {
+                        $oldPrestasi = $this->model->getPrestasiById($id);
+                        $link = $oldPrestasi['link_gambar'] ?? '';
+                    }
+                }
+
+                if (!empty($id)) {
+                    $this->model->updatePrestasi($id, $judul, $link);
+                } else {
+                    $this->model->addPrestasi($judul, $link);
+                }
+
+                header("Location: /admin/index.php?action=profil&status=success");
+                exit;
+                break;
+
+
+            case 'delete_prestasi':
+                $id = $_POST['id_to_delete'];
+                $this->model->deletePrestasi($id);
+                header("Location: /admin/index.php?action=profil&status=success");
+                exit;
                 break;
         }
     }

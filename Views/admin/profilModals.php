@@ -39,6 +39,35 @@
     </div>
 </div>
 
+<div class="modal fade" id="editPrestasiModal" tabindex="-1" aria-labelledby="editPrestasiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fs-3 fw-bold" id="editPrestasiModalLabel">Prestasi</h5>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="prestasiForm" action="/admin/index.php" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="update_prestasi">
+                    <input type="hidden" name="id_prestasi" id="prestasiId">
+                    <div class="mb-3">
+                        <label for="prestasiName" class="form-label">Prestasi</label>
+                        <input type="text" class="form-control" name="prestasi" id="prestasiName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="prestasiFile" class="form-label">Upload Gambar (opsional)</label>
+                        <input type="file" class="form-control" name="image_url" id="prestasiFile">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-end border-0 pt-0">
+                <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
+                <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('prestasiForm').submit()">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" id="editScopeModal" tabindex="-1" aria-labelledby="editScopeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

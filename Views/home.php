@@ -75,7 +75,7 @@ require_once BASE_PATH . 'layout/navbar.php';
                     <?php foreach ($achievement as $a): ?>
                         <img
                             id="sliderImage<?php echo $i; ?>"
-                            src="/Views/assets/<?php echo htmlspecialchars($a['image_url']); ?>"
+                            src="/Views/assets/uploads/prestasi/<?php echo htmlspecialchars($a['image_url']); ?>"
                             alt="<?php echo htmlspecialchars($a['prestasi']); ?>"
                             <?php if ($i > 1) echo 'style="display:none;"'; // Sembunyikan gambar kedua dst 
                             ?>>
