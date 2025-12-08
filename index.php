@@ -29,7 +29,8 @@ if ($method === 'GET') {
             $id = $_GET['id'] ?? null;
             $blogController->show($id);
             break;
-        case 'home': $homeController->index(); break;
+        case 'home': $homeController->index(); 
+            break;
         default: header("Location: /index.php?action=home"); break;
 
     }

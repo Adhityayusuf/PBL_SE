@@ -65,7 +65,7 @@ class ProfileModel extends Database
 
     public function getArtikel($limit = 3)
     {
-        $sql = "SELECT a.title, a.subtitle, a.penulis, a.tanggal_publikasi, k.nama AS nama_kategori
+        $sql = "SELECT a.id_artikel, a.title, a.subtitle, a.penulis, a.tanggal_publikasi, k.nama AS nama_kategori
                 FROM artikel a
                 JOIN kategori k ON a.kategori_id = k.id_kategori
                 ORDER BY a.tanggal_publikasi DESC

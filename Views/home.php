@@ -192,38 +192,49 @@ require_once BASE_PATH . 'layout/navbar.php';
 
 <hr class="my-5 opacity-25">
 
-<section id="blog-section" class="container py-5">
-    <h2 class="section-title-flex mb-5 text-center">Blog Artikel Terkini</h2>
-    <div class="row g-4 mt-5 pb-5">
-        <?php if (!empty($artikel)): ?>
-            <?php foreach ($artikel as $a): ?>
-                <div class="col-md-4">
+<section id="blog-section" class="container pb-5">
+    <div class="row g-4">
+        <?php if (empty($artikel)): ?>
+            <div class="col-12 text-center py-5">
+                <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px;">
+                    <i class="bi bi-journal-x" style="font-size: 3rem; opacity: 0.5;"></i>
+                    <h4 class="mt-3 text-white-50">Tidak ada artikel ditemukan.</h4>
+                </div>
+            </div>
+        <?php else: ?>
+            <?php foreach ($artikel as $row): ?>
+                <div class="col-md-6 col-lg-4">
                     <div class="blog-card-custom">
-                        <div class="blog-card-header"></div>
+                        <?php $bgImage = !empty($row['image_url']) ? $row['image_url'] : '/assets/acv1.jpg'; ?>
+                        <div class="blog-card-header" style="background-image: url('<?= htmlspecialchars($bgImage) ?>');"></div>
+                        
                         <div class="blog-card-body">
-                            <div class="blog-card-meta">
-                                <span class="category-tag"><?php echo htmlspecialchars($a['nama_kategori']); ?></span>
-                                <span class="date-info" style="font-size: 0.85rem; color: #4A5568;">
-                                    <?php echo date('d/m/Y', strtotime($a['tanggal_publikasi'])); ?>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="category-tag">
+                                    <?= htmlspecialchars($row['nama_kategori'] ?? 'Umum') ?>
                                 </span>
+                                <small style="color: #4A5568;">
+                                    <?= date('d/m/Y', strtotime($row['tanggal_publikasi'])) ?>
+                                </small>
                             </div>
-                            <h5><?php echo htmlspecialchars($a['title']); ?></h5>
-                            <p class="snippet"><?php echo htmlspecialchars($a['subtitle']); ?></p>
-                            <a href="#" class="read-now">Read Now</a>
+
+                            <h5 class="fw-bold mb-2"><?= htmlspecialchars($row['title']) ?></h5>
+                            <p class="small text-muted flex-grow-1">
+                                <?= htmlspecialchars($row['subtitle']) ?>
+                            </p>
+
+                            <a href="<?php echo '/index.php?action=artikel&id=' . htmlspecialchars($row['id_artikel'] ?? $row['id'] ?? 0); ?>" class="read-now">Read Now</a>
+
                         </div>
+
                         <div class="blog-card-footer">
-                            <i class="bi bi-person-circle"></i>
-                            <span class="author-name"><?php echo htmlspecialchars($a['penulis']); ?></span>
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span class="author-name"><?= htmlspecialchars($row['penulis']) ?></span>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php else: ?>
-            <p class="text-center text-light">Data Artikel belum tersedia.</p>
         <?php endif; ?>
-    </div>
-    <div class="d-flex justify-content-center">
-        <a href="/index.php?action=blog" class="btn btn-data-dosen">Lihat lebih banyak</a>
     </div>
 </section>
 
