@@ -24,7 +24,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/index.php?action=home#tentang-lab">Tentang Lab</a></li>
                         <li><a class="dropdown-item" href="/index.php?action=visiMisi">Visi Misi</a></li>
-                        <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item" href="/index.php?action=home#prestasi">Pencapaian</a></li>
+                        <li><a class="dropdown-item" href="/index.php?action=home#roadmap-section">Roadmap</a></li>
+                        <li><a class="dropdown-item" href="/index.php?action=home#focus-scope-section">Focus & Scope Penelitian</a></li>
                     </ul>
                 </li>
 

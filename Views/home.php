@@ -46,7 +46,7 @@ require_once BASE_PATH . 'layout/navbar.php';
 
 <hr class="my-5 opacity-25">
 
-<section class="container py-5">
+<section id="prestasi" class="container py-5">
     <div class="row align-items-center justify-content-center">
 
         <div class="col-md-6 order-md-2">
