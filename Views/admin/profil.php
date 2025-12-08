@@ -94,52 +94,55 @@ include_once __DIR__ . '/../layout/header.php';
                 </div>
             </div>
 
-            <div class="d-flex gap-3">
-                <div class="card" style="max-width: 700px;">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold mb-3">Scope dan Focus Lab</h5>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-3">Scope dan Focus Lab</h5>
 
-                        <?php if (!empty($scopes)):
-                            foreach ($scopes as $scope):
-                                $data = json_decode($scope['isi_konten'], true);
-                                $judul = $data['title'] ?? 'Tanpa Judul';
-                                $deskripsi = $data['description'] ?? '';
-                                // Icon disimpan di kolom image_url (text)
-                                $icon = $scope['image_url'] ?? '';
-                        ?>
+                            <?php if (!empty($scopes)):
+                                foreach ($scopes as $scope):
+                                    $data = json_decode($scope['isi_konten'], true);
+                                    $judul = $data['title'] ?? 'Tanpa Judul';
+                                    $deskripsi = $data['description'] ?? '';
+                                    // Icon disimpan di kolom image_url (text)
+                                    $icon = $scope['image_url'] ?? '';
+                            ?>
 
-                                <div class="scope-item">
-                                    <span>
-                                        <i class="bi <?php echo htmlspecialchars($icon); ?> me-2"></i>
-                                        <?php echo htmlspecialchars($judul); ?>
-                                    </span>
-                                    <div>
-                                        <button class="btn btn-outline-primary btn-sm me-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editScopeModal"
-                                            data-name="<?php echo htmlspecialchars($judul); ?>"
-                                            data-desc="<?php echo htmlspecialchars($deskripsi); ?>"
-                                            data-icon="<?php echo htmlspecialchars($scope['image_url']); ?>" data-id="<?php echo $scope['id_profile']; ?>">
-                                            Edit
-                                        </button>
+                                    <div class="scope-item">
+                                        <span>
+                                            <i class="bi <?php echo htmlspecialchars($icon); ?> me-2"></i>
+                                            <?php echo htmlspecialchars($judul); ?>
+                                        </span>
+                                        <div>
+                                            <button class="btn btn-outline-primary btn-sm me-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editScopeModal"
+                                                data-name="<?php echo htmlspecialchars($judul); ?>"
+                                                data-desc="<?php echo htmlspecialchars($deskripsi); ?>"
+                                                data-icon="<?php echo htmlspecialchars($scope['image_url']); ?>" data-id="<?php echo $scope['id_profile']; ?>">
+                                                Edit
+                                            </button>
 
-                                        <form action="/admin/index.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus scope ini?');">
-                                            <input type="hidden" name="action" value="delete_scope">
-                                            <input type="hidden" name="id_to_delete" value="<?php echo $scope['id_profile']; ?>">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
-                                        </form>
+                                            <form action="/admin/index.php" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus scope ini?');">
+                                                <input type="hidden" name="action" value="delete_scope">
+                                                <input type="hidden" name="id_to_delete" value="<?php echo $scope['id_profile']; ?>">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p class="text-muted small text-center my-3">Belum ada data Focus & Scope.</p>
-                        <?php endif; ?>
-                        <a href="#" class="btn btn-link mt-3 p-0" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Tambah Focus">Tambah Focus</a>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p class="text-muted small text-center my-3">Belum ada data Focus & Scope.</p>
+                            <?php endif; ?>
+                            <a href="#" class="btn btn-link mt-3 p-0" data-bs-toggle="modal" data-bs-target="#editScopeModal" data-name="Tambah Focus">Tambah Focus</a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card" style="max-width: 700px;">
-                    <div class="card-body">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
                         <h5 class="card-title fw-bold mb-3">Roadmap</h5>
 
                         <?php if (!empty($roadmaps)):
@@ -176,6 +179,7 @@ include_once __DIR__ . '/../layout/header.php';
                         <a href="#" class="btn btn-link mt-3 p-0"
                             data-bs-toggle="modal"
                             data-bs-target="#editRoadmapModal">Tambah Roadmap</a>
+                    </div>
                     </div>
                 </div>
             </div>

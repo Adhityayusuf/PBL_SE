@@ -86,7 +86,7 @@
             </div>
             <div class="modal-body pt-0">
                 <form id="roadmapForm" action="/admin/index.php" method="POST">
-                    <input type="hidden" name="isi_roadmap" value="update_roadmap">
+                    <input type="hidden" name="action" value="save_roadmap">
                     <input type="hidden" name="id_profile" id="roadmapType">
                     <textarea class="form-control" rows="5" name="isi_roadmap"></textarea>
                 </form>
