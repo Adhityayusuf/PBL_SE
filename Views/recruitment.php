@@ -197,7 +197,7 @@ include_once __DIR__ . "/layout/navbar.php";
                             <td>
                                 <?php if($mhs['status'] == 'menunggu'){ ?>
                                     <span class="badge badge-menunggu">Menunggu</span>
-                                <?php } elseif($mhs['status'] == 'setuju'){ ?>
+                                <?php } elseif($mhs['status'] == 'disetujui'){ ?>
                                     <span class="badge badge-disetujui">Disetujui</span>
                                 <?php } else{ ?>
                                     <span class="badge badge-ditolak">Ditolak</span>

@@ -119,8 +119,8 @@
                             <?php foreach ($data as $geek): ?>
                                 <?php
                                 $status_class = match ($geek['status']) {
-                                    'Menunggu' => 'status-menunggu',
-                                    'Diterima' => 'status-diterima',
+                                    'menunggu' => 'status-menunggu',
+                                    'disetujui' => 'status-diterima',
                                     default => ''
                                 };
                                 ?>

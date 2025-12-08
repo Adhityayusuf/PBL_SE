@@ -1,7 +1,7 @@
 <?php
 define('BASE_PATH', __DIR__ . '/');
 
-extract($data); 
+extract($data);
 
 $about_lab = $about_lab ?? ['isi_konten' => 'Konten Belum Tersedia.', 'image_url' => '/Views/assets/maskot.png'];
 $achievement = $achievement ?? [];
@@ -11,16 +11,16 @@ $artikel = $artikel ?? [];
 $roadmap = $roadmap ?? [];
 
 require_once BASE_PATH . 'layout/header.php';
-require_once BASE_PATH . 'layout/navbar.php'; 
+require_once BASE_PATH . 'layout/navbar.php';
 ?>
 
 <section class="py-5 hero-section d-flex text-center">
     <div class="container">
-            <h2 class="fw-bold fs-3">Welcome To</h2>
-            <h1 class="fw-bold fs-1">Laboratorium Software Engineering</h1>
-            <h1 class="fw-bold text-warning fs-2">Jurusan Teknologi Informasi</h1>
-            <br><br>
-            <p class="text-light fs-5">“Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”</p>
+        <h2 class="fw-bold fs-3">Welcome To</h2>
+        <h1 class="fw-bold fs-1">Laboratorium Software Engineering</h1>
+        <h1 class="fw-bold text-warning fs-2">Jurusan Teknologi Informasi</h1>
+        <br><br>
+        <p class="text-light fs-5">“Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”</p>
     </div>
 </section>
 
@@ -48,16 +48,16 @@ require_once BASE_PATH . 'layout/navbar.php';
 
 <section class="container py-5">
     <div class="row align-items-center justify-content-center">
-        
+
         <div class="col-md-6 order-md-2">
             <h2 class="fw-bold section-title-flex text-md-start mb-4">Pencapaian</h2>
-            
+
             <div class="achievement-card p-4">
                 <ul class="list-unstyled deskripsi-text">
                     <?php if (!empty($achievement)): ?>
                         <?php foreach ($achievement as $a): ?>
                             <li>
-                                <i class="bi bi-star-fill text-warning me-2"></i> 
+                                <i class="bi bi-star-fill text-warning me-2"></i>
                                 <?php echo htmlspecialchars($a['prestasi']); ?>
                             </li>
                         <?php endforeach; ?>
@@ -67,18 +67,18 @@ require_once BASE_PATH . 'layout/navbar.php';
                 </ul>
             </div>
         </div>
-        
+
         <div class="col-md-6 order-md-1 mt-4 mt-md-0 text-left">
             <div id="slider">
                 <?php if (!empty($achievement)): ?>
                     <?php $i = 1; ?>
                     <?php foreach ($achievement as $a): ?>
-                        <img 
-                            id="sliderImage<?php echo $i; ?>" 
-                            src="/Views/assets/<?php echo htmlspecialchars($a['image_url']); ?>" 
+                        <img
+                            id="sliderImage<?php echo $i; ?>"
+                            src="/Views/assets/<?php echo htmlspecialchars($a['image_url']); ?>"
                             alt="<?php echo htmlspecialchars($a['prestasi']); ?>"
-                            <?php if ($i > 1) echo 'style="display:none;"'; // Sembunyikan gambar kedua dst ?>
-                        >
+                            <?php if ($i > 1) echo 'style="display:none;"'; // Sembunyikan gambar kedua dst 
+                            ?>>
                         <?php $i++; ?>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -123,29 +123,29 @@ require_once BASE_PATH . 'layout/navbar.php';
 <section id="focus-scope-section" class="container py-5 text-center">
     <h2 class="section-title-flex mb-4">Focus dan Scope Penelitian</h2>
     <div class="row g-4 justify-content-center mt-5">
-        
-        <?php 
+
+        <?php
         // Pastikan variabel scopes tersedia
-        $scopes = $scopes ?? []; 
+        $scopes = $scopes ?? [];
         ?>
 
         <?php if (!empty($scopes)): ?>
-            <?php foreach ($scopes as $scope): 
+            <?php foreach ($scopes as $scope):
                 // 1. Decode JSON (karena Judul disimpan dalam format JSON di kolom isi_konten)
                 $data = json_decode($scope['isi_konten'], true);
-                
+
                 // 2. Ambil Judul (Gunakan null coalescing operator agar aman)
                 $title = $data['title'] ?? 'Judul Tidak Tersedia';
-                
+
                 // 3. Ambil Icon (Disimpan di kolom image_url)
                 $icon = $scope['image_url'] ?? 'bi-code-slash';
             ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="icon-box">
-                    <i class="bi <?php echo htmlspecialchars($icon); ?> text-warning"></i>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="icon-box">
+                        <i class="bi <?php echo htmlspecialchars($icon); ?> text-warning"></i>
+                    </div>
+                    <p class="text-light mt-2"><?php echo htmlspecialchars($title); ?></p>
                 </div>
-                <p class="text-light mt-2"><?php echo htmlspecialchars($title); ?></p>
-            </div>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="col-12">
@@ -161,12 +161,26 @@ require_once BASE_PATH . 'layout/navbar.php';
 <section id="roadmap-section" class="container py-5">
     <h2 class="section-title-flex mb-5 text-center">Roadmap Lab SE</h2>
     <div class="roadmap-timeline clearfix">
-        <?php if (!empty($roadmap)): ?>
-            <?php foreach ($roadmap as $r): ?>
+        <?php if (!empty($roadmaps)): ?>
+            <?php foreach ($roadmaps as $r): ?>
+                <?php
+                $last_updated = $r['last_updated'] ?? null;
+
+                if ($last_updated) {
+                    try {
+                        $dt = new DateTime($last_updated);
+                        $year = $dt->format('Y');
+                    } catch (Exception $e) {
+                        $year = 'N/A';
+                    }
+                } else {
+                    $year = 'N/A';
+                }
+                ?>
                 <div class="roadmap-item">
                     <div class="card-custom">
-                        <h5><?php echo date('Y', strtotime($r['last_updated'])) ?? 'N/A'; ?> - Tahap</h5>
-                        <p class="small"><?php echo htmlspecialchars($r['isi_konten']); ?></p>
+                        <h5><?php echo $year; ?> - Tahap</h5>
+                        <p class="small"><?php echo htmlspecialchars($r['isi_konten'] ?? ''); ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -188,7 +202,7 @@ require_once BASE_PATH . 'layout/navbar.php';
                         <div class="blog-card-header"></div>
                         <div class="blog-card-body">
                             <div class="blog-card-meta">
-                                <span class="category-tag"><?php echo htmlspecialchars($a['nama_kategori']); ?></span> 
+                                <span class="category-tag"><?php echo htmlspecialchars($a['nama_kategori']); ?></span>
                                 <span class="date-info" style="font-size: 0.85rem; color: #4A5568;">
                                     <?php echo date('d/m/Y', strtotime($a['tanggal_publikasi'])); ?>
                                 </span>

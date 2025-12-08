@@ -33,7 +33,7 @@ class GeekModel extends Database
 
     public function approve($nim)
     {
-        $stmt = $this->conn->prepare("UPDATE mahasiswa SET status = 'Diterima' WHERE nim = :nim");
+        $stmt = $this->conn->prepare("UPDATE mahasiswa SET status = 'disetujui' WHERE nim = :nim");
         return $stmt->execute(['nim' => $nim]);
     }
 
