@@ -56,8 +56,14 @@
                     <div class="mb-3">
                         <label for="prestasiFile" class="form-label">Upload Gambar (opsional)</label>
                         <input type="file" class="form-control" name="image_url" id="prestasiFile">
+                        <input type="hidden" name="old_image_url" id="prestasiImage">
                     </div>
                 </form>
+
+                <div id="photo-preview" class="mt-2 text-left" style="display: none; padding-top: 10px;">
+                    <p class="small text-muted mb-1">Preview Gambar Saat Ini:</p>
+                    <img id="photo-img" src="" alt="Preview Foto" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px;">
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-end border-0 pt-0">
                 <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>

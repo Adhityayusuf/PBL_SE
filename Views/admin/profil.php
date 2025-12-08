@@ -268,6 +268,8 @@ include_once __DIR__ . '/../layout/header.php';
             const id = button.getAttribute('data-id') || '';
             const prestasi = button.getAttribute('data-prestasi') || '';
             const image = button.getAttribute('data-image') || '';
+            const previewContainer = document.getElementById('photo-preview');
+            const previewImg = document.getElementById('photo-img');
 
             prestasiModal.querySelector('#prestasiId').value = id;
             prestasiModal.querySelector('#prestasiName').value = prestasi;
@@ -278,6 +280,18 @@ include_once __DIR__ . '/../layout/header.php';
             } else {
                 prestasiModal.querySelector('.modal-title').textContent = 'Edit Prestasi';
             }
+
+            if (image) {
+                const fullImageUrl = '/Views/assets/uploads/prestasi/' + image;
+
+                previewImg.src = fullImageUrl;
+                previewContainer.style.display = 'block';
+            } else {
+                previewContainer.style.display = 'none';
+                previewImg.src = '';
+            }
+
+            document.getElementById('prestasiFile').value = '';
         });
 
 
