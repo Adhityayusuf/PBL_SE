@@ -5,6 +5,7 @@ body {
     background-color: #06315A;
     font-family: 'Poppins', sans-serif;
     color: aliceblue;
+    overflow-x: hidden;
 }
 
 .hero-section {
