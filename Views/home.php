@@ -236,7 +236,9 @@ require_once BASE_PATH . 'layout/navbar.php';
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    <a href="/index.php?action=personil" class="btn btn-data-dosen">Lihat Data Dosen</a>
+    <div class="d-flex justify-content-center">
+        <a href="/index.php?action=blog" class="btn btn-all-blog">Lihat lebih banyak</a>
+    </div>
 </section>
 
 <?php

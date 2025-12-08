@@ -106,9 +106,7 @@ include_once __DIR__ . '/../layout/header.php';
                                     $judul = $data['title'] ?? 'Tanpa Judul';
                                     $deskripsi = $data['description'] ?? '';
                                     // Icon disimpan di kolom image_url (text)
-                                    $icon = $scope['image_url'] ?? '';
-                            ?>
-
+                                    $icon = $scope['image_url'] ?? ''; ?>
                                     <div class="scope-item">
                                         <span>
                                             <i class="bi <?php echo htmlspecialchars($icon); ?> me-2"></i>
@@ -143,43 +141,43 @@ include_once __DIR__ . '/../layout/header.php';
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title fw-bold mb-3">Roadmap</h5>
+                            <h5 class="card-title fw-bold mb-3">Roadmap</h5>
 
-                        <?php if (!empty($roadmaps)):
-                            foreach ($roadmaps as $roadmap):
-                                $isiRoad = $roadmap['isi_konten'];
-                        ?>
+                            <?php if (!empty($roadmaps)):
+                                foreach ($roadmaps as $roadmap):
+                                    $isiRoad = $roadmap['isi_konten'];
+                            ?>
 
-                                <div class="scope-item">
-                                    <span><?php echo nl2br(htmlspecialchars($isiRoad)); ?></span>
+                                    <div class="scope-item">
+                                        <span><?php echo nl2br(htmlspecialchars($isiRoad)); ?></span>
 
-                                    <div>
-                                        <button class="btn btn-outline-primary btn-sm me-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editRoadmapModal"
-                                            data-id="<?php echo $roadmap['id_profile']; ?>"
-                                            data-content="<?php echo htmlspecialchars($isiRoad); ?>">
-                                            Edit
-                                        </button>
+                                        <div>
+                                            <button class="btn btn-outline-primary btn-sm me-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editRoadmapModal"
+                                                data-id="<?php echo $roadmap['id_profile']; ?>"
+                                                data-content="<?php echo htmlspecialchars($isiRoad); ?>">
+                                                Edit
+                                            </button>
 
-                                        <form action="/admin/index.php" method="POST" style="display:inline;"
-                                            onsubmit="return confirm('Yakin ingin menghapus roadmap ini?');">
-                                            <input type="hidden" name="action" value="delete_roadmap">
-                                            <input type="hidden" name="id_to_delete" value="<?php echo $roadmap['id_profile']; ?>">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
-                                        </form>
+                                            <form action="/admin/index.php" method="POST" style="display:inline;"
+                                                onsubmit="return confirm('Yakin ingin menghapus roadmap ini?');">
+                                                <input type="hidden" name="action" value="delete_roadmap">
+                                                <input type="hidden" name="id_to_delete" value="<?php echo $roadmap['id_profile']; ?>">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
 
-                            <?php endforeach;
-                        else: ?>
-                            <p class="text-muted small text-center my-3">Belum ada data Roadmap.</p>
-                        <?php endif; ?>
+                                <?php endforeach;
+                            else: ?>
+                                <p class="text-muted small text-center my-3">Belum ada data Roadmap.</p>
+                            <?php endif; ?>
 
-                        <a href="#" class="btn btn-link mt-3 p-0"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editRoadmapModal">Tambah Roadmap</a>
-                    </div>
+                            <a href="#" class="btn btn-link mt-3 p-0"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editRoadmapModal">Tambah Roadmap</a>
+                        </div>
                     </div>
                 </div>
             </div>
