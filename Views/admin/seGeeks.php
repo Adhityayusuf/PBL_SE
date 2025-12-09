@@ -10,18 +10,28 @@
 
     <style>
         body {
-            background-color: #f8f9fa;
+            background: #F5F5F7;
+            overflow-x: hidden;
         }
 
         .main-content {
             padding: 30px;
-            width: calc(100% - 270px);
+            width: 100%;
+            overflow-y: auto;
+            height: 100vh;
         }
 
-        .card {
-            border: none;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .table th {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         /* Badge Status */
@@ -62,6 +72,88 @@
             background-color: #fce7e7;
             color: #dc3545;
         }
+
+        @media (max-width: 1400px) {
+            .main-content {
+                padding: 25px;
+            }
+
+            .table th, .table td {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .search-box input {
+                font-size: 14px;
+            }
+
+            .table td, .table th {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .d-flex.justify-content-between {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btnTambahArtikel {
+                width: 100%;
+            }
+
+            .search-box {
+                width: 100% !important;
+            }
+
+            .table-container {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .table {
+                font-size: 13px;
+            }
+
+            .main-content {
+                padding: 15px;
+                height: auto;
+            }
+
+            h3.fw-bold {
+                font-size: 20px;
+            }
+
+            .input-group-text {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .table th, .table td {
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .btnTambahArtikel {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            .main-content {
+                padding: 12px;
+            }
+
+            h3.fw-bold {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 
@@ -78,9 +170,8 @@
                 <input type="text" id="searchBox" class="form-control" placeholder="Cari...">
             </div>
 
-            <div class="card p-3">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle" id="dataTable">
+            <div class="table-container">
+                <table class="table align-middle" id="dataTable">
                         <thead>
                             <tr>
                                 <th>Nama</th>
