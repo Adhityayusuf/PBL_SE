@@ -4,7 +4,7 @@ require_once __DIR__ . "/layout/header.php";
 require_once __DIR__ . "/layout/navbar.php";
 ?>
 
-<section class="py-5 hero-section modern-hero d-flex align-items-center">
+<section class="py-5 hero-section modern-hero d-flex align-items-center" id="tentang-lab">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-5 col-md-5 d-flex flex-column align-items-center justify-content-center">
@@ -19,7 +19,7 @@ require_once __DIR__ . "/layout/navbar.php";
                 <h1 class="fw-bold fs-1 text-warning hero-subtitle">Software Engineering</h1>
 
                 <p class="text-light fs-5 mt-4">
-                    “Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”
+                    <?php echo nl2br(htmlspecialchars($about_lab['isi_konten'])); ?>
                 </p>
 
                 <div class="se-button-card mt-2 mb-2">
@@ -30,30 +30,6 @@ require_once __DIR__ . "/layout/navbar.php";
                     <span class="skill-tag-item se-card"><i class="bi bi-code-slash"></i>  Development</span>
                     <span class="skill-tag-item se-card"><i class="bi bi-database"></i>  Data/AI</span>
                     <span class="skill-tag-item se-card"><i class="bi bi-tools"></i>  DevOps/Testing</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<hr class="my-5 opacity-25">
-
-<!-- TENTANG LAB -->
-<section id="tentang-lab" class="about-section py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7 col-md-6 text-center">
-                <img src="/Views/assets/<?php echo htmlspecialchars($about_lab['image_url']); ?>"
-                     class="img-fluid maskot-img" alt="Maskot Lab SE">
-            </div>
-
-            <div class="col-lg-5 col-md-6">
-                <div class="about-card p-5">
-                    <h2 class="about-title mb-4 text-center">Tentang Lab</h2>
-                    <p class="deskripsi-text">
-                        <?php echo nl2br(htmlspecialchars($about_lab['isi_konten'])); ?>
-                    </p>
                 </div>
             </div>
         </div>
@@ -72,8 +48,8 @@ require_once __DIR__ . "/layout/navbar.php";
             <div class="achievement-card p-4">
                 <ul class="list-unstyled deskripsi-text">
 
-                    <?php if (!empty($achievement)): ?>
-                        <?php foreach ($achievement as $a): ?>
+                    <?php if (!empty($prestasi)): ?>
+                        <?php foreach ($prestasi as $a): ?>
                             <li>
                                 <i class="bi bi-star-fill text-warning me-2"></i>
                                 <?= htmlspecialchars($a['prestasi']); ?>
@@ -89,8 +65,8 @@ require_once __DIR__ . "/layout/navbar.php";
 
         <div class="col-md-6 order-md-1 mt-4 mt-md-0 text-left">
             <div id="slider">
-                <?php if (!empty($achievement)): ?>
-                    <?php $i = 1; foreach ($achievement as $a): ?>
+                <?php if (!empty($prestasi)): ?>
+                    <?php $i = 1; foreach ($prestasi as $a): ?>
                         <img
                             id="sliderImage<?= $i ?>"
                             src="/Views/assets/uploads/prestasi/<?= htmlspecialchars($a['image_url']); ?>"
