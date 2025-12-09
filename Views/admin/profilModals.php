@@ -91,11 +91,6 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="scope-description" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" id="scope-description" name="scope_description" rows="4"></textarea>
-                    </div>
-
-                    <div class="mb-3">
                         <label for="scope-icon" class="form-label">Kode Icon (Bootstrap Icons)</label>
                         <input class="form-control" type="text" id="scope-icon" name="scope_icon" placeholder="Contoh: bi-code-slash">
                         <small class="text-muted">Cari kode icon di <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></small>

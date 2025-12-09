@@ -25,11 +25,17 @@ require_once __DIR__ . "/layout/navbar.php";
                 <div class="se-button-card mt-2 mb-2">
                     <a href="#prestasi" class="btn btn-primary-custom btn-lg">Jelajahi Prestasi <i class="bi bi-arrow-right"></i></a>
                 </div>
-                
-                <div class="d-flex gap-4 justify-content-md-start justify-content-center mt-3 skill-tags "  style="margin-top:20px; display:flex; gap:20px;">
-                    <span class="skill-tag-item se-card"><i class="bi bi-code-slash"></i>  Development</span>
-                    <span class="skill-tag-item se-card"><i class="bi bi-database"></i>  Data/AI</span>
-                    <span class="skill-tag-item se-card"><i class="bi bi-tools"></i>  DevOps/Testing</span>
+
+                <div class="d-flex gap-4 justify-content-md-start justify-content-center mt-3 skill-tags"
+                    style="margin-top:20px; display:flex; gap:20px;">
+
+                    <?php foreach ($scopes as $item): ?>
+                        <span class="skill-tag-item se-card">
+                            <i class="bi <?php echo htmlspecialchars($item['image_url']); ?>"></i>
+                            <?php echo htmlspecialchars($item['isi_konten']); ?>
+                        </span>
+                    <?php endforeach; ?>
+
                 </div>
             </div>
         </div>
@@ -66,14 +72,15 @@ require_once __DIR__ . "/layout/navbar.php";
         <div class="col-md-6 order-md-1 mt-4 mt-md-0 text-left">
             <div id="slider">
                 <?php if (!empty($prestasi)): ?>
-                    <?php $i = 1; foreach ($prestasi as $a): ?>
+                    <?php $i = 1;
+                    foreach ($prestasi as $a): ?>
                         <img
                             id="sliderImage<?= $i ?>"
                             src="/Views/assets/uploads/prestasi/<?= htmlspecialchars($a['image_url']); ?>"
                             alt="<?= htmlspecialchars($a['prestasi']); ?>"
-                            <?= $i > 1 ? 'style="display:none;"' : '' ?>
-                        >
-                    <?php $i++; endforeach; ?>
+                            <?= $i > 1 ? 'style="display:none;"' : '' ?>>
+                    <?php $i++;
+                    endforeach; ?>
                 <?php else: ?>
                     <img src="/Views/assets/placeholder.jpg" alt="No Achievement">
                 <?php endif; ?>
@@ -121,7 +128,7 @@ require_once __DIR__ . "/layout/navbar.php";
 
     <div class="row g-4 justify-content-center mt-5">
         <?php if (!empty($scopes)): ?>
-            <?php foreach ($scopes as $scope): 
+            <?php foreach ($scopes as $scope):
                 $data = json_decode($scope['isi_konten'], true);
                 $title = $data['title'] ?? 'Judul Tidak Tersedia';
                 $icon = $scope['image_url'] ?? 'bi-code-slash';
@@ -155,7 +162,8 @@ require_once __DIR__ . "/layout/navbar.php";
                     try {
                         $dt = new DateTime($r['last_updated']);
                         $year = $dt->format('Y');
-                    } catch (Exception $e) {}
+                    } catch (Exception $e) {
+                    }
                 }
                 ?>
                 <div class="roadmap-item">
@@ -189,7 +197,7 @@ require_once __DIR__ . "/layout/navbar.php";
                     <div class="blog-card-custom">
 
                         <div class="blog-card-header"
-                             style="background-image: url('<?= htmlspecialchars($row['image_url'] ?? '/assets/acv1.jpg'); ?>');">
+                            style="background-image: url('<?= htmlspecialchars($row['image_url'] ?? '/assets/acv1.jpg'); ?>');">
                         </div>
 
                         <div class="blog-card-body">
@@ -202,7 +210,7 @@ require_once __DIR__ . "/layout/navbar.php";
                             <p class="small text-muted"><?= htmlspecialchars($row['subtitle']); ?></p>
 
                             <a href="/index.php?action=artikel&id=<?= htmlspecialchars($row['id_artikel']); ?>"
-                               class="read-now">Read Now</a>
+                                class="read-now">Read Now</a>
                         </div>
 
                         <div class="blog-card-footer">

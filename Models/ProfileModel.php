@@ -131,26 +131,22 @@ class ProfileModel extends Database
     }
 
 
-    public function addScope($title, $description, $iconClass)
+    public function addScope($title, $iconClass)
     {
-
-        $content = json_encode(['title' => $title, 'description' => $description]);
-
         $sql = "INSERT INTO profile (tipe_konten, isi_konten, image_url, last_updated) 
                 VALUES (4, :desc, :icon, NOW())";
 
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute(['desc' => $content, 'icon' => $iconClass]);
+        return $stmt->execute([':desc' => $title, ':icon' => $iconClass]);
     }
 
-    public function updateScope($id, $title, $description, $iconClass)
+    public function updateScope($id, $title, $iconClass)
     {
-        $content = json_encode(['title' => $title, 'description' => $description]);
 
         $sql = "UPDATE profile SET isi_konten = :content, image_url = :icon, last_updated = NOW() WHERE id_profile = :id";
 
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute(['content' => $content, 'icon' => $iconClass, 'id' => $id]);
+        return $stmt->execute(['content' => $title, 'icon' => $iconClass,'id' => $id]);
     }
 
     public function deleteScope($id)

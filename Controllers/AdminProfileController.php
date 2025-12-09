@@ -54,18 +54,16 @@ class AdminProfileController
             case 'save_scope':
                 $id = $_POST['scope_id'] ?? '';
                 $name = $_POST['scope_name'];
-                $desc = $_POST['scope_description'];
-                // UBAHAN DISINI: Ambil text icon, bukan file
                 $icon = $_POST['scope_icon'];
 
                 if (!empty($id)) {
                     // Update
-                    $this->model->updateScope($id, $name, $desc, $icon);
+                    $this->model->updateScope($id, $name, $icon);
                 } else {
                     // Add New
                     // Default icon jika kosong
                     $icon = $icon ?: 'bi-code-slash';
-                    $this->model->addScope($name, $desc, $icon);
+                    $this->model->addScope($name, $icon);
                 }
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
