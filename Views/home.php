@@ -4,15 +4,41 @@ require_once __DIR__ . "/layout/header.php";
 require_once __DIR__ . "/layout/navbar.php";
 ?>
 
-<section class="py-5 hero-section d-flex text-center">
+<section class="py-5 hero-section modern-hero d-flex align-items-center">
     <div class="container">
-        <h2 class="fw-bold fs-3">Welcome To</h2>
-        <h1 class="fw-bold fs-1">Laboratorium Software Engineering</h1>
-        <h1 class="fw-bold text-warning fs-2">Jurusan Teknologi Informasi</h1>
-        <br><br>
-        <p class="text-light fs-5">“Di Lab Software Engineering, ide menjadi solusi...”</p>
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-5 d-flex flex-column align-items-center justify-content-center">
+                <img src="/Views/assets/maskot.png" class="img-fluid hero-maskot-img mb-4" alt="Maskot Lab SE">
+                <div class="d-flex gap-3 mt-3">
+                    <span class="modern-icon-bg"><i class="bi bi-code-slash"></i></span>
+                    <span class="modern-icon-bg"><i class="bi bi-cpu"></i></span>
+                    <span class="modern-icon-bg"><i class="bi bi-git"></i></span>
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-7 text-md-start text-center mt-4 mt-md-0">
+                <p class="section-tag-small">💻 **Inovasi Software Terdepan**</p>
+                <h1 class="fw-bold fs-1 hero-title">Selamat Datang di Lab</h1>
+                <h1 class="fw-bold fs-1 text-warning hero-subtitle">Software Engineering</h1>
+
+                <p class="text-light fs-5 mt-4">
+                    “Di Lab Software Engineering, ide menjadi solusi, dan kode menjadi karya. Di sinilah masa depan software dimulai.”
+                </p>
+
+                <div class="d-flex gap-3 justify-content-md-start justify-content-center mt-4">
+                    <a href="#karya-terbaru" class="btn btn-primary-custom btn-lg">Jelajahi Karya <i class="bi bi-arrow-right"></i></a>
+                </div>
+                
+                <div class="d-flex gap-4 justify-content-md-start justify-content-center mt-3 skill-tags">
+                    <span class="skill-tag-item"><i class="bi bi-code-slash"></i> Development</span>
+                    <span class="skill-tag-item"><i class="bi bi-database"></i> Data/AI</span>
+                    <span class="skill-tag-item"><i class="bi bi-tools"></i> DevOps/Testing</span>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
 
 <hr class="my-5 opacity-25">
 
