@@ -172,6 +172,8 @@ CREATE TABLE public.mahasiswa (
     status public.status_mahasiswa DEFAULT 'menunggu'::public.status_mahasiswa
 );
 
+ALTER TABLE public.mahasiswa
+ADD COLUMN minat character varying(150) NOT NULL;
 
 ALTER TABLE public.mahasiswa OWNER TO postgres;
 
@@ -523,12 +525,12 @@ COPY public.kategori (id_kategori, nama) FROM stdin;
 -- Data for Name: mahasiswa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.mahasiswa (id_mahasiswa, nim, nama, prodi_id, angkatan, status) FROM stdin;
-1	2341720001	Rina Wijaya	1	2023	disetujui
-2	2241720002	Andi Pratama	2	2022	menunggu
-3	2441720003	Dewi Kartika	3	2024	disetujui
-4	2341720004	Fajri Rahman	4	2023	menunggu
-5	2141720005	Gita Cahyani	5	2021	disetujui
+COPY public.mahasiswa (id_mahasiswa, nim, nama, prodi_id, angkatan, status, minat) FROM stdin;
+1	2341720001	Rina Wijaya 1   2023    disetujui   Web
+2	2241720002	Andi Pratama	2	2022	menunggu    Mobile
+3	2441720003	Dewi Kartika	3	2024	disetujui   QA
+4	2341720004	Fajri Rahman	4	2023	menunggu    DevOps
+5	2141720005	Gita Cahyani	5	2021	disetujui   Web
 \.
 
 
