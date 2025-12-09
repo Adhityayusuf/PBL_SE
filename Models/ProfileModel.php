@@ -43,10 +43,14 @@ class ProfileModel extends Database
 
     public function getRoadmaps()
     {
-        $sql = "SELECT  isi_konten
-                FROM profile
-                WHERE tipe_konten = 3
-                ORDER BY id_profile ASC";
+        $sql = "SELECT 
+            id_profile,
+            (isi_konten::jsonb ->> 'title') AS title,
+            (isi_konten::jsonb ->> 'description') AS description,
+            last_updated
+        FROM profile
+        WHERE tipe_konten = 3
+        ORDER BY id_profile ASC";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -112,10 +116,14 @@ class ProfileModel extends Database
 
     public function getAllRoadmaps()
     {
-        $sql = "SELECT id_profile, isi_konten
-            FROM profile
-            WHERE tipe_konten = 3
-            ORDER BY id_profile ASC";
+        $sql = "SELECT 
+                    id_profile,
+                    (isi_konten::jsonb ->> 'title') AS title,
+                    (isi_konten::jsonb ->> 'description') AS description,
+                    last_updated
+                FROM profile
+                WHERE tipe_konten = 3
+                ORDER BY id_profile ASC";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();

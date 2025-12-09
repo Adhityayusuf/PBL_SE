@@ -198,30 +198,32 @@ include_once __DIR__ . '/../layout/header.php';
 
                             <?php if (!empty($roadmaps)):
                                 foreach ($roadmaps as $roadmap):
-                                    $isiRoad = $roadmap['isi_konten'];
+                                   $desc = $roadmap['description'];
+                                   $title = $roadmap['title'];
                             ?>
+                                <div class="scope-item">
+                                    <span>
+                                        <strong><?php echo htmlspecialchars($title); ?></strong><br>
+                                        <small class="text-muted"><?php echo htmlspecialchars($desc); ?></small>
+                                    </span>
 
-                                    <div class="scope-item">
-                                        <span><?php echo nl2br(htmlspecialchars($isiRoad)); ?></span>
+                                    <div>
+                                        <button class="btn btn-outline-primary btn-sm me-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editRoadmapModal"
+                                            data-id="<?php echo $roadmap['id_profile']; ?>"
+                                            data-content='<?php echo json_encode(["title" => $title, "description" => $desc]); ?>'>
+                                            Edit
+                                        </button>
 
-                                        <div>
-                                            <button class="btn btn-outline-primary btn-sm me-2"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#editRoadmapModal"
-                                                data-id="<?php echo $roadmap['id_profile']; ?>"
-                                                data-content="<?php echo htmlspecialchars($isiRoad); ?>">
-                                                Edit
-                                            </button>
-
-                                            <form action="/admin/index.php" method="POST" style="display:inline;"
-                                                onsubmit="return confirm('Yakin ingin menghapus roadmap ini?');">
-                                                <input type="hidden" name="action" value="delete_roadmap">
-                                                <input type="hidden" name="id_to_delete" value="<?php echo $roadmap['id_profile']; ?>">
-                                                <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
-                                            </form>
-                                        </div>
+                                        <form action="/admin/index.php" method="POST" style="display:inline;" 
+                                            onsubmit="return confirm('Yakin ingin menghapus roadmap ini?');">
+                                            <input type="hidden" name="action" value="delete_roadmap">
+                                            <input type="hidden" name="id_to_delete" value="<?php echo $roadmap['id_profile']; ?>">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
+                                        </form>
                                     </div>
-
+                                </div>
                                 <?php endforeach;
                             else: ?>
                                 <p class="text-muted small text-center my-3">Belum ada data Roadmap.</p>

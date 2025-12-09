@@ -160,8 +160,8 @@ require_once __DIR__ . "/layout/navbar.php";
                 ?>
                 <div class="roadmap-item">
                     <div class="card-custom">
-                        <h5><?= $year ?> - Tahap</h5>
-                        <p class="small"><?= htmlspecialchars($r['isi_konten']); ?></p>
+                        <h5><?= $year ?> - <?= htmlspecialchars($r['title']); ?></h5>
+                        <p class="small"><?= htmlspecialchars($r['description']); ?></p>
                     </div>
                 </div>
             <?php endforeach; ?>

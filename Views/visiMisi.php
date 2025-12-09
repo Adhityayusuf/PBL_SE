@@ -4,7 +4,7 @@ $title = "About Page";
 $customCSS = "
     body {
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #003865, #0d3f66, #0d3f66);
+        background: #06315A;
         color: white;
     }
 
