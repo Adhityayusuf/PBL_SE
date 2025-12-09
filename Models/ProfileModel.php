@@ -87,25 +87,6 @@ class ProfileModel extends Database
         return $this->fetchOne($sql);
     }
 
-    public function getProfileData()
-    {
-        return [
-            'title'            => 'Lab Software Engineering - Home',
-
-            'about_lab'        => $this->getTentangLab(),
-            'achievement'      => $this->getPrestasi(),
-            'roadmaps'          => $this->getRoadmaps(),
-            'personil'         => $this->getPersonil(),
-            'artikel'          => $this->getArtikel(3),
-            'scopes'           => $this->getScopes(),
-
-            'customCSS' => @file_get_contents(__DIR__ . '/../Views/assets/css/home.css')
-        ];
-    }
-
-    // --- BAGIAN ADMIN (TAMBAHAN BARU) ---
-
-    // 1. Ambil Konten Berdasarkan ID (Untuk Visi, Misi, Tentang)
     public function getContentById($id)
     {
         $sql = "SELECT * FROM profile WHERE id_profile = :id";
@@ -114,7 +95,6 @@ class ProfileModel extends Database
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // 2. Update Konten Text (Visi, Misi, Tentang)
     public function updateContent($id, $content)
     {
         $sql = "UPDATE profile SET isi_konten = :content, last_updated = NOW() WHERE id_profile = :id";
@@ -122,7 +102,6 @@ class ProfileModel extends Database
         return $stmt->execute(['content' => $content, 'id' => $id]);
     }
 
-    // 3. Ambil Semua Scope (Focus)
     public function getAllScopes()
     {
         $sql = "SELECT * FROM profile WHERE tipe_konten = 4 ORDER BY id_profile ASC";
@@ -144,13 +123,11 @@ class ProfileModel extends Database
     }
 
 
-    // 4. Tambah Scope Baru
     public function addScope($title, $description, $iconClass)
     {
-        // Simpan Title dan Description sebagai JSON
+
         $content = json_encode(['title' => $title, 'description' => $description]);
 
-        // Simpan Icon Class ke kolom image_url (karena kolom ini VARCHAR/TEXT)
         $sql = "INSERT INTO profile (tipe_konten, isi_konten, image_url, last_updated) 
                 VALUES (4, :desc, :icon, NOW())";
 
@@ -158,7 +135,6 @@ class ProfileModel extends Database
         return $stmt->execute(['desc' => $content, 'icon' => $iconClass]);
     }
 
-    // 5. Update Scope
     public function updateScope($id, $title, $description, $iconClass)
     {
         $content = json_encode(['title' => $title, 'description' => $description]);
@@ -169,7 +145,6 @@ class ProfileModel extends Database
         return $stmt->execute(['content' => $content, 'icon' => $iconClass, 'id' => $id]);
     }
 
-    // 6. Hapus Scope
     public function deleteScope($id)
     {
         $sql = "DELETE FROM profile WHERE id_profile = :id AND tipe_konten = 4";
@@ -177,7 +152,6 @@ class ProfileModel extends Database
         return $stmt->execute(['id' => $id]);
     }
 
-    // Ambil data Scope untuk ditampilkan di Home
     public function getScopes()
     {
         $sql = "SELECT isi_konten, image_url FROM profile WHERE tipe_konten = 4";
@@ -186,7 +160,6 @@ class ProfileModel extends Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Ambil Visi (ID 2)
     public function getVisiData()
     {
         $sql = "SELECT isi_konten FROM profile WHERE id_profile = 2";
@@ -196,7 +169,6 @@ class ProfileModel extends Database
         return $res ? $res['isi_konten'] : null;
     }
 
-    // Ambil Misi (ID 6)
     public function getMisiData()
     {
         $sql = "SELECT isi_konten FROM profile WHERE id_profile = 6";
@@ -242,7 +214,6 @@ class ProfileModel extends Database
         ]);
     }
 
-    // Update prestasi
     public function updatePrestasi($id, $judul, $link)
     {
         $sql = "UPDATE prestasi SET prestasi=:prestasi, image_url=:link WHERE id_prestasi=:id_prestasi";
@@ -254,7 +225,6 @@ class ProfileModel extends Database
         ]);
     }
 
-    // Hapus prestasi
     public function deletePrestasi($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM prestasi WHERE id_prestasi=:id");
