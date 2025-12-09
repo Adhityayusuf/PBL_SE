@@ -15,7 +15,7 @@ class GeekController
         $model = new GeekModel();
 
         $per_page = 10; // 10 data per halaman
-        $page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         if ($page < 1) $page = 1;
 
         $start = ($page - 1) * $per_page;
@@ -23,6 +23,13 @@ class GeekController
         $data = $model->getPaged($start, $per_page);
         $total = $model->countAll();
         $total_pages = ceil($total / $per_page);
+
+        // Variables for pagination
+        $offset = $start;
+        $items_per_page = $per_page;
+        $total_items = $total;
+        $current_page = $page;
+        $search_query = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
 
         include __DIR__ . '/../Views/admin/seGeeks.php';
     }

@@ -154,6 +154,40 @@
                 font-size: 18px;
             }
         }
+
+        .pagination {
+            margin: 0;
+            gap: 8px;
+        }
+
+        .pagination .page-link {
+            border: 1px solid #e0e0e0;
+            color: #6c757d;
+            padding: 8px 12px;
+            border-radius: 6px;
+            min-width: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f0f0f0;
+            border-color: #d0d0d0;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #06315A;
+            color: white;
+            border-color: #06315A;
+            border-radius: 6px;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            background-color: #f0f0f0;
+            border-color: #e0e0e0;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -235,6 +269,72 @@
                         </tbody>
 
                     </table>
+                </div>
+
+                <!-- Pagination Info -->
+                <div class="text-center mt-3 mb-2">
+                    <small class="text-muted">
+                        Menampilkan <?php echo !empty($data) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
+                    </small>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <?php
+                            // Tombol Previous
+                            if ($current_page > 1) {
+                                echo '<li class="page-item">';
+                                echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
+                                echo '<span aria-hidden="true">Previous</span>';
+                                echo '</a></li>';
+                            } else {
+                                echo '<li class="page-item disabled">';
+                                echo '<span class="page-link">Previous</span>';
+                                echo '</li>';
+                            }
+
+                            // Nomor halaman
+                            $start_page = max(1, $current_page - 2);
+                            $end_page = min($total_pages, $current_page + 2);
+
+                            if ($start_page > 1) {
+                                echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=1' . $search_query . '">1</a></li>';
+                                if ($start_page > 2) {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                }
+                            }
+
+                            for ($i = $start_page; $i <= $end_page; $i++) {
+                                if ($i == $current_page) {
+                                    echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                                } else {
+                                    echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $i . $search_query . '">' . $i . '</a></li>';
+                                }
+                            }
+
+                            if ($end_page < $total_pages) {
+                                if ($end_page < $total_pages - 1) {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                }
+                                echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                            }
+
+                            // Tombol Next
+                            if ($current_page < $total_pages) {
+                                echo '<li class="page-item">';
+                                echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
+                                echo '<span aria-hidden="true">Next</span>';
+                                echo '</a></li>';
+                            } else {
+                                echo '<li class="page-item disabled">';
+                                echo '<span class="page-link">Next</span>';
+                                echo '</li>';
+                            }
+                            ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
 
