@@ -129,8 +129,7 @@ require_once __DIR__ . "/layout/navbar.php";
     <div class="row g-4 justify-content-center mt-5">
         <?php if (!empty($scopes)): ?>
             <?php foreach ($scopes as $scope):
-                $data = json_decode($scope['isi_konten'], true);
-                $title = $data['title'] ?? 'Judul Tidak Tersedia';
+                $title = $scope['isi_konten'] ?? 'Judul Tidak Tersedia';
                 $icon = $scope['image_url'] ?? 'bi-code-slash';
             ?>
                 <div class="col-lg-3 col-md-4 col-sm-6">

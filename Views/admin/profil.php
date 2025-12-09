@@ -155,10 +155,7 @@ include_once __DIR__ . '/../layout/header.php';
 
                             <?php if (!empty($scopes)):
                                 foreach ($scopes as $scope):
-                                    $data = json_decode($scope['isi_konten'], true);
-                                    $judul = $data['title'] ?? 'Tanpa Judul';
-                                    $deskripsi = $data['description'] ?? '';
-                                    // Icon disimpan di kolom image_url (text)
+                                    $judul = $scope['isi_konten'] ?? 'Tanpa Judul';
                                     $icon = $scope['image_url'] ?? ''; ?>
                                     <div class="scope-item">
                                         <span>
@@ -191,7 +188,7 @@ include_once __DIR__ . '/../layout/header.php';
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title fw-bold mb-3">Roadmap</h5>

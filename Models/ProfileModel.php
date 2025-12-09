@@ -137,7 +137,7 @@ class ProfileModel extends Database
                 VALUES (4, :desc, :icon, NOW())";
 
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([':desc' => $title, ':icon' => $iconClass]);
+        return $stmt->execute(params: [':desc' => $title, ':icon' => $iconClass]);
     }
 
     public function updateScope($id, $title, $iconClass)
@@ -169,7 +169,7 @@ class ProfileModel extends Database
         $sql = "SELECT isi_konten FROM profile WHERE id_profile = 2";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
-        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        $res = $stmt->fetch(mode: PDO::FETCH_ASSOC);
         return $res ? $res['isi_konten'] : null;
     }
 
