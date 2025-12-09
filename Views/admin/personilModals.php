@@ -52,7 +52,7 @@
                     <label class="form-label fw-bold">Link Eksternal</label>
                     
                     <div class="d-flex align-items-center mb-3">
-                        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle me-3 shadow-sm" 
+                        <div class="d-flex justify-content-center align-items-center btn-social text-white rounded-circle me-3 shadow-sm" 
                             style="width: 35px; height: 35px; min-width: 35px;">
                             <i class="bi bi-github fs-5"></i>
                         </div>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="d-flex align-items-center">
-                        <div class="d-flex justify-content-center align-items-center bg-primary text-white rounded-circle me-3 shadow-sm" 
+                        <div class="d-flex justify-content-center align-items-center btn-social text-white rounded-circle me-3 shadow-sm" 
                             style="width: 35px; height: 35px; min-width: 35px;">
                             <i class="bi bi-linkedin fs-5"></i>
                         </div>
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-footer d-flex justify-content-end border-0 pt-0">
                 <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-                <button type="button" class="btn btn-primary btn-lg px-4" id="savePersonilBtn">Simpan</button>
+                <button type="button" class="btn-simpan btn-lg px-4" id="savePersonilBtn">Simpan</button>
             </div>
         </div>
     </div>

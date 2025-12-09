@@ -63,10 +63,26 @@ $customCSS = "
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background-color: #0863C7;
+            background-color: #06315A;
             border: none;
             color: white;
             transition: background-color 0.3s ease;
+        }
+        
+        .btn-tambah {
+            background-color: #06315A;
+            color: white;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 8px 18px;
+        }
+        
+        .btn-simpan {
+            background-color: #06315A;
+            color: white;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 8px 18px;
         }
 
         .btn-social:hover {
@@ -111,9 +127,9 @@ $customCSS = "
         }
 
         .pagination .page-item.active .page-link {
-            background-color: #0863C7;
+            background-color: #06315A;
             color: white;
-            border-color: #0863C7;
+            border-color: #06315A;
             border-radius: 6px;
         }
 
@@ -122,6 +138,13 @@ $customCSS = "
             border-color: #e0e0e0;
             color: #adb5bd;
             cursor: not-allowed;
+        }
+        
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }";
 
 include __DIR__ . '/layout/header.php';
@@ -145,15 +168,14 @@ include __DIR__ . '/layout/header.php';
                     <input type="text" id="searchPersonil" class="form-control" placeholder="Search">
                 </div>
             </form>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="resetForm()">
+            <button class="btn-tambah" data-bs-toggle="modal" data-bs-target="#personilModal" onclick="resetForm()">
                 <i class="bi bi-plus-lg me-2"></i>Tambahkan Dosen
             </button>
         </div>
 
         <!-- Table -->
-        <div class="card p-3">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle" id="personilTable">
+            <div class="table-container">
+                <table class="table align-middle" id="personilTable">
                     <thead>
                         <tr>
                             <th class="sortable-header">Nama<i class="bi bi-caret-down-fill"></i></th>
@@ -201,7 +223,6 @@ include __DIR__ . '/layout/header.php';
                     </tbody>
                 </table>
             </div>
-        </div>
         <!-- Pagination Info -->
         <div class="text-center mt-3 mb-2">
             <small class="text-muted">
