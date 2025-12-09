@@ -34,11 +34,12 @@
     }
 
     .sidebar-link:hover {
-        background-color: #f8f9fa; 
-        color: #000000;
+        background-color: #06315A; 
+        color: white;
+        opacity: 0.9;
     }
     .sidebar-link:hover i {
-        color: #8c959fff;
+        color: white;
     }
 
     .support-heading {
@@ -73,7 +74,7 @@
 <div class="sidebar-custom d-flex flex-column flex-shrink-0">
     
     <div class="mb-5 px-2">
-        <img src="/Views/assets/logo.png" alt="Logo Lab" class="img-fluid" style="max-height: 60px;">
+        <img src="/Views/assets/LAB.png" alt="Logo Lab" class="img-fluid" style="max-height: 60px;">
     </div>
 
     <ul class="nav flex-column mb-auto">
