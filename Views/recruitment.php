@@ -181,6 +181,7 @@ include_once __DIR__ . "/layout/navbar.php";
                     <th>NIM</th>
                     <th>Program Studi</th>
                     <th>Angkatan</th>
+                    <th>Minat</th>
                     <th>Status</th>
                 </tr>
             </thead>
@@ -194,6 +195,7 @@ include_once __DIR__ . "/layout/navbar.php";
                             <td><?= htmlspecialchars($mhs['nim']); ?></td>
                             <td><?= htmlspecialchars($mhs['prodi']); ?></td>
                             <td><?= htmlspecialchars($mhs['angkatan']); ?></td>
+                            <td><?= htmlspecialchars($mhs['minat'] ?? ''); ?></td>
                             <td>
                                 <?php if($mhs['status'] == 'menunggu'){ ?>
                                     <span class="badge badge-menunggu">Menunggu</span>

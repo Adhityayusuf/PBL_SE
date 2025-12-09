@@ -1,8 +1,8 @@
 <?php
 
 class RecruitmentModel extends Database{
-        public function addMahasiswa($nama, $nim, $prodi, $angkatan){
-        $sql = "INSERT INTO mahasiswa (nama, nim, prodi_id, angkatan) VALUES ('$nama', '$nim', '$prodi', '$angkatan')";
+        public function addMahasiswa($nama, $nim, $prodi, $angkatan, $minat){
+        $sql = "INSERT INTO mahasiswa (nama, nim, prodi_id, angkatan, minat) VALUES ('$nama', '$nim', '$prodi', '$angkatan', '$minat')";
         $result = $this->conn->prepare($sql);
         $result->execute();
         return $result->rowCount() > 0;
@@ -16,7 +16,7 @@ class RecruitmentModel extends Database{
     }
 
     public function getAllMahasiswa(){
-        $sql = "SELECT m.nama, m.nim, p.nama AS prodi, m.angkatan, m.status FROM mahasiswa AS m 
+        $sql = "SELECT m.nama, m.nim, p.nama AS prodi, m.angkatan, m.minat, m.status FROM mahasiswa AS m 
             JOIN prodi AS p 
             ON m.prodi_id = p.id_prodi";
 

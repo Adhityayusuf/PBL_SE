@@ -21,7 +21,7 @@
                 $angkatan = $_POST['angkatan'];
                 $minat = $_POST['minat'];
 
-                $this->recruitmentModel->addMahasiswa($nama, $nim, $prodi, $angkatan);
+                $this->recruitmentModel->addMahasiswa($nama, $nim, $prodi, $angkatan, $minat);
                 header("Location: index.php?action=recruitment");
             }
         }
