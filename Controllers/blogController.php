@@ -25,21 +25,71 @@ class BlogController {
         }
     }
 
+    // === HALAMAN PUBLIC (USER) - Limit 6 Data ===
     public function indexUser() {
         $filterKategori = $_GET['kategori'] ?? 'all';
         $searchKeyword  = $_GET['search'] ?? null;
 
+        // 1. Ambil semua data (sesuai filter/search)
         if ($searchKeyword) {
-            $artikelList = $this->model->getAllArtikel($searchKeyword);
+            $allArtikel = $this->model->getAllArtikel($searchKeyword);
         } elseif ($filterKategori === 'all') {
-            $artikelList = $this->model->getAllArtikel();
+            $allArtikel = $this->model->getAllArtikel();
         } else {
-            $artikelList = $this->model->getArtikelByKategori($filterKategori);
+            $allArtikel = $this->model->getArtikelByKategori($filterKategori);
         }
+
+        // 2. Konfigurasi Pagination (LIMIT 6)
+        $items_per_page = 6; 
+        $current_page = max(1, intval($_GET['page'] ?? 1));
+        $total_items = count($allArtikel);
+        $total_pages = max(1, ceil($total_items / $items_per_page));
+
+        if ($current_page > $total_pages && $total_pages > 0) {
+            $current_page = $total_pages;
+        }
+
+        // 3. Potong Array (Slicing)
+        $offset = ($current_page - 1) * $items_per_page;
+        $artikelList = array_slice($allArtikel, $offset, $items_per_page);
+
+        // 4. Query string untuk link pagination
+        $search_query = '';
+        if($searchKeyword) $search_query .= '&search=' . urlencode($searchKeyword);
+        if($filterKategori !== 'all') $search_query .= '&kategori=' . urlencode($filterKategori);
 
         $kategoriList = $this->getKategori();
 
         include __DIR__ . '/../Views/blog.php';
+    }
+
+    // === HALAMAN ADMIN - Limit 10 Data ===
+    public function showAdminArtikel() {
+        $searchKeyword = $_GET['search'] ?? null;
+
+        // 1. Ambil semua data
+        $allArtikel = $this->model->getAllArtikel($searchKeyword);
+
+        // 2. Konfigurasi Pagination (LIMIT 10)
+        $items_per_page = 10; 
+        $current_page = max(1, intval($_GET['page'] ?? 1));
+        $total_items = count($allArtikel);
+        $total_pages = max(1, ceil($total_items / $items_per_page));
+
+        if ($current_page > $total_pages && $total_pages > 0) {
+            $current_page = $total_pages;
+        }
+
+        // 3. Potong Array
+        $offset = ($current_page - 1) * $items_per_page;
+        $artikelList = array_slice($allArtikel, $offset, $items_per_page);
+        
+        // 4. Query string
+        $search_query = $searchKeyword ? '&search=' . urlencode($searchKeyword) : '';
+
+        $kategoriList = $this->getKategori(); 
+
+        include __DIR__ . '/../Views/admin/blogartikel.php';
     }
 
     public function show($id_artikel) {
@@ -51,18 +101,9 @@ class BlogController {
         include __DIR__ . '/../Views/artikel.php';
     }
 
-    public function showAdminArtikel() {
-        $artikelList = $this->index();        
-        $kategoriList = $this->getKategori(); 
-
-        include __DIR__ . '/../Views/admin/blogArtikel.php';
-    }
-
     public function index() {
-        // Cek apakah ada request pencarian dari URL (?search=...)
+        // Fungsi helper sederhana jika dibutuhkan oleh method lain
         $keyword = isset($_GET['search']) ? $_GET['search'] : null;
-        
-        // Kirim keyword ke model
         return $this->model->getAllArtikel($keyword);
     }
     
@@ -73,23 +114,21 @@ class BlogController {
     // --- LOGIKA UPLOAD GAMBAR ---
     private function uploadImage() {
         if (!isset($_FILES['gambar']) || $_FILES['gambar']['error'] !== UPLOAD_ERR_OK) {
-            return null; // Tidak ada gambar diupload
+            return null; 
         }
 
         $targetDir = __DIR__ . '/../Views/assets/uploads/';
         
-        // Buat folder jika belum ada
         if (!file_exists($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
 
         $fileName = time() . '_' . basename($_FILES["gambar"]["name"]);
         $targetFilePath = $targetDir . $fileName;
-        $dbFilePath = "/Views/assets/uploads/" . $fileName; // Path untuk disimpan di DB
+        $dbFilePath = "/Views/assets/uploads/" . $fileName; 
 
-        // Cek tipe file (Opsional: validasi jpg/png)
         $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-        if(!in_array($fileType, ['jpg', 'png', 'jpeg', 'gif'])){
+        if(!in_array($fileType, ['jpg', 'png', 'jpeg', 'gif', 'webp'])){
             return null;
         }
 
@@ -101,10 +140,7 @@ class BlogController {
 
     private function store() {
         $data = $_POST;
-        // Proses upload gambar
         $imageUrl = $this->uploadImage();
-        
-        // Jika upload berhasil, masukkan path ke data, jika gagal pakai default
         $data['image_url'] = $imageUrl ? $imageUrl : 'assets/bg.png'; 
 
         if ($this->model->addArtikel($data)) {
@@ -119,13 +155,11 @@ class BlogController {
 
     private function update() {
         $data = $_POST;
-        
-        // Cek apakah user upload gambar baru
         $imageUrl = $this->uploadImage();
         if ($imageUrl) {
-            $data['image_url'] = $imageUrl; // Update dengan gambar baru
+            $data['image_url'] = $imageUrl; 
         } else {
-            $data['image_url'] = $_POST['old_image']; // Pakai gambar lama
+            $data['image_url'] = $_POST['old_image']; 
         }
 
         if ($this->model->updateArtikel($data)) {
@@ -151,7 +185,6 @@ class BlogController {
     }
 }
 
-// Handler Request
 if (isset($_POST['action'])) {
     $controller = new BlogController();
     $controller->handleRequest();

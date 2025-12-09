@@ -9,6 +9,53 @@ class ArtikelModel extends Database {
         parent::__construct();
     }
 
+    // --- FUNGSI BARU 1: Ambil Data dengan Limit & Offset (Untuk Tabel) ---
+    public function getArtikelPaginasi($limit, $start, $keyword = null) {
+        $sql = "SELECT a.*, k.nama as nama_kategori 
+                FROM artikel a 
+                LEFT JOIN kategori k ON a.kategori_id = k.id_kategori";
+        
+        if ($keyword) {
+            $sql .= " WHERE a.title ILIKE :keyword OR a.penulis ILIKE :keyword OR k.nama ILIKE :keyword";
+        }
+
+        $sql .= " ORDER BY a.tanggal_publikasi DESC, a.id_artikel DESC 
+                  LIMIT :limit OFFSET :start"; // Tambahan LIMIT & OFFSET
+        
+        $stmt = $this->conn->prepare($sql);
+        
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':start', $start, PDO::PARAM_INT);
+
+        if ($keyword) {
+            $stmt->bindValue(':keyword', "%$keyword%");
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // --- FUNGSI BARU 2: Hitung Total Data (Untuk Menghitung Jumlah Halaman) ---
+    public function getTotalArtikel($keyword = null) {
+        $sql = "SELECT COUNT(*) as total 
+                FROM artikel a 
+                LEFT JOIN kategori k ON a.kategori_id = k.id_kategori";
+
+        if ($keyword) {
+            $sql .= " WHERE a.title ILIKE :keyword OR a.penulis ILIKE :keyword OR k.nama ILIKE :keyword";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if ($keyword) {
+            $stmt->bindValue(':keyword', "%$keyword%");
+        }
+
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
+    
     // --- 1. READ (Ambil Data untuk Tampil di Blog & Admin) ---
     public function getAllArtikel($keyword = null) {
         $sql = "SELECT a.*, k.nama as nama_kategori 

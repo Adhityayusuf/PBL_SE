@@ -21,7 +21,7 @@ $customCSS = "
 
     /* === HEADER & FILTER === */
     .blog-header {
-        margin-top: 40px; /* Jarak dari navbar */
+        margin-top: 40px; 
         margin-bottom: 40px;
         color: white;
     }
@@ -118,17 +118,47 @@ $customCSS = "
         text-decoration: none;
     }
     .read-now:hover { text-decoration: underline; color: #0863C7; }
+
+    /* === PAGINATION STYLE (SAMAKAN DENGAN PERSONIL) === */
+    .pagination {
+        gap: 8px;
+        margin: 0;
+    }
+    .page-link {
+        border: 1px solid #fff; /* Border putih agar kontras di bg gelap */
+        color: #6c757d;
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: #ffffff;
+        transition: 0.3s;
+        min-width: 40px;
+        text-align: center;
+    }
+    .page-link:hover {
+        background-color: #dcdcdc;
+        border-color: #ccc;
+        color: #0863C7;
+    }
+    .page-item.active .page-link {
+        background-color: #0863C7; /* Warna Biru Active */
+        color: white;
+        border-color: #0863C7;
+    }
+    .page-item.disabled .page-link {
+        background-color: #ffffff;
+        border-color: #e0e0e0;
+        color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
 ";
 
 // 3. INCLUDE HEADER & NAVBAR
 require_once __DIR__ . '/layout/header.php';
-
-// === PERBAIKAN: Navbar ditaruh DI LUAR Container Blog Header ===
 include __DIR__ . '/layout/navbar.php'; 
 ?>
 
 <div class="container blog-header">
-    
     <div class="d-flex align-items-center justify-content-between flex-wrap">
         <div class="mb-3">
             <h1 class="fw-bold display-5">Blog Artikel</h1>
@@ -203,6 +233,57 @@ include __DIR__ . '/layout/navbar.php';
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
+
+    <div class="text-center mt-5 mb-3">
+        <small style="color: rgba(255,255,255,0.8);">
+            Menampilkan <?php echo !empty($artikelList) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
+        </small>
+    </div>
+
+    <div class="d-flex justify-content-center mb-5">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="<?php echo $current_page > 1 ? 'index.php?action=blog&page=' . ($current_page - 1) . $search_query : '#'; ?>">
+                        Previous
+                    </a>
+                </li>
+
+                <?php
+                $start_page = max(1, $current_page - 2);
+                $end_page = min($total_pages, $current_page + 2);
+
+                if ($start_page > 1) {
+                    echo '<li class="page-item"><a class="page-link" href="index.php?action=blog&page=1' . $search_query . '">1</a></li>';
+                    if ($start_page > 2) {
+                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                    }
+                }
+
+                for ($i = $start_page; $i <= $end_page; $i++) {
+                    $active = $i == $current_page ? 'active' : '';
+                    echo '<li class="page-item ' . $active . '">
+                        <a class="page-link" href="index.php?action=blog&page=' . $i . $search_query . '">' . $i . '</a>
+                      </li>';
+                }
+
+                if ($end_page < $total_pages) {
+                    if ($end_page < $total_pages - 1) {
+                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                    }
+                    echo '<li class="page-item"><a class="page-link" href="index.php?action=blog&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                }
+                ?>
+
+                <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                    <a class="page-link" href="<?php echo $current_page < $total_pages ? 'index.php?action=blog&page=' . ($current_page + 1) . $search_query : '#'; ?>">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
 </section>
 
 <?php include __DIR__ . '/layout/footer.php'; ?>
