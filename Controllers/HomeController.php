@@ -13,9 +13,9 @@ class HomeController
 
     public function index()
     {
-
+        $title = 'Lab Software Engineering - Home';
         $about_lab = $this->profileModel->getTentangLab();
-        $achivement = $this->profileModel->getPrestasi();
+        $prestasi = $this->profileModel->getPrestasi();
         $roadmaps = $this->profileModel->getRoadmaps();
         $personil = $this->profileModel->getPersonil();
         $artikel = $this->profileModel->getArtikel(3);
