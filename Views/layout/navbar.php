@@ -3,7 +3,7 @@
     <div class="container-custom"> 
 
         <a class="navbar-brand" href="/index.php?action=home">
-            <img src="/Views/assets/logo.png" alt="Logo Lab SE">
+            <img src="/Views/assets/LAB.png" alt="Logo Lab SE">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">

@@ -16,7 +16,7 @@ body {
     text-align: center;
     color: #fff;
     position: relative;
-    z-index: 1;
+    z-index: 1; 
 }
 
 
@@ -296,7 +296,77 @@ body {
         color: black;
     }
 
+    /* Card putih home */
+    .se-card {
+        display: inline-flex;
+        padding: 6px 14px;
+        border: 1.8px solid rgba(0, 0, 0, 0.15);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.35); /* opsional, biar soft */
+        backdrop-filter: blur(6px); /* efek kek MMT */
+        width: fit-content;
+    }
 
+    .section-tag-small {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    /* Icon-card kecil */
+    .se-icon-card {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        width: 52px;
+        height: 52px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Tombol Jelajahi */
+    .se-button-card {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 22px;              /* LEBIH KECIL */
+        border-radius: 14px;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        transition: 0.25s ease;
+    }
+
+    .se-button-card a {
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .se-button-card:hover {
+        background: linear-gradient(135deg, #FFD76B, #286197);
+        color: white !important;
+        transform: translateY(-3px);
+    }
+
+    /* warna icon ikut berubah */
+    .se-button-card:hover a {
+        color: white;
+    }
+    .se-button-card:hover i {
+        color: white;
+    }
+
+    .skill-tag-item i {
+        margin-right: 6px;   /* kasih jarak icon ke teks */
+        display: inline-block;
+    }
 
 /* =================================
     ROADMAP CUSTOM STYLES (ZIG-ZAG TIMELINE)
