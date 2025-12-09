@@ -1,4 +1,6 @@
 <?php
+
+$search_query = '';
 $title = "Pengelolaan Personil";
 $customCSS = "       
         body {
@@ -215,7 +217,7 @@ include __DIR__ . '/layout/header.php';
                     // Tombol Previous
                     if ($current_page > 1) {
                         echo '<li class="page-item">';
-                        echo '<a class="page-link" href="?page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
+                        echo '<a class="page-link" href="index.php?action=personil&page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
                         echo '<span aria-hidden="true">Previous</span>';
                         echo '</a></li>';
                     } else {
@@ -239,7 +241,7 @@ include __DIR__ . '/layout/header.php';
                         if ($i == $current_page) {
                             echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
                         } else {
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . $i . $search_query . '">' . $i . '</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="index.php?action=personil&page=' . $i . $search_query . '">' . $i . '</a></li>';
                         }
                     }
 
@@ -247,13 +249,13 @@ include __DIR__ . '/layout/header.php';
                         if ($end_page < $total_pages - 1) {
                             echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
                         }
-                        echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                        echo '<li class="page-item"><a class="page-link" index.php?action=personil&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
                     }
 
                     // Tombol Next
                     if ($current_page < $total_pages) {
                         echo '<li class="page-item">';
-                        echo '<a class="page-link" href="?page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
+                        echo '<a class="page-link" href="index.php?action=personil&page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
                         echo '<span aria-hidden="true">Next</span>';
                         echo '</a></li>';
                     } else {
