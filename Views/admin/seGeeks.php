@@ -43,27 +43,6 @@
             color: #28a745;
         }
 
-        .search-box {
-            position: relative;
-            width: 320px;
-        }
-
-        .search-box input {
-            padding-left: 40px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 0.95rem;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-            font-size: 1.1rem;
-        }
-
         /* Action Button */
         .action-button-bg {
             padding: 5px 20px;
@@ -94,16 +73,14 @@
             <h3 class="fw-bold mb-4">Pengelolaan SE Geeks</h3>
             <hr class="mt-0 mb-4">
 
-            <div class="d-flex justify-content-end mb-3">
-                <div class="search-box">
-                    <i class="bi bi-search"></i>
-                    <input type="text" class="form-control" placeholder="Search...">
-                </div>
+            <div class="input-group mb-3" style="max-width: 245px;">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchBox" class="form-control" placeholder="Cari...">
             </div>
 
             <div class="card p-3">
                 <div class="table-responsive">
-                    <table class="table table-hover align-middle">
+                    <table class="table table-hover align-middle" id="dataTable">
                         <thead>
                             <tr>
                                 <th>Nama</th>
@@ -138,7 +115,7 @@
                                     </td>
 
                                     <td>
-                                        
+
                                         <?php if ($geek['status'] !== 'disetujui'): ?>
                                             <form method="POST" action="index.php" style="display:inline;">
                                                 <input type="hidden" name="action" value="approveGeek">
@@ -149,9 +126,9 @@
                                             </form>
                                         <?php endif; ?>
 
-                                        
-                                        <form method="POST" action="index.php" style="display:inline;" 
-                                              onsubmit="return confirm('Anda yakin ingin menghapus?')">
+
+                                        <form method="POST" action="index.php" style="display:inline;"
+                                            onsubmit="return confirm('Anda yakin ingin menghapus?')">
                                             <input type="hidden" name="action" value="deleteGeek">
                                             <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
                                             <button type="submit" class="action-button-bg action-hapus">
@@ -172,6 +149,21 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchBox = document.getElementById("searchBox");
+            const rows = document.querySelectorAll("#dataTable tbody tr");
+
+            searchBox.addEventListener("keyup", function() {
+                const keyword = this.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(keyword) ? "" : "none";
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
