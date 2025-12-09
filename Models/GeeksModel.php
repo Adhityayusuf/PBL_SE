@@ -17,6 +17,7 @@ class GeekModel extends Database
         m.nama,
         m.nim,
         m.angkatan,
+        m.minat,
         m.status,
         p.nama as prodi
     FROM mahasiswa m
@@ -45,7 +46,7 @@ class GeekModel extends Database
     public function getPaged($start, $limit)
     {
         $stmt = $this->conn->prepare("
-        SELECT m.id_mahasiswa, m.nama, m.nim, m.angkatan, m.status, p.nama AS prodi
+        SELECT m.id_mahasiswa, m.nama, m.nim, m.angkatan, m.minat, m.status, p.nama AS prodi
         FROM mahasiswa m
         LEFT JOIN prodi p ON m.prodi_id = p.id_prodi
         ORDER BY 

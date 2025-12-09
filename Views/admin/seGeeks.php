@@ -87,6 +87,7 @@
                                 <th>NIM</th>
                                 <th>Program Studi</th>
                                 <th>Angkatan</th>
+                                <th>Minat</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -107,6 +108,7 @@
                                     <td><?= $geek['nim'] ?></td>
                                     <td><?= $geek['prodi'] ?></td>
                                     <td><?= $geek['angkatan'] ?></td>
+                                    <td><?= $geek['minat'] ?></td>
 
                                     <td>
                                         <span class="status-badge <?= $status_class ?>">
