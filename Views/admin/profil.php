@@ -9,10 +9,30 @@ $customCSS = "
         width: calc(100% - 270px);
     }
     .card {
-        margin-bottom: 20px;
-        border: none;
-        box-shadow: 0 0 10px rgba(0,0,0,0.05);
-        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        padding: 20px;
+        margin-bottom: 25px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .card-text {
+        color: #6c757d;
+    }
+
+    .btn-outline-primary {
+        border-radius: 8px;
+        padding: 5px 12px;
     }
     .scope-item {
         display: flex;
@@ -26,11 +46,11 @@ $customCSS = "
     }
         
     .prestasi-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
     }
     
     .prestasi-item:last-child {
@@ -299,25 +319,21 @@ include_once __DIR__ . '/../layout/header.php';
         scopeModal.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
             const name = button.getAttribute('data-name');
-            const desc = button.getAttribute('data-desc') || '';
             const icon = button.getAttribute('data-icon') || '';
             const scopeId = button.getAttribute('data-id') || '';
 
             const inputName = scopeModal.querySelector('#scope-name');
-            const inputDesc = scopeModal.querySelector('#scope-description');
             const inputIcon = scopeModal.querySelector('#scope-icon');
             const inputId = scopeModal.querySelector('#scope-id');
 
             if (name === 'Tambah Focus') {
                 scopeModal.querySelector('.modal-title').textContent = 'Tambah Fokus Lab';
                 inputName.value = '';
-                inputDesc.value = '';
                 inputIcon.value = '';
                 inputId.value = '';
             } else {
                 scopeModal.querySelector('.modal-title').textContent = 'Edit Fokus Lab';
                 inputName.value = name;
-                inputDesc.value = desc;
                 inputIcon.value = icon;
                 inputId.value = scopeId;
             }
