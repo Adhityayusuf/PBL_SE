@@ -34,7 +34,14 @@ if ($method === 'GET') {
             }
             break;
         case 'blog': 
-            $blogController->showAdminArtikel();
+            if ($_SESSION['role'] === 'admin') {
+                $blogController->showAdminArtikel(); // semua artikel
+            } elseif ($_SESSION['role'] === 'dosen') {
+                $blogController->showAdminArtikel($_SESSION['user_id']); // filter artikel milik dosen
+            } else {
+                http_response_code(403);
+                echo "Akses ditolak.";
+            }
             break;
         case 'segeeks': 
             $geekController->index();

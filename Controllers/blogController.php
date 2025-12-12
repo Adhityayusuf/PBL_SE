@@ -65,11 +65,20 @@ class BlogController {
 
     // === HALAMAN ADMIN - Limit 10 Data ===
     public function showAdminArtikel() {
+        $userId = $_SESSION['user_id'] ?? null;
+        $userRole = $_SESSION['role'] ?? null;
+
         $searchKeyword = $_GET['search'] ?? null;
 
-        // 1. Ambil semua data
-        $allArtikel = $this->model->getAllArtikel($searchKeyword);
 
+        // 1. Ambil semua data
+        if ($userRole === 'dosen') {
+            // Filter artikel milik dosen
+            $allArtikel = $this->model->getArtikelByUser($userId, $searchKeyword);
+        } else {
+            // Admin/role lain lihat semua artikel
+            $allArtikel = $this->model->getAllArtikel($searchKeyword);
+        }
         // 2. Konfigurasi Pagination (LIMIT 10)
         $items_per_page = 10; 
         $current_page = max(1, intval($_GET['page'] ?? 1));
@@ -140,6 +149,7 @@ class BlogController {
 
     private function store() {
         $data = $_POST;
+        $data['user_id'] = $_SESSION['user_id'] ?? null; // pastikan tetap user yg sama
         $imageUrl = $this->uploadImage();
         $data['image_url'] = $imageUrl ? $imageUrl : 'assets/bg.png'; 
 
@@ -155,6 +165,7 @@ class BlogController {
 
     private function update() {
         $data = $_POST;
+        $data['user_id'] = $_SESSION['user_id'] ?? null; // pastikan tetap user yg sama
         $imageUrl = $this->uploadImage();
         if ($imageUrl) {
             $data['image_url'] = $imageUrl; 

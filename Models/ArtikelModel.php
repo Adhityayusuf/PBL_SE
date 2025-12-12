@@ -96,9 +96,8 @@ class ArtikelModel extends Database {
     
     // --- 2. CREATE (Tambah Artikel Baru) ---
     public function addArtikel($data) {
-        $sql = "INSERT INTO artikel (title, kategori_id, penulis, tanggal_publikasi, isi_konten, subtitle, image_url) 
-                VALUES (:title, :kategori_id, :penulis, :tanggal_publikasi, :isi_konten, :subtitle, :image_url)";
-        
+        $sql = "INSERT INTO artikel (title, kategori_id, penulis, tanggal_publikasi, isi_konten, subtitle, image_url, user_id) 
+            VALUES (:title, :kategori_id, :penulis, :tanggal_publikasi, :isi_konten, :subtitle, :image_url, :user_id)";
         $stmt = $this->conn->prepare($sql);
         
         $stmt->bindValue(':title', $data['judul']);
@@ -108,6 +107,7 @@ class ArtikelModel extends Database {
         $stmt->bindValue(':isi_konten', $data['deskripsi']);
         $stmt->bindValue(':subtitle', $data['subtitle']); 
         $stmt->bindValue(':image_url', $data['image_url']);
+        $stmt->bindValue(':user_id', $data['user_id']); // pastikan user_id tetap sama
 
         return $stmt->execute();
     }
@@ -121,7 +121,8 @@ class ArtikelModel extends Database {
                 tanggal_publikasi = :tanggal_publikasi, 
                 isi_konten = :isi_konten,
                 subtitle = :subtitle,
-                image_url = :image_url
+                image_url = :image_url,
+                user_id = :user_id
                 WHERE id_artikel = :id_artikel";
         
         $stmt = $this->conn->prepare($sql);
@@ -134,6 +135,7 @@ class ArtikelModel extends Database {
         $stmt->bindValue(':subtitle', $data['subtitle']);
         $stmt->bindValue(':image_url', $data['image_url']);
         $stmt->bindValue(':id_artikel', $data['id']);
+        $stmt->bindValue(':user_id', $data['user_id']); // pastikan user_id tetap sama
 
         return $stmt->execute();
     }
@@ -159,5 +161,32 @@ class ArtikelModel extends Database {
         
         return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
+
+    public function getArtikelByUser($userId, $search = null) {
+        // Base query
+        $sql = "SELECT a.*, k.nama AS nama_kategori
+                FROM artikel a
+                LEFT JOIN kategori k ON a.kategori_id = k.id_kategori
+                WHERE a.user_id = :user_id";
+
+        $params = [':user_id' => $userId];
+
+        // Tambahkan filter pencarian jika ada
+        if (!empty($search)) {
+            $sql .= " AND a.title ILIKE :search";
+            $params[':search'] = "%$search%";
+        }
+
+        // Urutkan berdasarkan tanggal publikasi terbaru
+        $sql .= " ORDER BY a.tanggal_publikasi DESC";
+
+        // Eksekusi query
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 }
 ?>

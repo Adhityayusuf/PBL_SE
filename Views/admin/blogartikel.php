@@ -37,6 +37,14 @@ $customCSS = "
             border-radius: 8px;
         }
         
+        .btn-tambah {
+            background-color: #06315A;
+            color: white;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 8px 18px;
+        }
+
         /* Pagination Styles */
         .pagination { margin: 0; gap: 8px; }
         .pagination .page-link {
@@ -87,7 +95,7 @@ include_once __DIR__ . '/../layout/header.php';
                 </div>
             </form>
 
-            <button class="btn btn-primary btnTambahArtikel">
+            <button class="btn-tambah btnTambahArtikel">
                 <i class="bi bi-plus-lg"></i> Tambahkan Artikel
             </button>
         </div>
