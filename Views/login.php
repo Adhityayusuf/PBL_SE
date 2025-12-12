@@ -58,7 +58,7 @@ include_once __DIR__ . '/layout/header.php';
             <form method="POST" action="/index.php">
               <input type="hidden" name="action" value="logindo">
               <div class="mb-3">
-                <input id="email" class="form-control" type="text" name="username" placeholder="Username" required>
+                <input id="email" class="form-control" type="text" name="email" placeholder="Username" required>
               </div>
 
               <div class="mb-3">

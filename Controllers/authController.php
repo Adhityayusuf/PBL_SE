@@ -1,36 +1,27 @@
 <?php
 require_once __DIR__ . '/../Core/Database.php';
-require_once __DIR__ . '/../Models/AdminModel.php';
+require_once __DIR__ . '/../Models/UserModel.php';
 
 class authController{
-
-    public function createDefaultAdmin(){
-        $username = "admin";
-        $password = "adminlabse";
-        $email = "admin@lab.se.com";
-
-        $adminModel = new AdminModel();
-        $user = $adminModel->getUserByUsername($username);
-        if ($user) {
-            return false;
-        }
-        $adminModel->addUser($username, $password, $email);
-    }
-
     public function indexLogin(){
         include_once __DIR__ . '/../Views/login.php';
     }
 
-    public function login($username, $password){
-        session_start();
-        $username = trim($_POST['username'] ?? '');
+    public function login(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $email = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
-        $adminModel = new AdminModel();
-        $user = $adminModel->getUserByUsername($username);
+        $userModel = new UserModel();
+        $user = $userModel->getUserByEmail($email);
         
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['uadmin'] = $user['username'];
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['email'] = $user['email'];
             header("Location: /admin/index.php?action=personil");
             exit;
         }

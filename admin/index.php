@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['uadmin'])) {
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || !isset($_SESSION['email'])) {
     header("Location: ../index.php?action=login");
     exit;
 }
@@ -13,21 +13,25 @@ include_once __DIR__ . '/../Controllers/BlogController.php';
 include_once __DIR__ . '/../Controllers/AuthController.php';
 include_once __DIR__ . '/../Controllers/geekController.php';
 
-// include_once __DIR__ . '/../Controllers/AdminSettingsController.php';
-
 $adminProfile = new AdminProfileController();
 $personilController = new PersonilController();
 $blogController = new BlogController();
 $geekController = new GeekController();
-// $settingsController = new AdminSettingsController();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_POST['action'] ?? $_GET['action'] ?? 'dashboard';
 
 if ($method === 'GET') {
     switch ($action) {
-        case 'personil': 
-            $personilController->indexAdmin();
+        case 'personil':
+            if ($_SESSION['role'] === 'admin') {
+                $personilController->indexAdmin(); // halaman admin
+            } elseif ($_SESSION['role'] === 'dosen') {
+                $personilController->indexDosen(); // halaman dosen
+            } else {
+                http_response_code(403);
+                echo "Akses ditolak.";
+            }
             break;
         case 'blog': 
             $blogController->showAdminArtikel();
@@ -57,7 +61,12 @@ if ($method === 'POST') {
         case 'add':
         case 'update':
         case 'delete':
-            $personilController->api(); // khusus admin CRUD
+            if ($_SESSION['role'] === 'admin' || ($_SESSION['role'] === 'dosen' && $action === 'update')) {
+                $personilController->api();
+            } else {
+                http_response_code(403);
+                echo "Akses ditolak.";
+            }
             break;
         case 'addArtikel':
         case 'editArtikel':

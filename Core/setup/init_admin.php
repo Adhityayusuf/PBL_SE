@@ -1,26 +1,28 @@
 <?php
 require_once __DIR__ . "/../Database.php";
-require_once __DIR__ . "/../../Models/AdminModel.php";
+require_once __DIR__ . "/../../Models/UserModel.php";
 
 class InitAdmin {
-    private $adminModel;
+    private $userModel;
 
     public function __construct(){;
-        $this->adminModel = new AdminModel();
+        $this->userModel = new UserModel();
     }
 
     public function createDefaultAdmin() {
         $username = "admin";
         $password = "123";
         $email = "admin@lab.se.com";
+        $role = "admin";
+        $photo_url = null;
 
-        $user = $this->adminModel->getUserByUsername($username);
+        $user = $this->userModel->getUserByEmail($email);
         if ($user) {
             echo "Admin sudah ada, tidak dibuat ulang.\n";
             return false;
         }
 
-        if ($this->adminModel->addUser($username, $password, $email)) {
+        if ($this->userModel->addUser($username, $email, $password, $role, $photo_url)) {
             echo "Admin default berhasil dibuat.\n";
             return true;
         } else {

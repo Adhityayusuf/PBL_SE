@@ -42,6 +42,30 @@ class PersonilController {
         include __DIR__ . "/../Views/personil.php";
     }
 
+    public function indexDosen() {
+        // Ambil ID dosen dari session (login)
+        $email = $_SESSION['email'] ?? '';
+
+        if (!$email) {
+            header("Location: ../Views/login.php"); // redirect jika belum login
+            exit;
+        }
+
+        // Ambil data dosen
+        $personilModel = new PersonilModel();
+        $person = $personilModel->getPersonilByEmail($email);
+
+        if (!$person) {
+            echo "Data dosen tidak ditemukan.";
+            exit;
+        }
+        // parsing social links
+        $social = json_decode($person['content_social'] ?? '', true) ?: [];
+        $person['linkedin'] = $social['linkedin'] ?? '';
+        $person['github'] = $social['github'] ?? '';
+
+        include __DIR__ . '/../Views/admin/personilDosen.php';
+    }
     public function indexAdmin(){
         $all_personil = $this->model->getAllPersonil();
 
@@ -233,6 +257,10 @@ class PersonilController {
         } else {
             return ['success' => false, 'message' => 'Gagal menghapus data'];
         }
+    }
+
+    public function getPersonilById($id_personil) {
+        return $this->model->getPersonilById($id_personil);
     }
 }
 

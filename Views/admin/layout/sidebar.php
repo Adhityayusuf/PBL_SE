@@ -1,3 +1,7 @@
+<?php
+    $role = $_SESSION['role'] ?? 'dosen'; // default dosen
+?>
+
 <style>
     .sidebar-custom {
         width: 280px;
@@ -70,7 +74,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
 <div class="sidebar-custom d-flex flex-column flex-shrink-0">
     
     <div class="mb-5 px-2">
@@ -92,9 +95,15 @@
         </li>
 
         <li class="nav-item">
-            <a href="/admin/index.php?action=personil" class="sidebar-link">
-                <i class="bi bi-people-fill"></i> Personil
-            </a>
+            <?php if ($role === 'admin'): ?>
+                <a href="/admin/index.php?action=personil" class="sidebar-link">
+                    <i class="bi bi-people-fill"></i> Personil
+                </a>
+            <?php else: ?>
+                <a href="/admin/index.php?action=personil" class="sidebar-link">
+                    <i class="bi bi-person-fill"></i> Profil Saya
+                </a>
+            <?php endif; ?>
         </li>
 
         <li class="nav-item">
@@ -127,5 +136,4 @@
             </div>
         </div>
     </div>
-
 </div>

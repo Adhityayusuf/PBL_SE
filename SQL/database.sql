@@ -29,6 +29,10 @@ CREATE TYPE public.status_mahasiswa AS ENUM (
     'disetujui'
 );
 
+CREATE TYPE public.user_role AS ENUM (
+    'admin',
+    'dosen'
+);
 
 ALTER TYPE public.status_mahasiswa OWNER TO postgres;
 
@@ -41,15 +45,17 @@ SET default_table_access_method = heap;
 -- Name: admin; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.admin (
-    id_admin integer NOT NULL,
-    username character varying(50) NOT NULL,
-    password character varying(50) NOT NULL,
-    email character varying(100) NOT NULL
+CREATE TABLE public.users (
+    id_user SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    role public.user_role DEFAULT 'dosen',
+    photo_url VARCHAR(100)
 );
 
 
-ALTER TABLE public.admin OWNER TO postgres;
+ALTER TABLE public.users OWNER TO postgres;
 
 --
 -- TOC entry 223 (class 1259 OID 106646)
@@ -82,14 +88,15 @@ ALTER SEQUENCE public.admin_id_admin_seq OWNED BY public.admin.id_admin;
 --
 
 CREATE TABLE public.artikel (
-    id_artikel integer NOT NULL,
-    kategori_id integer NOT NULL,
-    title text NOT NULL,
-    subtitle text,
-    isi_konten text NOT NULL,
-    penulis character varying(50) DEFAULT 'admin'::character varying NOT NULL,
-    tanggal_publikasi timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    image_url character varying(255)
+    id_artikel SERIAL PRIMARY KEY,
+    kategori_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    subtitle TEXT,
+    isi_konten TEXT NOT NULL,
+    user_id INTEGER,
+    penulis VARCHAR(50) DEFAULT 'admin' NOT NULL,
+    tanggal_publikasi TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    image_url VARCHAR(255),
 );
 
 
@@ -169,8 +176,11 @@ CREATE TABLE public.mahasiswa (
     nama character varying(100) NOT NULL,
     prodi_id integer NOT NULL,
     angkatan character varying(150) NOT NULL,
+    minat character varying(150) NOT NULL,
     status public.status_mahasiswa DEFAULT 'menunggu'::public.status_mahasiswa
 );
+
+ALTER TABLE public.mahasiswa ADD COLUMN minat VARCHAR(50);
 
 ALTER TABLE public.mahasiswa
 ADD COLUMN minat character varying(150) NOT NULL;
@@ -850,6 +860,8 @@ ALTER TABLE ONLY public.tipe_konten
 ALTER TABLE ONLY public.artikel
     ADD CONSTRAINT artikel_kategori_id_fkey FOREIGN KEY (kategori_id) REFERENCES public.kategori(id_kategori);
 
+ALTER TABLE ONLY public.artikel
+    ADD CONSTRAINT artikel_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id_user);
 
 --
 -- TOC entry 4832 (class 2606 OID 106680)

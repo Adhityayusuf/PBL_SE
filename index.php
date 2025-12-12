@@ -40,7 +40,7 @@ if ($method === 'GET') {
 if ($method === 'POST') {
     switch ($action) {
         case 'logindo':
-            $authController->login($_POST['username'], $_POST['password']);
+            $authController->login();
             break;
         case 'recruitmentAdd':
             $recruitmentController->addMahasiswa($_POST);
