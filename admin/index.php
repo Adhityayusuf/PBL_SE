@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || !isset($_SESSION['email'])) {
     header("Location: ../index.php?action=login");
     exit;
@@ -46,6 +44,9 @@ if ($method === 'GET') {
         case 'segeeks': 
             $geekController->index();
             break;
+        case 'settings': 
+            $adminProfile->settings();
+            break;
         case 'profil': 
         default: 
             $adminProfile->index();
@@ -56,13 +57,14 @@ if ($method === 'GET') {
 if ($method === 'POST') {
     switch ($action) {
         case 'update_tentang':
-        case 'update_visimisi':
+        case 'update_visi':
+        case 'update_misi':
         case 'save_scope':
         case 'delete_scope':
         case 'save_roadmap':
-        case 'delete_roadmap';
-        case 'update_prestasi';
-        case 'delete_prestasi';
+        case 'delete_roadmap':
+        case 'update_prestasi':
+        case 'delete_prestasi':
             $adminProfile->handleRequest();
             break;
         case 'add':

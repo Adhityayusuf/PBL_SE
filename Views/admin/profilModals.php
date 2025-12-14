@@ -18,22 +18,44 @@
     </div>
 </div>
 
-<div class="modal fade modal-visi" id="editVisiMisiModal" tabindex="-1" aria-labelledby="editVisiMisiModalLabel" aria-hidden="true">
+<div class="modal fade modal-visi" id="editVisiModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fs-3 fw-bold" id="editVisiMisiModalLabel">Visi</h5>
+                <h5 class="modal-title fs-3 fw-bold">Edit Visi</h5>
             </div>
             <div class="modal-body pt-0">
-                <form id="visiMisiForm" action="/admin/index.php" method="POST">
-                    <input type="hidden" name="action" value="update_visimisi">
-                    <input type="hidden" name="id_profile" id="visiMisiType">
-                    <textarea class="form-control" rows="5" name="isi_visimisi"></textarea>
+                <form id="visiForm" action="/admin/index.php" method="POST">
+                    <input type="hidden" name="action" value="update_visi">
+                    <textarea class="form-control" rows="5" name="isi_visi" required></textarea>
                 </form>
             </div>
-            <div class="modal-footer d-flex justify-content-end border-0 pt-0">
-                <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-                <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('visiMisiForm').submit()">Simpan</button>
+            <div class="modal-footer border-0 pt-0">
+                <button class="btn btn-light btn-lg" data-bs-dismiss="modal">Batal</button>
+                <button class="btn btn-primary btn-lg"
+                        onclick="document.getElementById('visiForm').submit()">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade modal-visi" id="editMisiModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fs-3 fw-bold">Edit Misi</h5>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="misiForm" action="/admin/index.php" method="POST">
+                    <input type="hidden" name="action" value="update_misi">
+                    <textarea class="form-control" rows="5" name="isi_misi" required></textarea>
+                </form>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button class="btn btn-light btn-lg" data-bs-dismiss="modal">Batal</button>
+                <button class="btn btn-primary btn-lg"
+                        onclick="document.getElementById('misiForm').submit()">Simpan</button>
             </div>
         </div>
     </div>

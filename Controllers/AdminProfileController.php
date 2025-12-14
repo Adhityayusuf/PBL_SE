@@ -44,9 +44,15 @@ class AdminProfileController
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
-            case 'update_visimisi':
-                $id = $_POST['id_profile'];
-                $content = $_POST['isi_visimisi'];
+            case 'update_visi':
+                $id = 2;
+                $content = $_POST['isi_visi'];
+                $this->model->updateContent($id, $content);
+                header("Location: /admin/index.php?action=profil&status=success");
+                break;
+            case 'update_misi':
+                $id = 3;
+                $content = $_POST['isi_misi'];
                 $this->model->updateContent($id, $content);
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
@@ -165,8 +171,4 @@ class AdminProfileController
 
         include __DIR__ . '/../Views/admin/settings.php';
     }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $controller = new AdminProfileController();
 }

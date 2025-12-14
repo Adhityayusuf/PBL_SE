@@ -97,12 +97,11 @@ include_once __DIR__ . '/../layout/header.php';
                         </div>
                         <button class="btn btn-outline-primary btn-sm"
                             data-bs-toggle="modal"
-                            data-bs-target="#editVisiMisiModal"
-                            data-type="Visi"
-                            data-id="2"
-                            data-content="<?php echo htmlspecialchars($isiVisi); ?>">
+                            data-bs-target="#editVisiModal"
+                            data-content="<?= htmlspecialchars($isiVisi) ?>">
                             Edit
                         </button>
+
                     </div>
                 </div>
             </div>
@@ -116,10 +115,8 @@ include_once __DIR__ . '/../layout/header.php';
                         </div>
                         <button class="btn btn-outline-primary btn-sm"
                             data-bs-toggle="modal"
-                            data-bs-target="#editVisiMisiModal"
-                            data-type="Misi"
-                            data-id="6"
-                            data-content="<?php echo htmlspecialchars($isiMisi); ?>">
+                            data-bs-target="#editMisiModal"
+                            data-content="<?= htmlspecialchars($isiMisi) ?>">
                             Edit
                         </button>
                     </div>
@@ -268,18 +265,21 @@ include_once __DIR__ . '/../layout/header.php';
             tentangModal.querySelector('textarea[name="isi_tentang"]').value = content;
         });
 
-        // 2. Visi Misi
-        const visiMisiModal = document.getElementById('editVisiMisiModal');
-        visiMisiModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            const type = button.getAttribute('data-type');
-            const id = button.getAttribute('data-id');
-            const content = button.getAttribute('data-content');
-
-            visiMisiModal.querySelector('.modal-title').textContent = type;
-            visiMisiModal.querySelector('#visiMisiType').value = id; // ID Profile
-            visiMisiModal.querySelector('textarea[name="isi_visimisi"]').value = content;
+        // 2. Visi 
+        const visiModal = document.getElementById('editVisiModal');
+        visiModal.addEventListener('show.bs.modal', e => {
+            const btn = e.relatedTarget;
+            const content = btn.getAttribute('data-content') || '';
+            visiModal.querySelector('textarea[name="isi_visi"]').value = content;
         });
+
+        const misiModal = document.getElementById('editMisiModal');
+        misiModal.addEventListener('show.bs.modal', e => {
+            const btn = e.relatedTarget;
+            const content = btn.getAttribute('data-content') || '';
+            misiModal.querySelector('textarea[name="isi_misi"]').value = content;
+        });
+
 
         const prestasiModal = document.getElementById('editPrestasiModal');
         prestasiModal.addEventListener('show.bs.modal', event => {
