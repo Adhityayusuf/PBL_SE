@@ -108,22 +108,38 @@
 </div>
 
 <!-- Modal Edit / Tambah Roadmap -->
-<div class="modal fade modal-visi" id="editRoadmapModal" tabindex="-1" aria-labelledby="editVisiMisiModalLabel" aria-hidden="true">
+<div class="modal fade modal-visi" id="editRoadmapModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fs-3 fw-bold" id="editRoadmapModalLabel">Edit Roadmap</h5>
+                <h5 class="modal-title fs-3 fw-bold">Edit Roadmap</h5>
             </div>
+
             <div class="modal-body pt-0">
                 <form id="roadmapForm" action="/admin/index.php" method="POST">
                     <input type="hidden" name="action" value="save_roadmap">
                     <input type="hidden" name="id_profile" id="roadmapType">
-                    <textarea class="form-control" rows="5" name="isi_roadmap"></textarea>
+
+                    <!-- TITLE -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Title</label>
+                        <input type="text" class="form-control" name="roadmap_title" required>
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="4" name="roadmap_description" required></textarea>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer d-flex justify-content-end border-0 pt-0">
-                <button type="button" class="btn btn-light btn-lg me-2 px-4" data-bs-dismiss="modal" style="font-weight: 500;">Batal</button>
-                <button type="button" class="btn btn-primary btn-lg px-4" onclick="document.getElementById('roadmapForm').submit()">Simpan</button>
+
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light btn-lg" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary btn-lg"
+                        onclick="document.getElementById('roadmapForm').submit()">
+                    Simpan
+                </button>
             </div>
         </div>
     </div>

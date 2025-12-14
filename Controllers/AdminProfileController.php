@@ -77,19 +77,27 @@ class AdminProfileController
             // AdminProfileController.php (di dalam handleRequest)
 
             case 'save_roadmap':
-                $id = $_POST['id_profile'] ?? '';
-                $content = $_POST['isi_roadmap'] ?? '';
+                $id = $_POST['id_profile'] ?? null;
+                $title = trim($_POST['roadmap_title'] ?? '');
+                $description = trim($_POST['roadmap_description'] ?? '');
 
-                if (empty($content)) {
-                    header("Location: /admin/index.php?action=profil&status=error_content_empty");
+                if ($title === '' || $description === '') {
+                    header("Location: /admin/index.php?action=profil&status=error_empty");
                     break;
                 }
+
+                // JSON yang disimpan ke DB
+                $content = json_encode([
+                    'title' => $title,
+                    'description' => $description
+                ], JSON_UNESCAPED_UNICODE);
 
                 if (!empty($id)) {
                     $this->model->updateContent($id, $content);
                 } else {
                     $this->model->addRoadmap($content);
                 }
+
                 header("Location: /admin/index.php?action=profil&status=success");
                 break;
 
@@ -147,6 +155,15 @@ class AdminProfileController
                 exit;
                 break;
         }
+    }
+
+    public function settings() {
+        $username  = $_SESSION['username'] ?? '';
+        $email     = $_SESSION['email'] ?? '';
+        $role      = $_SESSION['role'] ?? '';
+        $photo_url = $_SESSION['photo_url'] ?? '';
+
+        include __DIR__ . '/../Views/admin/settings.php';
     }
 }
 

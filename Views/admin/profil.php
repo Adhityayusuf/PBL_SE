@@ -346,27 +346,28 @@ include_once __DIR__ . '/../layout/header.php';
         roadmapModal.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
 
-            const getId = button.getAttribute('data-id') || '';
-            const getContent = button.getAttribute('data-content') || '';
+            const id = button.getAttribute('data-id') || '';
+            const content = button.getAttribute('data-content');
 
-            // Asumsi: jika data-id ada, berarti operasi 'Edit', jika tidak, 'Tambah'
-            const isEdit = getId !== '';
-
-            // ✅ Mengakses elemen form yang benar
-            const inputId = roadmapModal.querySelector('#roadmapType'); // ID Profile
-            const textareaContent = roadmapModal.querySelector('textarea[name="isi_roadmap"]'); // Konten Roadmap
+            const inputId = roadmapModal.querySelector('#roadmapType');
+            const inputTitle = roadmapModal.querySelector('input[name="roadmap_title"]');
+            const inputDesc = roadmapModal.querySelector('textarea[name="roadmap_description"]');
             const modalTitle = roadmapModal.querySelector('.modal-title');
 
-            // ✅ Mengisi nilai ke elemen form
-            inputId.value = getId;
-            textareaContent.value = getContent;
+            inputId.value = id;
 
-            if (isEdit) {
+            if (id && content) {
+                // MODE EDIT
+                const json = JSON.parse(content);
+                inputTitle.value = json.title ?? '';
+                inputDesc.value = json.description ?? '';
                 modalTitle.textContent = 'Edit Roadmap';
             } else {
+                // MODE TAMBAH
+                inputTitle.value = '';
+                inputDesc.value = '';
                 modalTitle.textContent = 'Tambah Roadmap';
             }
-        });
     </script>
 </body>
 
