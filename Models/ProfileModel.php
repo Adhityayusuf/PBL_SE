@@ -26,8 +26,7 @@ class ProfileModel extends Database
     {
         $sql = "SELECT isi_konten, image_url 
                 FROM profile 
-                WHERE tipe_konten = 1
-                LIMIT 1";
+                WHERE tipe_konten = 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,7 +48,7 @@ class ProfileModel extends Database
             (isi_konten::jsonb ->> 'description') AS description,
             last_updated
         FROM profile
-        WHERE tipe_konten = 3
+        WHERE tipe_konten = 5
         ORDER BY id_profile ASC";
 
         $stmt = $this->conn->prepare($sql);
@@ -83,12 +82,16 @@ class ProfileModel extends Database
         $sql = "SELECT isi_konten 
                 FROM profile 
                 WHERE tipe_konten = 2";
-        return $this->fetchOne($sql);
+        $res = $this->fetchOne($sql);
+        return $res ? $res['isi_konten'] : null;
     }
     public function getMisi()
     {
-        $sql = "SELECT isi_konten from profile WHERE tipe_konten = 2";
-        return $this->fetchOne($sql);
+        $sql = "SELECT isi_konten 
+                FROM profile 
+                WHERE tipe_konten = 3";
+        $res = $this->fetchOne($sql);
+        return $res ? $res['isi_konten'] : null;
     }
 
     public function getContentById($id)
@@ -122,7 +125,7 @@ class ProfileModel extends Database
                     (isi_konten::jsonb ->> 'description') AS description,
                     last_updated
                 FROM profile
-                WHERE tipe_konten = 3
+                WHERE tipe_konten = 5
                 ORDER BY id_profile ASC";
 
         $stmt = $this->conn->prepare($sql);
@@ -173,19 +176,10 @@ class ProfileModel extends Database
         return $res ? $res['isi_konten'] : null;
     }
 
-    public function getMisiData()
-    {
-        $sql = "SELECT isi_konten FROM profile WHERE id_profile = 6";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $res ? $res['isi_konten'] : null;
-    }
-
     public function addRoadmap($content)
     {
         $sql = "INSERT INTO profile (tipe_konten, isi_konten, last_updated)
-            VALUES (3, :content, NOW())";
+            VALUES (5, :content, NOW())";
 
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute(['content' => $content]);
@@ -193,7 +187,7 @@ class ProfileModel extends Database
 
     public function deleteRoadmap($id)
     {
-        $sql = "DELETE FROM profile WHERE id_profile = :id AND tipe_konten = 3";
+        $sql = "DELETE FROM profile WHERE id_profile = :id AND tipe_konten = 5";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }

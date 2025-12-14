@@ -18,8 +18,8 @@ class AdminProfileController
         // Karena "Misi" belum ada di SQL dump Anda, Anda harus Insert manual 1 row tipe 2 lagi untuk Misi,
         // atau gunakan ID lain. Di sini saya asumsikan ID 2 = Visi, ID 3 = Misi.
         $tentang = $this->model->getContentById(1);
-        $visi    = $this->model->getVisiData();
-        $misi    = $this->model->getMisiData();
+        $visi    = $this->model->getVisi();
+        $misi    = $this->model->getMisi();
 
         // Jika data kosong (null), beri default agar tidak error
         $isiTentang = $tentang['isi_konten'] ?? 'Data belum tersedia.';

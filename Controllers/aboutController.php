@@ -10,14 +10,11 @@ class AboutController{
     }
 
     public function visiMisi(){
-        $visi = $this->profileModel->getVisiData();
-        $misiDisplay = $this->profileModel->getMisiData();
+        $visi = $this->profileModel->getVisi();
+        $misiDisplay = $this->profileModel->getMisi();
 
-        if(strpos($misiDisplay, '\n') !== false){
-            $misi = nl2br(str_replace('\n', "\n", $misiDisplay));
-        } else {
-            $misi = $misiDisplay;
-        }
+        $misi = nl2br(htmlspecialchars(str_replace("\n", "\n\n", $misiDisplay)));
+
         include_once __DIR__ . '/../Views/visiMisi.php';
     }
 }
