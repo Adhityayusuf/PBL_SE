@@ -344,30 +344,31 @@ include_once __DIR__ . '/../layout/header.php';
         const roadmapModal = document.getElementById('editRoadmapModal');
 
         roadmapModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
+        const button = event.relatedTarget;
 
-            const id = button.getAttribute('data-id') || '';
-            const content = button.getAttribute('data-content');
+        const id = button.getAttribute('data-id') || '';
+        const content = button.getAttribute('data-content');
 
-            const inputId = roadmapModal.querySelector('#roadmapType');
-            const inputTitle = roadmapModal.querySelector('input[name="roadmap_title"]');
-            const inputDesc = roadmapModal.querySelector('textarea[name="roadmap_description"]');
-            const modalTitle = roadmapModal.querySelector('.modal-title');
+        const inputId = roadmapModal.querySelector('#roadmapType');
+        const inputTitle = roadmapModal.querySelector('input[name="roadmap_title"]');
+        const inputDesc = roadmapModal.querySelector('textarea[name="roadmap_description"]');
+        const modalTitle = roadmapModal.querySelector('.modal-title');
 
-            inputId.value = id;
+        inputId.value = id;
 
-            if (id && content) {
-                // MODE EDIT
-                const json = JSON.parse(content);
-                inputTitle.value = json.title ?? '';
-                inputDesc.value = json.description ?? '';
-                modalTitle.textContent = 'Edit Roadmap';
-            } else {
-                // MODE TAMBAH
-                inputTitle.value = '';
-                inputDesc.value = '';
-                modalTitle.textContent = 'Tambah Roadmap';
-            }
+        if (id && content) {
+            // EDIT MODE
+            const json = JSON.parse(content);
+            inputTitle.value = json.title ?? '';
+            inputDesc.value = json.description ?? '';
+            modalTitle.textContent = 'Edit Roadmap';
+        } else {
+            // TAMBAH MODE
+            inputTitle.value = '';
+            inputDesc.value = '';
+            modalTitle.textContent = 'Tambah Roadmap';
+        }
+    });
     </script>
 </body>
 
