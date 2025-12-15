@@ -36,8 +36,8 @@ $customCSS = "* {
 
         /* Container tidak terlalu dibutuhkan jika tidak ada batas lebar */
         .container {
-            width: 100%;
-            max-width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
         /* Card adalah Kotak Putih dengan Shadow */
@@ -46,9 +46,9 @@ $customCSS = "* {
             border-radius: 10px; /* Diperkecil agar lebih elegan */
             padding: 50px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Shadow lebih kuat */
-            margin-top: 20px; 
             width: 90%; /* Memastikan lebar kartu 100% dikurangi margin */
-            min-height: calc(100vh - 60px); /* Agar kartu setinggi layar dikurangi margin atas/bawah */
+            margin: 20px 0;
+            min-height: auto;
         }
 
         /* ===== HEADER & GRID LAYOUT (Tetap Sama) ===== */
@@ -60,7 +60,7 @@ $customCSS = "* {
 
         .penelitian-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Auto-fit lebih fleksibel */
+            grid-template-columns: repeat(2, 1fr);
             gap: 30px;
         }
 
@@ -74,6 +74,7 @@ $customCSS = "* {
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
+            margin-top: 10px;
         }
 
         .penelitian-item:hover {
@@ -158,35 +159,38 @@ include __DIR__ . '/layout/header.php';
 
     <?php include __DIR__ . '/layout/sidebar.php'; ?>
 
-    <div class="content">
-        <div class="container">
-            <div class="card">
-                <h2>Pengalaman Penelitian</h2>
-                <div class="penelitian-grid">
-                    <?php if (!empty($penelitian)): ?>
-                        <?php foreach ($penelitian as $item): ?>
-                            <div class="penelitian-item">
-                                <div class="year"><?= htmlspecialchars($item['tahun'] ?? '-') ?></div>
-                                <div class="info">
-                                    <span class="label">Judul</span>
-                                    <span class="value"><?= htmlspecialchars($item['judul_penelitian'] ?? '-') ?></span>
+    <div class="main-content">
+        <div class="content-wrapper">
+
+            <div class="container">
+                <div class="card">
+                    <h2>Pengalaman Penelitian</h2>
+                    <div class="penelitian-grid">
+                        <?php if (!empty($penelitian)): ?>
+                            <?php foreach ($penelitian as $item): ?>
+                                <div class="penelitian-item">
+                                    <div class="year"><?= htmlspecialchars($item['tahun'] ?? '-') ?></div>
+                                    <div class="info">
+                                        <span class="label">Judul</span>
+                                        <span class="value"><?= htmlspecialchars($item['judul_penelitian'] ?? '-') ?></span>
+                                    </div>
+                                    <div class="info">
+                                        <span class="label">Sumber Dana</span>
+                                        <span class="value"><?= htmlspecialchars($item['sumber_dana'] ?? '-') ?></span>
+                                    </div>
+                                    <div class="info">
+                                        <span class="label">Jumlah</span>
+                                        <span class="value"><?= htmlspecialchars($item['jml_dana'] ?? '-') ?></span>
+                                    </div>
+                                    <a href="<?= htmlspecialchars($item['link'] ?? '-') ?>" class="btn-lihat">
+                                        Lihat <i class="fas fa-arrow-right"></i>
+                                    </a>
                                 </div>
-                                <div class="info">
-                                    <span class="label">Sumber Dana</span>
-                                    <span class="value"><?= htmlspecialchars($item['sumber_dana'] ?? '-') ?></span>
-                                </div>
-                                <div class="info">
-                                    <span class="label">Jumlah</span>
-                                    <span class="value"><?= htmlspecialchars($item['jml_dana'] ?? '-') ?></span>
-                                </div>
-                                <a href="<?= htmlspecialchars($item['link'] ?? '-') ?>" class="btn-lihat">
-                                    Lihat <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p class="text-muted">Belum ada data penelitian.</p>
-                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p class="text-muted">Belum ada data penelitian.</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

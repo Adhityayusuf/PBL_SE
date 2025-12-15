@@ -9,9 +9,10 @@ $customCSS = "
             padding: 0;
             box-sizing: border-box;
         }
-            .content {
+        
+        .content {
         flex: 1;
-        padding: 40px;
+        padding: 20px 0px 20px 0px;
     }
 
         /* ===== BODY (MODIFIED FONT) ===== */
@@ -19,11 +20,11 @@ $customCSS = "
             font-family: 'Poppins', sans-serif;
             background: #0a2647;
             min-height: 100vh;
-            padding: 40px 20px;
+
         }
         .main-content {
             padding: 30px;
-            width: calc(100% - 270px);
+            width: calc(100%);
         }
         /* ===== LAYOUT ===== */
         .container {
@@ -206,7 +207,7 @@ $customCSS = "
         .stat-item {
             background: #f9f9f9;
             border-radius: 15px;
-            padding: 25px;
+            padding: 10px 8px;
             text-align: center;
             border: 2px solid #f0f0f0;
             transition: 0.3s;
@@ -273,95 +274,100 @@ include __DIR__ . '/layout/header.php';
 
 ?>
 
-<?php 
-    $current_id = $id_personil;
-    include __DIR__ . '/layout/sidebar.php' 
-?>
-<div class="d-flex">
-    <main class="content">
-        <div class="container">
-            <div class="card profil-card">
-                <h2>Profil Singkat</h2>
-                <div class="profil-content">
-                    <img src="<?= $personil['photo_url'] ?? '/assets/default.jpg' ?>" class="foto-profil">
-                    <div class="profil-info">
-                        <div class="info-item"><label><?= $personil['nama'] ?? '-' ?></label></div>
-                        <div class="info-item"><label><?= $personil['jabatan'] ?? '-' ?></label></div>
-                        <div class="info-item"><label><?= $personil['nip'] ?? '-' ?></label></div>
-                        <div class="info-item"><label><?= $personil['email'] ?? '-' ?></label></div>
-                        <div class="info-item"><label><?= $personil['ruang_dosen'] ?? '-' ?></label></div>
-                        <div class="social-icons">
-                            <a href="<?= htmlspecialchars($personil['linkedin'] ?? '#') ?>" target="_blank"><i class="fab fa-linkedin"></i></a>
-                            <a href="<?= htmlspecialchars($personil['github'] ?? '#') ?>" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="<?= htmlspecialchars($personil['email'] ?? '#') ?>" target="_blank"><i class="fas fa-envelope"></i></a>
-                        </div>
-                        <!-- Mengajar tepat di bawah info -->
 
+<div class="layout">
+<?php
+include __DIR__ . '/layout/sidebar.php'
+?>
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="card profil-card">
+                    <h2>Profil Singkat</h2>
+                    <div class="profil-content">
+                        <img src="<?= $personil['photo_url'] ?? '/assets/default.jpg' ?>" class="foto-profil">
+                        <div class="profil-info">
+                            <div class="info-item"><label><?= $personil['nama'] ?? '-' ?></label></div>
+                            <div class="info-item"><label><?= $personil['jabatan'] ?? '-' ?></label></div>
+                            <div class="info-item"><label><?= $personil['nip'] ?? '-' ?></label></div>
+                            <div class="info-item"><label><?= $personil['email'] ?? '-' ?></label></div>
+                            <div class="info-item"><label><?= $personil['ruang_dosen'] ?? '-' ?></label></div>
+                            <div class="social-icons">
+                                <a href="<?= htmlspecialchars($personil['linkedin'] ?? '#') ?>" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="<?= htmlspecialchars($personil['github'] ?? '#') ?>" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="<?= htmlspecialchars($personil['email'] ?? '#') ?>" target="_blank"><i class="fas fa-envelope"></i></a>
+                            </div>
+                            <!-- Mengajar tepat di bawah info -->
+    
+                        </div>
+                    </div>
+                    <div class="mengajar-section">
+                        <h3>Mengajar:</h3>
+                        <div class="mata-kuliah-list">
+                            <?php foreach ($personil['mata_kuliah'] ?? [] as $mk): ?>
+                                <div class="mata-kuliah-item"><?= htmlspecialchars($mk) ?></div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
-                <div class="mengajar-section">
-                    <h3>Mengajar:</h3>
-                    <div class="mata-kuliah-list">
-                        <?php foreach ($personil['mata_kuliah'] ?? [] as $mk): ?>
-                            <div class="mata-kuliah-item"><?= htmlspecialchars($mk) ?></div>
+    
+                <!-- Deskripsi Diri -->
+                <div class="card deskripsi-card">
+                    <p><?= nl2br($personil['desc_diri'] ?? '-') ?></p>
+                </div>
+    
+                <!-- Pendidikan -->
+                <div class="card pendidikan-card">
+                    <h2>Pendidikan</h2>
+                    <div class="pendidikan-grid">
+                        <?php foreach (['sarjana' => 'S-1', 'magister' => 'S-2', 'doktor' => 'S-3'] as $key => $label): ?>
+                            <div class="pendidikan-item">
+                                <h3><?= $label ?></h3>
+                                <p><?= $pendidikan[$key]['universitas'] ?? '-' ?></p>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
-            </div>
-
-            <!-- Deskripsi Diri -->
-            <div class="card deskripsi-card">
-                <p><?= nl2br($personil['desc_diri'] ?? '-') ?></p>
-            </div>
-
-            <!-- Pendidikan -->
-            <div class="card pendidikan-card">
-                <h2>Pendidikan</h2>
-                <div class="pendidikan-grid">
-                    <?php foreach (['sarjana' => 'S-1', 'magister' => 'S-2', 'doktor' => 'S-3'] as $key => $label): ?>
-                        <div class="pendidikan-item">
-                            <h3><?= $label ?></h3>
-                            <p><?= $pendidikan[$key]['universitas'] ?? '-' ?></p>
+    
+                <!-- Pencapaian -->
+                <div class="card pencapaian-card">
+                    <h2>Pencapaian</h2>
+                    <p>Publikasi, karya buku, dan HKI dalam 5 tahun terakhir</p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Publikasi</div>
+                            <div class="stat-value"><?= $stats['publikasi'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="stat-item">
+                            <div class="stat-label">Buku</div>
+                            <div class="stat-value"><?= $stats['karya_buku'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">HKI</div>
+                            <div class="stat-value"><?= $stats['hki'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Pengalaman -->
+                <div class="card pengalaman-card">
+                    <h2>Pengalaman</h2>
+                    <p>Penelitian dan pengabdian masyarakat 5 tahun terakhir</p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Penelitian</div>
+                            <div class="stat-value"><?= $stats['penelitian'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Pengabdian</div>
+                            <div class="stat-value"><?= $stats['pengabdian'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Pencapaian -->
-            <div class="card pencapaian-card">
-                <h2>Pencapaian</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-label">Publikasi</div>
-                        <div class="stat-value"><?= $stats['publikasi'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">Buku</div>
-                        <div class="stat-value"><?= $stats['karya_buku'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">HKI</div>
-                        <div class="stat-value"><?= $stats['hki'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pengalaman -->
-            <div class="card pengalaman-card">
-                <h2>Pengalaman</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-label">Penelitian</div>
-                        <div class="stat-value"><?= $stats['penelitian'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-label">Pengabdian</div>
-                        <div class="stat-value"><?= $stats['pengabdian'] ?? 0 ?> <i class="fas fa-external-link-alt stat-icon"></i></div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </main>
+    </div>
 </div>
 </body>
 

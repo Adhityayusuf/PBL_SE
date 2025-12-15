@@ -25,6 +25,8 @@ $customCSS = "
             background: #ffffffff;
             border-radius: 20px;
             padding: 100px;
+            margin-top: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         }
 
@@ -48,8 +50,8 @@ $customCSS = "
         }
 
         .foto-profil {
-            width: 160px;
-            height: 220px;
+            width: 270px;
+            height: 380px;
             border-radius: 10px;
             flex-shrink: 0;
             object-fit: cover;
@@ -183,118 +185,119 @@ $customCSS = "
 include __DIR__ . '/layout/header.php';
 ?>
 
-<div class="wrapper">
+<div class="layout">
     <?php include __DIR__ . '/layout/sidebar.php' ?>
-    <div class="content">
-        
-    </div>
-    <div class="container">
-        <div class="card">
-            <h1>Identitas Diri</h1>
+    <div class="main-content">
+        <div class="content-wrapper">
 
-            <div class="content-wrapper">
-                <!-- FOTO -->
-                <div class="foto-section">
-                    <img
-                        src="<?= htmlspecialchars($personil['photo_url']) ?>"
-                        alt="Foto Profil"
-                        class="foto-profil">
-                </div>
+            <div class="container">
+                <div class="card">
+                    <h1>Identitas Diri</h1>
 
-                <div class="info-section">
-                    <!-- ROW 1 -->
-                    <div class="info-row-3">
-                        <div class="info-box">
-                            <label>Nama Lengkap</label>
-                            <div class="value"><?= htmlspecialchars($personil['nama']) ?></div>
-                        </div>
-
-                        <div class="info-box">
-                            <label>Jabatan Fungsional</label>
-                            <div class="value"><?= htmlspecialchars($personil['jabatan']) ?></div>
-                        </div>
-
-                        <div class="info-box">
-                            <label>Nomor Induk Pegawai</label>
-                            <div class="value"><?= htmlspecialchars($personil['nip']) ?></div>
-                        </div>
+                    <!-- FOTO -->
+                    <!-- <div class="foto-section">
+                        <img
+                            src="< htmlspecialchars($personil['photo_url']) ?>"
+                            alt="Foto Profil"
+                            class="foto-profil">
                     </div>
+                    -->
 
-                    <!-- ROW 2 -->
-                    <div class="info-row-3">
-                        <div class="info-box">
-                            <label>Nomor Induk Dosen Nasional</label>
-                            <div class="value"><?= htmlspecialchars($personil['nidn']) ?></div>
-                        </div>
+                    <div class="info-section">
+                        <!-- ROW 1 -->
+                        <div class="info-row-3">
+                            <div class="info-box">
+                                <label>Nama Lengkap</label>
+                                <div class="value"><?= htmlspecialchars($personil['nama']) ?></div>
+                            </div>
 
-                        <div class="info-box">
-                            <label>Tempat, Tanggal Lahir</label>
-                            <div class="value">
-                                <?= htmlspecialchars($personil['tempat_lahir']) ?>,
-                                <?= date('d F Y', strtotime($personil['tgl_lahir'])) ?>
+                            <div class="info-box">
+                                <label>Jabatan Fungsional</label>
+                                <div class="value"><?= htmlspecialchars($personil['jabatan']) ?></div>
+                            </div>
+
+                            <div class="info-box">
+                                <label>Nomor Induk Pegawai</label>
+                                <div class="value"><?= htmlspecialchars($personil['nip']) ?></div>
                             </div>
                         </div>
 
-                        <div class="info-box">
-                            <label>Jenis Kelamin</label>
-                            <div class="value"><?= htmlspecialchars($personil['jenis_kelamin']) ?></div>
-                        </div>
+                        <!-- ROW 2 -->
+                        <div class="info-row-3">
+                            <div class="info-box">
+                                <label>Nomor Induk Dosen Nasional</label>
+                                <div class="value"><?= htmlspecialchars($personil['nidn']) ?></div>
+                            </div>
 
-                    </div>
-
-                    <!-- ROW 3 -->
-                    <div class="info-row-3">
-                        <div class="info-box">
-                            <label>Nomor Telephone</label>
-                            <div class="value"><?= htmlspecialchars($personil['no_telp']) ?></div>
-
-                            <label>Email</label>
-                            <div class="value"><?= htmlspecialchars($personil['email']) ?></div>
-                        </div>
-
-                        <!-- LULUSAN (OPSIONAL / BISA DIHAPUS KALAU BELUM ADA TABEL) -->
-                        <div class="lulusan-box">
-                            <label>Lulusan yang Telah Dihasilkan</label>
-                            <div class="lulusan-grid">
-                                <div class="lulusan-item">
-                                    <h3>S-1</h3>
-                                    <p><?= $personil['lulusan_s1'] ?? 0 ?></p>
-                                </div>
-                                <div class="lulusan-item">
-                                    <h3>S-2</h3>
-                                    <p><?= $personil['lulusan_s2'] ?? 0 ?></p>
-                                </div>
-                                <div class="lulusan-item">
-                                    <h3>S-3</h3>
-                                    <p><?= $personil['lulusan_s3'] ?? 0 ?></p>
+                            <div class="info-box">
+                                <label>Tempat, Tanggal Lahir</label>
+                                <div class="value">
+                                    <?= htmlspecialchars($personil['tempat_lahir']) ?>,
+                                    <?= date('d F Y', strtotime($personil['tgl_lahir'])) ?>
                                 </div>
                             </div>
-                        </div>
-                        <div class="info-box">
-                            <label>Alamat Kantor</label>
-                            <div class="value"><?= htmlspecialchars($personil['alamat_kantor']) ?></div>
-                        </div>
-                    </div>
 
-                    <!-- MATA KULIAH -->
-                    <div class="matkul-box">
-                        <label>Mata Kuliah yang diampu</label>
-                        <ol class="matkul-list">
-                            <?php
-                            $mataKuliah = $personil['mata_kuliah'];
-                            if (!empty($mataKuliah)):
-                                foreach ($mataKuliah as $i => $mk):
-                            ?>
-                                    <li><?= ($i + 1) . '. ' . htmlspecialchars($mk) ?></li>
+                            <div class="info-box">
+                                <label>Jenis Kelamin</label>
+                                <div class="value"><?= htmlspecialchars($personil['jenis_kelamin']) ?></div>
+                            </div>
+
+                        </div>
+
+                        <!-- ROW 3 -->
+                        <div class="info-row-3">
+                            <div class="info-box">
+                                <label>Nomor Telephone</label>
+                                <div class="value"><?= htmlspecialchars($personil['no_telp']) ?></div>
+
+                                <label>Email</label>
+                                <div class="value"><?= htmlspecialchars($personil['email']) ?></div>
+                            </div>
+
+                            <!-- LULUSAN (OPSIONAL / BISA DIHAPUS KALAU BELUM ADA TABEL) -->
+                            <div class="lulusan-box">
+                                <label>Lulusan yang Telah Dihasilkan</label>
+                                <div class="lulusan-grid">
+                                    <div class="lulusan-item">
+                                        <h3>S-1</h3>
+                                        <p><?= $personil['lulusan_s1'] ?? 0 ?></p>
+                                    </div>
+                                    <div class="lulusan-item">
+                                        <h3>S-2</h3>
+                                        <p><?= $personil['lulusan_s2'] ?? 0 ?></p>
+                                    </div>
+                                    <div class="lulusan-item">
+                                        <h3>S-3</h3>
+                                        <p><?= $personil['lulusan_s3'] ?? 0 ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <label>Alamat Kantor</label>
+                                <div class="value"><?= htmlspecialchars($personil['alamat_kantor']) ?></div>
+                            </div>
+                        </div>
+
+                        <!-- MATA KULIAH -->
+                        <div class="matkul-box">
+                            <label>Mata Kuliah yang diampu</label>
+                            <ol class="matkul-list">
                                 <?php
-                                endforeach;
-                            else:
+                                $mataKuliah = $personil['mata_kuliah'];
+                                if (!empty($mataKuliah)):
+                                    foreach ($mataKuliah as $i => $mk):
                                 ?>
-                                <li>-</li>
-                            <?php endif; ?>
-                        </ol>
-                    </div>
+                                        <li><?= ($i + 1) . '. ' . htmlspecialchars($mk) ?></li>
+                                    <?php
+                                    endforeach;
+                                else:
+                                    ?>
+                                    <li>-</li>
+                                <?php endif; ?>
+                            </ol>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>

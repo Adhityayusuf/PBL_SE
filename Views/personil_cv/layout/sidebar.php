@@ -30,20 +30,19 @@
         |--------------------------------------------------------------------------
         */
     .sidebar-cv {
+        position: fixed;
+        top: 20px;
+        left: 20px;
         width: 250px;
-        /* Lebar Sidebar disesuaikan */
-        min-height: calc(100vh - 40px);
-        /* Setinggi layar dikurangi padding layout */
+
+        height: calc(100vh - 40px);
+
         background: #ffffff;
         padding: 28px 20px;
         border-radius: 10px;
-        /* Disesuaikan agar seragam dengan konten */
         box-shadow: 0 8px 25px rgba(0, 0, 0, .15);
-        /* Shadow sedang */
         font-family: 'Poppins', sans-serif;
-        margin-right: 20px;
-        /* Jarak antara Sidebar dan Konten */
-        flex-shrink: 0;
+
     }
 
     /* ===== TITLE (Sesuai Screenshot - Rata Kiri) ===== */
@@ -109,17 +108,11 @@
         |--------------------------------------------------------------------------
         */
     .content-wrapper {
-        flex: 1;
-        /* Mengisi sisa ruang */
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, .15);
         min-height: calc(100vh - 40px);
-        /* Setinggi layar dikurangi padding layout */
         padding: 40px 50px;
-        /* Padding di dalam kotak konten */
-        overflow: auto;
-        /* Agar konten bisa di-scroll jika panjang */
+        margin-left: 200px;
+        gap: 20px;
+        height: calc(100vh);
     }
 
     /* Content elements inside wrapper */
@@ -131,81 +124,6 @@
     }
 
     /* ===== GRID & CARD PENELITIAN (Sesuai Screenshot) ===== */
-    .penelitian-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 20px;
-    }
-
-    .penelitian-item {
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .penelitian-item:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        transform: translateY(-2px);
-    }
-
-    .penelitian-item .year {
-        font-size: 20px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 15px;
-    }
-
-    .penelitian-item .info {
-        margin-bottom: 5px;
-    }
-
-    .penelitian-item .label {
-        font-weight: 600;
-        color: #333;
-        font-size: 14px;
-    }
-
-    .penelitian-item .value {
-        color: #444;
-        font-size: 14px;
-        line-height: 1.4;
-    }
-
-    .btn-lihat {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background-color: #0b3b66;
-        color: white;
-        padding: 8px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
-        margin-top: 15px;
-        width: fit-content;
-        transition: background 0.3s ease;
-    }
-
-    .btn-lihat:hover {
-        background-color: #1a5f8a;
-    }
-
-    .btn-lihat i {
-        font-size: 10px;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-        .penelitian-grid {
-            grid-template-columns: 1fr;
-        }
-    }
 
     @media (max-width: 768px) {
         .layout {
@@ -232,7 +150,7 @@
 
     <div class="sidebar-cv">
 
-        <div class="cv-title">PROFILE CV</div>
+        <div class="cv-title">Portofolio Dosen</div>
 
         <ul class="cv-menu">
             <li>
@@ -254,7 +172,7 @@
             </li>
 
             <li>
-                <a href="index.php?penelitian&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
+                <a href="index.php?action=penelitian&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
                     <i class="bi bi-people"></i> Penelitian
                 </a>
             </li>
