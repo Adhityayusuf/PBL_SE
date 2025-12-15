@@ -22,8 +22,13 @@ class authController{
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['email'] = $user['email'];
-            header("Location: /admin/index.php?action=personil");
-            exit;
+            if ($_SESSION['role'] === 'admin') {
+                header("Location: /admin/index.php?action=personil");
+                exit;
+            } else {
+                header("Location: /admin/index.php?action=dashboard_personil");
+                exit;
+            }
         }
         header("Location: ../views/login.php?error=1");
         exit;

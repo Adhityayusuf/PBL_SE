@@ -83,15 +83,27 @@
     <ul class="nav flex-column mb-auto">
         
         <li class="nav-item">
-            <a href="/admin/index.php?action=profil" class="sidebar-link">
-                <i class="bi bi-grid"></i> Profil Lab
-            </a>
+            <?php if ($role === 'admin') : ?>
+                <a href="/admin/index.php?action=profil" class="sidebar-link">  
+                    <i class="bi bi-grid"></i> Profil Lab
+                </a>
+            <?php else :?>
+                <a href="/admin/index.php?action=dashboard_personil" class="sidebar-link">
+                    <i class="bi bi-person-fill"></i> Dashboard
+                </a>
+            <?php endif; ?>
         </li>
 
         <li class="nav-item">
-            <a href="/admin/index.php?action=segeeks" class="sidebar-link">
-                <i class="bi bi-lightning-charge-fill"></i> Pengelolaan SE Geeks
-            </a>
+            <?php if ($role === 'admin'): ?>
+                <a href="/admin/index.php?action=segeeks" class="sidebar-link">
+                    <i class="bi bi-lightning-charge-fill"></i> Pengelolaan SE Geeks
+                </a>
+            <?php else : ?>
+                <a href="/admin/index.php?action=identitas" class="sidebar-link">
+                    <i class="bi bi-lightning-charge-fill"></i> Identitas Diri
+                </a>
+            <?php endif; ?>
         </li>
 
         <li class="nav-item">
@@ -100,16 +112,54 @@
                     <i class="bi bi-people-fill"></i> Personil
                 </a>
             <?php else: ?>
-                <a href="/admin/index.php?action=personil" class="sidebar-link">
-                    <i class="bi bi-person-fill"></i> Profil Saya
+                <a href="/admin/index.php?action=riwayat" class="sidebar-link">
+                    <i class="bi bi-person-fill"></i> Riwayat Pendidikan
                 </a>
             <?php endif; ?>
         </li>
 
         <li class="nav-item">
-            <a href="/admin/index.php?action=blog" class="sidebar-link">
-                <i class="bi bi-check-square-fill fs-5"></i> Blog Artikel
-            </a>
+            <?php if ($role === 'admin') : ?>
+                <a href="/admin/index.php?action=blog" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Blog Artikel
+                </a>
+            <?php else :?>
+                <a href="/admin/index.php?action=penelitian" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Penelitian
+                </a>
+            <?php endif; ?>
+        </li>
+        
+        <li class="nav-item">
+            <?php if (!($role === 'admin')) : ?>
+                <a href="/admin/index.php?action=pengabdian" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Pengabdian
+                </a>
+            <?php endif; ?>
+        </li>
+        
+        <li class="nav-item">
+            <?php if (!($role === 'admin')) : ?>
+                <a href="/admin/index.php?action=artikel_ilmiah" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Artikel Ilmiah
+                </a>
+            <?php endif; ?>
+        </li>
+        
+        <li class="nav-item">
+            <?php if (!($role === 'admin')) : ?>
+                <a href="/admin/index.php?action=karya_buku" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Karya Buku
+                </a>
+            <?php endif; ?>
+        </li>
+        
+        <li class="nav-item">
+            <?php if (!($role === 'admin')) : ?>
+                <a href="/admin/index.php?action=hki" class="sidebar-link">
+                    <i class="bi bi-check-square-fill fs-5"></i> Perolehan HKI
+                </a>
+            <?php endif; ?>
         </li>
 
         <li class="nav-item">

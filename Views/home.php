@@ -154,20 +154,9 @@ require_once __DIR__ . "/layout/navbar.php";
     <div class="roadmap-timeline clearfix">
         <?php if (!empty($roadmaps)): ?>
             <?php foreach ($roadmaps as $r): ?>
-                <?php
-                // Extract year
-                $year = 'N/A';
-                if (!empty($r['last_updated'])) {
-                    try {
-                        $dt = new DateTime($r['last_updated']);
-                        $year = $dt->format('Y');
-                    } catch (Exception $e) {
-                    }
-                }
-                ?>
                 <div class="roadmap-item">
                     <div class="card-custom">
-                        <h5><?= $year ?> - <?= htmlspecialchars($r['title']); ?></h5>
+                        <h5><?= htmlspecialchars($r['title']); ?></h5>
                         <p class="small"><?= htmlspecialchars($r['description']); ?></p>
                     </div>
                 </div>

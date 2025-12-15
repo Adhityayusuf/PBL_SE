@@ -7,12 +7,14 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || !isset($_SESSIO
 
 include_once __DIR__ . '/../Controllers/AdminProfileController.php';
 include_once __DIR__ . '/../Controllers/PersonilController.php';
+include_once __DIR__ . '/../Controllers/PersonilCVController.php';
 include_once __DIR__ . '/../Controllers/BlogController.php';
 include_once __DIR__ . '/../Controllers/AuthController.php';
 include_once __DIR__ . '/../Controllers/geekController.php';
 
 $adminProfile = new AdminProfileController();
 $personilController = new PersonilController();
+$personilCVController = new PersonilController();
 $blogController = new BlogController();
 $geekController = new GeekController();
 
@@ -48,6 +50,8 @@ if ($method === 'GET') {
             $adminProfile->settings();
             break;
         case 'profil': 
+        case 'dashboard_profil':
+            $personilCVController->index();
         default: 
             $adminProfile->index();
             break;
