@@ -290,6 +290,51 @@ public function updatePenelitian($id_penelitian, $data)
         return $stmt->execute();
     }
 
+    public function updateIdentitas($id, $data) {
+    $sql = "UPDATE personil SET 
+                nip = :nip, 
+                nidn = :nidn, 
+                nama = :nama,
+                jenis_kelamin = :jenis_kelamin, 
+                tempat_lahir = :tempat_lahir, 
+                tgl_lahir = :tgl_lahir, 
+                email = :email, 
+                jabatan = :jabatan, 
+                no_telp = :no_telp, 
+                alamat_kantor = :alamat_kantor, 
+                ruang_dosen = :ruang_dosen, 
+                content_social = :content_social, 
+                mata_kuliah = :mata_kuliah, 
+                photo_url = :photo_url, 
+                desc_diri = :desc_diri, 
+                mhs_lulus = :mhs_lulus 
+            WHERE id_personil = :id_personil";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bindValue(':nip', $data['nip']);
+    $stmt->bindValue(':nidn', $data['nidn']);
+    $stmt->bindValue(':nama', $data['nama']);
+    $stmt->bindValue(':jenis_kelamin', $data['jenis_kelamin']);
+    $stmt->bindValue(':tempat_lahir', $data['tempat_lahir']);
+    $stmt->bindValue(':tgl_lahir', $data['tgl_lahir']);
+    $stmt->bindValue(':email', $data['email']);
+    $stmt->bindValue(':jabatan', $data['jabatan']);
+    $stmt->bindValue(':no_telp', $data['no_telp']);
+    $stmt->bindValue(':alamat_kantor', $data['alamat_kantor']);
+    $stmt->bindValue(':ruang_dosen', $data['ruang_dosen']);
+    $stmt->bindValue(':photo_url', $data['photo_url']);
+    $stmt->bindValue(':desc_diri', $data['desc_diri']);
+    $stmt->bindValue(':id_personil', $id);
+    
+
+    $stmt->bindValue(':content_social', is_array($data['content_social']) ? json_encode($data['content_social']) : $data['content_social']);
+    $stmt->bindValue(':mata_kuliah', is_array($data['mata_kuliah']) ? json_encode($data['mata_kuliah']) : $data['mata_kuliah']);
+    $stmt->bindValue(':mhs_lulus', is_array($data['mhs_lulus']) ? json_encode($data['mhs_lulus']) : $data['mhs_lulus']);
+
+    return $stmt->execute();
+}
+
 
 
 

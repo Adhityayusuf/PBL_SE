@@ -126,6 +126,9 @@ if ($method === 'POST') {
                 echo "ID Penelitian tidak disediakan.";
             }
             break;
+        case 'identitas':
+            $personilCVController->handleRequest();
+            break;
         default:
             http_response_code(405);
             echo "POST admin endpoint tidak valid.";

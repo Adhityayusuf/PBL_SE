@@ -84,23 +84,23 @@ include __DIR__ . '/../admin/layout/header.php';
         </div>
 
         <div class="page-content m-4">
-            <form id="dosenForm" enctype="multipart/form-data">
-                <input type="hidden" name="id_personil" value="<?= htmlspecialchars($person['id_personil'] ?? '') ?>">
-
+            <form id="dosenForm" action="/admin/index.php?action=identitas" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="identitas">
+                <input type="hidden" name="id_personil" value="<?= htmlspecialchars($personil['id_personil'] ?? '') ?>">
                 <!-- ROW 1: Nama + Jenis Kelamin -->
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">Nama</label>
                         <input type="text" name="nama" class="form-control"
-                               value="<?= htmlspecialchars($personil['nama'] ?? '') ?>" required>
+                            value="<?= htmlspecialchars($personil['nama'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">Jenis Kelamin</label>
                         <select name="jenis_kelamin" class="form-select" required>
                             <option value="">-- Pilih Jenis Kelamin --</option>
-                            <option value="Laki-laki" <?= ($personil['jenis_kelamin'] ?? '') == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
-                            <option value="Perempuan" <?= ($personil['jenis_kelamin'] ?? '') == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+                            <option value="Laki-Laki">Laki-Laki</option>
+                            <option value="Perempuan">Perempuan</option>
                         </select>
                     </div>
                 </div>
@@ -110,28 +110,56 @@ include __DIR__ . '/../admin/layout/header.php';
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">NIP</label>
                         <input type="text" name="nip" class="form-control"
-                               value="<?= htmlspecialchars($personil['nip'] ?? '') ?>" required>
+                            value="<?= htmlspecialchars($personil['nip'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label">NIDN</label>
                         <input type="text" name="nidn" class="form-control"
-                               value="<?= htmlspecialchars($personil['nidn'] ?? '') ?>">
+                            value="<?= htmlspecialchars($personil['nidn'] ?? '') ?>">
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required">Email</label>
+                        <input type="email" name="email" class="form-control"
+                            value="<?= htmlspecialchars($personil['email'] ?? '') ?>" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">No. Telepon</label>
+                        <input type="text" name="no_telp" class="form-control"
+                            value="<?= htmlspecialchars($personil['no_telp'] ?? '') ?>">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tempat Lahir</label>
+                        <input type="text" name="tempat_lahir" class="form-control"
+                            value="<?= htmlspecialchars($personil['tempat_lahir'] ?? '') ?>">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tanggal Lahir</label>
+                        <input type="date" name="tgl_lahir" class="form-control"
+                            value="<?= htmlspecialchars($personil['tgl_lahir'] ?? '') ?>">
+                    </div>
+                </div>
+
+                <input type="hidden" name="old_photo" value="<?= htmlspecialchars($personil['photo_url'] ?? '') ?>">
 
                 <!-- ROW 3: Jabatan + Ruang Dosen -->
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">Jabatan</label>
                         <input type="text" name="jabatan" class="form-control"
-                               value="<?= htmlspecialchars($personil['jabatan'] ?? '') ?>" required>
+                            value="<?= htmlspecialchars($personil['jabatan'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Ruang Dosen</label>
                         <input type="text" name="ruang_dosen" class="form-control"
-                               value="<?= htmlspecialchars($personil['ruang_dosen'] ?? '') ?>">
+                            value="<?= htmlspecialchars($personil['ruang_dosen'] ?? '') ?>">
                     </div>
                 </div>
 
@@ -140,7 +168,7 @@ include __DIR__ . '/../admin/layout/header.php';
                     <div class="col-md-6 mb-3">
                         <label class="form-label">No. Telepon</label>
                         <input type="text" name="no_telp" class="form-control"
-                               value="<?= htmlspecialchars($personil['no_telp'] ?? '') ?>">
+                            value="<?= htmlspecialchars($personil['no_telp'] ?? '') ?>">
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -161,58 +189,59 @@ include __DIR__ . '/../admin/layout/header.php';
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Website Pribadi</label>
-                        <input type="text" name="content_social[website]" class="form-control"
-                               value="<?= htmlspecialchars($contentSocial['website'] ?? '') ?>">
+                        <label class="form-label">Linkedin</label>
+                        <input type="text" name="linkedin" class="form-control"
+                            value="<?= htmlspecialchars($contentSocial['linkedin'] ?? '') ?>">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Linkedin</label>
+                        <input type="text" name="github" class="form-control"
+                            value="<?= htmlspecialchars($contentSocial['github'] ?? '') ?>">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Google Scholar</label>
-                        <input type="text" name="content_social[google_scholar]" class="form-control"
-                               value="<?= htmlspecialchars($contentSocial['google_scholar'] ?? '') ?>">
+                        <input type="text" name="" class="form-control"
+                            value="<?= htmlspecialchars($contentSocial['google_scholar'] ?? '') ?>">
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">ORCID</label>
-                        <input type="text" name="content_social[orcid]" class="form-control"
-                               value="<?= htmlspecialchars($contentSocial['orcid'] ?? '') ?>">
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Scopus ID</label>
-                        <input type="text" name="content_social[scopus]" class="form-control"
-                               value="<?= htmlspecialchars($contentSocial['scopus'] ?? '') ?>">
-                    </div>
-                </div>
-
-                <!-- MATA KULIAH -->
-                <?php $mataKuliah = json_decode($personil['mata_kuliah'] ?? '[]', true); ?>
                 <h5 class="fw-bold mt-4 mb-3">Mata Kuliah</h5>
+                <?php $mk_data = $personil['mata_kuliah'] ?? []; ?>
                 <div class="mb-3">
-                    <textarea name="mata_kuliah" class="form-control" rows="3" placeholder="Pisahkan dengan koma"><?= htmlspecialchars(implode(', ', $mataKuliah)) ?></textarea>
+                    <textarea name="mata_kuliah" class="form-control" rows="3" placeholder="Pisahkan dengan koma"><?= (implode(', ', $mk_data)) ?>
+                    
+                    </textarea>
                     <small class="text-muted">Contoh: Matematika, Fisika, Pemrograman</small>
                 </div>
 
                 <!-- MAHASISWA LULUS -->
-                <?php $mhsLulus = json_decode($personil['mhs_lulus'] ?? '{}', true); ?>
+                <?php $mhsLulus = $personil['mhs_lulus'] ?? []; ?>
                 <h5 class="fw-bold mt-4 mb-3">Jumlah Mahasiswa Lulus</h5>
                 <div class="row">
-                    <?php foreach ($mhsLulus as $tahun => $jumlah): ?>
-                        <div class="col-md-3 mb-3">
-                            <label class="form-label"><?= htmlspecialchars($tahun) ?></label>
-                            <input type="number" name="mhs_lulus[<?= htmlspecialchars($tahun) ?>]" class="form-control"
-                                   value="<?= htmlspecialchars($jumlah) ?>">
-                        </div>
-                    <?php endforeach; ?>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">S1: </label>
+                        <input type="number" name="lulusan_s1" class="form-control"
+                            value="<?= htmlspecialchars($mhsLulus['lulusan_s1'] ?? '') ?>">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">S2: </label>
+                        <input type="number" name="lulusan_s2" class="form-control"
+                            value="<?= htmlspecialchars($mhsLulus['lulusan_s2'] ?? '') ?>">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">S3: </label>
+                        <input type="number" name="lulusan_s3" class="form-control"
+                            value="<?= htmlspecialchars($mhsLulus['lulusan_s3'] ?? '') ?>">
+                    </div>
                 </div>
 
                 <!-- FOTO -->
                 <h5 class="fw-bold mt-4 mb-3">Foto Profil</h5>
                 <div class="mb-3">
                     <label class="form-label">Upload Foto</label>
-                    <input type="file" name="photo" id="personil-photo" class="form-control">
+                    <input type="file" name="photo_url" id="personil-photo" class="form-control">
                     <div id="photo-preview" class="photo-preview mt-3" <?= empty($personil['photo_url']) ? 'style="display:none"' : '' ?>>
                         <img id="photo-img" src="<?= htmlspecialchars($personil['photo_url'] ?? '') ?>" style="max-width:150px;border-radius:10px;">
                     </div>
@@ -220,12 +249,13 @@ include __DIR__ . '/../admin/layout/header.php';
 
                 <!-- BUTTON -->
                 <div class="d-flex justify-content-end mt-4">
-                    <button type="button" id="savePersonilBtn" class="btn-simpan">
+                    <button type="submit" id="savePersonilBtn" class="btn-simpan" action="submit">
                         <i class="bi bi-save"></i> Simpan Perubahan
                     </button>
                 </div>
 
             </form>
+            <input type="hidden" name="old_photo" value="<?= $personil['photo_url'] ?? '' ?>">
         </div>
     </div>
 </div>
@@ -233,36 +263,18 @@ include __DIR__ . '/../admin/layout/header.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-document.getElementById('savePersonilBtn').addEventListener('click', function () {
-    const formData = new FormData(document.getElementById('dosenForm'));
-    formData.append('action', 'update');
-    fetch('/Controllers/api/personilApi.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert('Data berhasil diperbarui');
-            location.reload();
-        } else {
-            alert(data.message);
-        }
-    })
-    .catch(() => alert('Gagal menyimpan data'));
-});
-
-document.getElementById('personil-photo').addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function (evt) {
-        document.getElementById('photo-img').src = evt.target.result;
-        document.getElementById('photo-preview').style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-});
+    document.getElementById('personil-photo').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            document.getElementById('photo-img').src = evt.target.result;
+            document.getElementById('photo-preview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    });
 </script>
 
 </body>
+
 </html>
