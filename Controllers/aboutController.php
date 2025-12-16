@@ -13,7 +13,7 @@ class AboutController{
         $visi = $this->profileModel->getVisi();
         $misiDisplay = $this->profileModel->getMisi();
 
-        $misi = nl2br(htmlspecialchars(str_replace("\n", "\n\n", $misiDisplay)));
+        $misi = nl2br(htmlspecialchars(str_replace("\n", "\n", $misiDisplay)));
 
         include_once __DIR__ . '/../Views/visiMisi.php';
     }

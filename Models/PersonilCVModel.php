@@ -107,7 +107,7 @@ class PersonilCVModel extends Database
      */
     public function getPengabdian($personil_id)
     {
-        $sql = "SELECT judul_pengabdian, sumber_dana, jml_dana, tahun, link 
+        $sql = "SELECT id_pengabdian, judul_pengabdian, sumber_dana, jml_dana, tahun, link 
                 FROM personil_pengabdian 
                 WHERE personil_id = :id 
                 ORDER BY tahun DESC";
@@ -124,7 +124,7 @@ class PersonilCVModel extends Database
      */
     public function getArtikelIlmiah($personil_id)
     {
-        $sql = "SELECT judul, nama_jurnal, tahun, link 
+        $sql = "SELECT id_artikel, judul, nama_jurnal, tahun, link 
                 FROM personil_artikel_ilmiah 
                 WHERE personil_id = :id 
                 ORDER BY tahun DESC";
@@ -141,7 +141,7 @@ class PersonilCVModel extends Database
      */
     public function getKaryaBuku($personil_id)
     {
-        $sql = "SELECT judul, penerbit, halaman, tahun, link 
+        $sql = "SELECT id_buku, judul, penerbit, halaman, tahun, link 
                 FROM personil_karya_buku 
                 WHERE personil_id = :id 
                 ORDER BY tahun DESC";
@@ -187,54 +187,6 @@ class PersonilCVModel extends Database
         ];
     }
 
-    // public function updatePersonil($id_personil, $data)
-    // {
-    //     // Encode JSON fields
-    //     if (isset($data['content_social'])) {
-    //         $data['content_social'] = json_encode($data['content_social'], JSON_UNESCAPED_UNICODE);
-    //     }
-    //     if (isset($data['mata_kuliah'])) {
-    //         if (is_string($data['mata_kuliah'])) {
-    //             // jika textarea di-submit sebagai string
-    //             $data['mata_kuliah'] = json_encode(array_map('trim', explode(',', $data['mata_kuliah'])), JSON_UNESCAPED_UNICODE);
-    //         } else {
-    //             $data['mata_kuliah'] = json_encode($data['mata_kuliah'], JSON_UNESCAPED_UNICODE);
-    //         }
-    //     }
-    //     if (isset($data['mhs_lulus'])) {
-    //         $data['mhs_lulus'] = json_encode($data['mhs_lulus'], JSON_UNESCAPED_UNICODE);
-    //     }
-
-    //     // Bangun query dinamis
-    //     $fields = array_keys($data);
-    //     $setStr = implode(", ", array_map(fn($f) => "$f = :$f", $fields));
-
-    //     $sql = "UPDATE personil SET $setStr WHERE id_personil = :id";
-    //     $stmt = $this->conn->prepare($sql);
-
-    //     foreach ($data as $key => $value) {
-    //         $stmt->bindValue(":$key", $value);
-    //     }
-    //     $stmt->bindValue(':id', $id_personil, PDO::PARAM_INT);
-
-    //     return $stmt->execute();
-    // }
-
-    // public function deletePersonil($id_personil)
-    // {
-    //     // Hapus file photo jika ada
-    //     $person = $this->getPersonilData($id_personil);
-    //     if ($person && !empty($person['photo_url'])) {
-    //         $filePath = __DIR__ . '/../../' . ltrim($person['photo_url'], '/');
-    //         if (file_exists($filePath)) unlink($filePath);
-    //     }
-
-    //     // Hapus record
-    //     $sql = "DELETE FROM personil WHERE id_personil = :id";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->bindParam(':id', $id_personil, PDO::PARAM_INT);
-    //     return $stmt->execute();
-    // }
 
     // PersonilCVModel.php
 public function addPenelitian($data)
@@ -290,6 +242,193 @@ public function updatePenelitian($id_penelitian, $data)
         return $stmt->execute();
     }
 
+    public function deletePengabdian($id_pengabdian)
+    {
+        $sql = "DELETE FROM personil_pengabdian WHERE id_pengabdian = :id_pengabdian";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_pengabdian', $id_pengabdian);
+        
+        return $stmt->execute();
+    }
+
+        // Pengabdian
+    public function addPengabdian($data)
+    {
+        $sql = "INSERT INTO personil_pengabdian (judul_pengabdian, sumber_dana, jml_dana, tahun, link, personil_id) 
+                VALUES (:judul_pengabdian, :sumber_dana, :jml_dana, :tahun, :link, :personil_id)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':judul_pengabdian', $data['judul_pengabdian']);
+        $stmt->bindValue(':sumber_dana', $data['sumber_dana']);
+        $stmt->bindValue(':jml_dana', $data['jml_dana']); 
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':personil_id', $data['personil_id']);
+
+        return $stmt->execute();
+    }
+
+        public function updatePengabdian($id_pengabdian, $data)
+    {
+        // Prepare the update query
+        $sql = "UPDATE personil_pengabdian 
+                SET judul_pengabdian = :judul_pengabdian, 
+                    sumber_dana = :sumber_dana, 
+                    jml_dana = :jml_dana, 
+                    tahun = :tahun, 
+                    link = :link 
+                WHERE id_pengabdian = :id_pengabdian";
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind the values to the query
+        $stmt->bindValue(':judul_pengabdian', $data['judul_pengabdian']);
+        $stmt->bindValue(':sumber_dana', $data['sumber_dana']);
+        $stmt->bindValue(':jml_dana', $data['jml_dana']); 
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':id_pengabdian', $id_pengabdian, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+        // Artikel Ilmiah
+    public function addArtikelIlmiah($data)
+    {
+        $sql = "INSERT INTO personil_artikel_ilmiah (judul, nama_jurnal, tahun, link, personil_id) 
+                VALUES (:judul, :nama_jurnal, :tahun, :link, :personil_id)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':judul', $data['judul']);
+        $stmt->bindValue(':nama_jurnal', $data['nama_jurnal']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':personil_id', $data['personil_id']);
+
+        return $stmt->execute();
+    }
+
+    public function updateArtikelIlmiah($id_artikel, $data)
+    {
+        // Prepare the update query
+        $sql = "UPDATE personil_artikel_ilmiah 
+                SET judul = :judul, 
+                    nama_jurnal = :nama_jurnal, 
+                    tahun = :tahun, 
+                    link = :link 
+                WHERE id_artikel = :id_artikel";
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind the values to the query
+        $stmt->bindValue(':judul', $data['judul']);
+        $stmt->bindValue(':nama_jurnal', $data['nama_jurnal']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':id_artikel', $id_artikel, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function deleteArtikelIlmiah($id_artikel)
+    {
+        $sql = "DELETE FROM personil_artikel_ilmiah WHERE id_artikel = :id_artikel";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_artikel', $id_artikel);
+        
+        return $stmt->execute();
+    }
+
+    public function addKaryaBuku($data)
+    {
+        $sql = "INSERT INTO personil_karya_buku (judul, penerbit, halaman, tahun, link, personil_id) 
+                VALUES (:judul, :penerbit, :halaman, :tahun, :link, :personil_id)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':judul', $data['judul_buku']);
+        $stmt->bindValue(':penerbit', $data['penerbit']);
+        $stmt->bindValue(':halaman', $data['halaman']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':personil_id', $data['personil_id']);
+
+        return $stmt->execute();
+    }
+
+    public function updateKaryaBuku($id_buku, $data)
+    {
+        // Prepare the update query
+        $sql = "UPDATE personil_karya_buku 
+                SET judul = :judul, 
+                    penerbit = :penerbit,
+                    halaman = :halaman,
+                    tahun = :tahun, 
+                    link = :link 
+                WHERE id_buku = :id_buku";
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind the values to the query
+        $stmt->bindValue(':judul', $data['judul_buku']);
+        $stmt->bindValue(':penerbit', $data['penerbit']);
+        $stmt->bindValue(':halaman', $data['halaman']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':link', $data['link']);
+        $stmt->bindValue(':id_buku', $id_buku, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public function deleteKaryaBuku($id_buku)
+    {
+        $sql = "DELETE FROM personil_karya_buku WHERE id_buku = :id_buku";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_buku', $id_buku);
+        
+        return $stmt->execute();
+    }
+
+    // HKI
+    public function addHKI($data){
+        $sql = "INSERT INTO personil_hki (judul, jenis, no_pdd, tahun, personil_id) 
+                VALUES (:judul, :jenis, :no_pdd, :tahun, :personil_id)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':judul', $data['judul_hki']);
+        $stmt->bindValue(':jenis', $data['jenis']);
+        $stmt->bindValue(':no_pdd', $data['no_pdd']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':personil_id', $data['personil_id']);
+
+        return $stmt->execute();
+    }
+
+
+    public function updateHKI($id_hki, $data)
+    {
+        // Prepare the update query
+        $sql = "UPDATE personil_hki 
+                SET judul = :judul, 
+                    jenis = :jenis,
+                    no_pdd = :no_pdd,
+                    tahun = :tahun
+                WHERE id_hki = :id_hki";
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind the values to the query
+        $stmt->bindValue(':judul', $data['judul_hki']);
+        $stmt->bindValue(':jenis', $data['jenis']);
+        $stmt->bindValue(':no_pdd', $data['no_pdd']);
+        $stmt->bindValue(':tahun', $data['tahun']); 
+        $stmt->bindValue(':id_hki', $id_hki, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    public function deleteHKI($id_hki)
+    {
+        $sql = "DELETE FROM personil_hki WHERE id_hki = :id_hki";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id_hki', $id_hki);
+        
+        return $stmt->execute();
+    }
     public function updateIdentitas($id, $data) {
     $sql = "UPDATE personil SET 
                 nip = :nip, 
@@ -334,28 +473,4 @@ public function updatePenelitian($id_penelitian, $data)
 
     return $stmt->execute();
 }
-
-
-
-
-// public function updateHki($id_hki, $data) {
-//     // Contoh query untuk update
-//     $query = "UPDATE hki SET judul = ?, jenis = ?, no_pdd = ?, tahun = ?, link = ? WHERE id_hki = ?";
-//     $stmt = $this->db->prepare($query);
-//     $stmt->execute([$data['judul_hki'], $data['jenis_hki'], $data['no_pdd_hki'], $data['tahun_hki'], $data['link_hki'], $id_hki]);
-// }
-
-// public function addHki($data) {
-//     // Contoh query untuk tambah
-//     $query = "INSERT INTO hki (judul, jenis, no_pdd, tahun, link) VALUES (?, ?, ?, ?, ?)";
-//     $stmt = $this->db->prepare($query);
-//     $stmt->execute([$data['judul_hki'], $data['jenis_hki'], $data['no_pdd_hki'], $data['tahun_hki'], $data['link_hki']]);
-// }
-
-//     public function deleteHki($id_hki) {
-//         $sql = "DELETE FROM personil_hki WHERE id_hki = :id_hki";
-//         $stmt = $this->conn->prepare($sql);
-//         $stmt->bindValue(':id_hki', $id_hki);
-//         return $stmt->execute();
-//     }
 }

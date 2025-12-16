@@ -68,8 +68,60 @@ include_once __DIR__ . '/../layout/header.php';
 // Mengganti variabel data dari $penelitian menjadi $buku
 ?>
 
+<!-- MODALS -->
+ <!-- Modal Tambah / Edit Buku -->
+<div class="modal fade" id="modalBuku" tabindex="-1" aria-labelledby="modalBukuLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form action="/admin/index.php?action=karya_buku" method="POST">
+        <input type="hidden" name="action" value="karya_buku">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalBukuLabel">Tambah Buku</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id_buku" id="buku-id">
+          <input type="hidden" name="personil_id" value="<?= $personil_id ?>">
+
+          <div class="mb-3">
+            <label for="judul_buku" class="form-label">Judul Buku</label>
+            <input type="text" class="form-control" id="judul_buku" name="judul_buku" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="penerbit" class="form-label">Penerbit</label>
+            <input type="text" class="form-control" id="penerbit" name="penerbit" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="halaman" class="form-label">Halaman</label>
+            <input type="number" class="form-control" id="halaman" name="halaman" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="tahun" class="form-label">Tahun</label>
+            <input type="number" class="form-control" id="tahun" name="tahun" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="url" class="form-control" id="link" name="link">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary" name="submitKaryaBuku">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- CONTENT -->
 <div class="d-flex min-vh-100">
-    <?= include __DIR__ . '/../admin/layout/sidebar.php'; include __DIR__ . '/bukuModals.php';
+    <?= include __DIR__ . '/../admin/layout/sidebar.php';
 ?>
 
     <div class="main-content flex-grow-1">
@@ -141,13 +193,13 @@ include_once __DIR__ . '/../layout/header.php';
                                         data-link="<?= $link ?>"
                                         title="Edit Buku"
                                     ></i>
-                                    <i 
-                                        class="bi bi-trash-fill action-icon delete btnHapusBuku" 
-                                        data-id="<?= $id_buku ?>"
-                                        data-personil-id="<?= $personil_id ?>"
-                                        title="Hapus Buku"
-                                    ></i>
-
+                                    <form action="/admin/index.php?action=deleteKaryaBuku" method="POST" style="display:inline;">
+                                        <input type="hidden" name="action" value="deleteKaryaBuku">
+                                        <input type="hidden" name="id_buku" value="<?= $id_buku ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus Buku" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?');">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
                                 </td>   
                             </tr>
                         <?php endforeach; ?>
@@ -167,65 +219,77 @@ include_once __DIR__ . '/../layout/header.php';
 </div>
 
 <script>
-  const bukuModalEl = document.getElementById('bukuModal');
-  const hapusModalEl = document.getElementById('hapusBukuModal');
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = new bootstrap.Modal(document.getElementById('modalBuku'));
 
-  // Helper: reset form
-  function resetBukuForm() {
-    document.getElementById('bukuId').value = '';
-    document.getElementById('bukuJudul').value = '';
-    document.getElementById('bukuPenerbit').value = '';
-    document.getElementById('bukuHalaman').value = '';
-    document.getElementById('bukuTahun').value = '';
-    document.getElementById('bukuLink').value = '';
-  }
-
-  // Klik "Tambahkan Buku"
-  document.querySelectorAll('.btnTambahBuku').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const personilId = btn.getAttribute('data-personil-id') || '';
-      document.getElementById('bukuPersonilId').value = personilId;
-
-      document.getElementById('bukuModalTitle').textContent = 'Tambah Buku';
-      document.getElementById('bukuAction').value = 'save_buku';
-      resetBukuForm();
-
-      new bootstrap.Modal(bukuModalEl).show();
+    // Tombol tambah
+    document.querySelector('.btnTambahBuku').addEventListener('click', function() {
+        document.getElementById('modalBukuLabel').textContent = 'Tambah Buku';
+        document.getElementById('buku-id').value = '';
+        document.getElementById('judul_buku').value = '';
+        document.getElementById('penerbit').value = '';
+        document.getElementById('halaman').value = '';
+        document.getElementById('tahun').value = '';
+        document.getElementById('link').value = '';
+        modal.show();
     });
-  });
 
-  // Klik icon edit
-  document.querySelectorAll('.btnEditBuku').forEach(icon => {
-    icon.addEventListener('click', () => {
-      const id = icon.getAttribute('data-id') || '';
-      const personilId = icon.getAttribute('data-personil-id') || '';
+    // Tombol edit
+    document.querySelectorAll('.btnEditBuku').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const personil_id = this.dataset.personilId;
 
-      document.getElementById('bukuPersonilId').value = personilId;
-      document.getElementById('bukuId').value = id;
+            // Ambil data dari tabel (atau bisa dari attribute data-* tambahan)
+            const row = this.closest('tr');
+            document.getElementById('modalBukuLabel').textContent = 'Edit Buku';
+            document.getElementById('buku-id').value = id;
+            document.getElementById('judul_buku').value = row.cells[1].innerText;
+            document.getElementById('penerbit').value = row.cells[2].innerText !== '-' ? row.cells[2].innerText : '';
+            document.getElementById('halaman').value = row.cells[3].innerText !== '-' ? row.cells[3].innerText : '';
+            document.getElementById('tahun').value = row.cells[4].innerText;
+            // link bisa ambil dari anchor tag
+            const linkTag = row.cells[1].querySelector('a');
+            document.getElementById('link').value = linkTag ? linkTag.href : '';
 
-      document.getElementById('bukuModalTitle').textContent = 'Edit Buku';
-      document.getElementById('bukuAction').value = 'save_buku';
-
-      document.getElementById('bukuJudul').value = icon.getAttribute('data-judul') || '';
-      document.getElementById('bukuPenerbit').value = icon.getAttribute('data-penerbit') || '';
-      document.getElementById('bukuHalaman').value = icon.getAttribute('data-halaman') || '';
-      document.getElementById('bukuTahun').value = icon.getAttribute('data-tahun') || '';
-      document.getElementById('bukuLink').value = icon.getAttribute('data-link') || '';
-
-      new bootstrap.Modal(bukuModalEl).show();
+            modal.show();
+        });
     });
-  });
+    document.querySelectorAll('.btnHapusBuku').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const personil_id = this.dataset.personilId;
 
-  // Klik icon hapus
-  document.querySelectorAll('.btnHapusBuku').forEach(icon => {
-    icon.addEventListener('click', () => {
-      const id = icon.getAttribute('data-id') || '';
-      const personilId = icon.getAttribute('data-personil-id') || '';
+            // Konfirmasi hapus
+            if (!confirm('Apakah Anda yakin ingin menghapus buku ini?')) {
+                return;
+            }
 
-      document.getElementById('hapusBukuId').value = id;
-      document.getElementById('hapusPersonilId').value = personilId;
-
-      new bootstrap.Modal(hapusModalEl).show();
+            // Kirim permintaan hapus ke server
+            fetch('/admin/index.php?action=deletePengabdian', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'id_buku': id,
+                    'personil_id': personil_id,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Buku berhasil dihapus.');
+                    location.reload(); 
+                } else {
+                    alert('Gagal menghapus buku.');
+                }
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan: ' + error);
+            });
+        });
     });
-  });
+});
+
 </script>

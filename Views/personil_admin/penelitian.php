@@ -169,12 +169,13 @@ include_once __DIR__ . '/../layout/header.php';
                                         data-personil-id="<?= $personil_id ?>"
                                         title="Edit Penelitian"
                                     ></i>
-                                    <i 
-                                        class="bi bi-trash-fill action-icon delete btnHapusPenelitian" 
-                                        data-id="<?= $id_penelitian ?>"
-                                        data-personil-id="<?= $personil_id ?>"
-                                        title="Hapus Penelitian"
-                                    ></i>
+                                    <form action="/admin/index.php?action=deletePenelitian" method="POST" style="display:inline;">
+                                        <input type="hidden" name="action" value="deletePenelitian">
+                                        <input type="hidden" name="id_penelitian" value="<?= $id_penelitian ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus Penelitian">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
 
                                 </td>
                             </tr>

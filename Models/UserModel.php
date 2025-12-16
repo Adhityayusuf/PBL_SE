@@ -4,6 +4,23 @@ class UserModel extends Database {
         parent::__construct(); 
     }
 
+
+    public function addUserA($user_id, $username, $email, $password = 'default_pass', $role = 'dosen', $photo_url = null) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (id_user, username, email, password, role, photo_url) 
+                VALUES (:user_id, :username, :email, :password, :role, :photo_url)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':user_id' => $user_id,
+            ':password' => $hash,
+            ':role' => $role,
+            ':photo_url' => $photo_url
+        ]);
+    }
+
     public function addUser($username, $email, $password = 'default_pass', $role = 'dosen', $photo_url = null) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
 

@@ -3,7 +3,7 @@
 
 // 1. Definisikan Title sebelum include header
 $title = "Pengelolaan Pengabdian Dosen: " . htmlspecialchars($nama_dosen);
-    
+
 $customCSS = "
 body {
     background: #F5F5F7;
@@ -51,7 +51,6 @@ body {
 .action-icon.delete { color: #EF4444; }
 .action-icon.link { color: #28a745; }
 
-
 /* BUTTON */
 .btn-tambah {
     background-color: #06315A;
@@ -66,20 +65,21 @@ include_once __DIR__ . '/../layout/header.php';
 // Diasumsikan $personil_id, $nama_dosen, $pengabdian sudah didefinisikan di Controller
 ?>
 
-<!-- Modal Tambah / Edit Penelitian -->
+<!-- Modal Tambah / Edit Pengabdian -->
 <div class="modal fade" id="modalPengabdian" tabindex="-1" aria-labelledby="modalPengabdianLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form action="/admin/index.php?action=pengabdian" method="POST">
+      <form action="/admin/index.php?action=pengabdian" method="POST" id="pengabdianForm">
         <input type="hidden" name="action" value="pengabdian">
+        <input type="hidden" name="id_pengabdian" id="pengabdian-id">
+        <input type="hidden" name="personil_id" value="<?= $personil_id ?>">
+
         <div class="modal-header">
           <h5 class="modal-title" id="modalPengabdianLabel">Tambah Pengabdian</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <input type="hidden" name="id_pengabdian" id="pengabdian-id">
-          <input type="hidden" name="personil_id" value="<?= $personil_id ?>">
 
+        <div class="modal-body">
           <div class="mb-3">
             <label for="judul_pengabdian" class="form-label">Judul Pengabdian</label>
             <input type="text" class="form-control" id="judul_pengabdian" name="judul_pengabdian" required>
@@ -106,34 +106,32 @@ include_once __DIR__ . '/../layout/header.php';
           </div>
 
         </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" name="submitPengabdian">Simpan</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<!-- 
-CONTENT -->
+<!-- CONTENT -->
 <div class="d-flex min-vh-100">
     <?= include __DIR__ . '/../admin/layout/sidebar.php'; ?>
 
     <div class="main-content flex-grow-1">
-
         <div class="page-header d-flex justify-content-between align-items-center">
             <h2 class="fw-bold fs-3 mb-0">
                 <i class="bi bi-people-fill"></i> Pengabdian Dosen: <?= htmlspecialchars($nama_dosen) ?>
             </h2>
             
-            <button class="btn-tambah btnTambahPengabdian" data-personil-id="<?= $personil_id ?>">
+            <button class="btn-tambah" data-bs-toggle="modal" data-bs-target="#modalPengabdian" data-action="add" data-personil-id="<?= $personil_id ?>">
                 <i class="bi bi-plus-lg"></i> Tambahkan Pengabdian
             </button>
         </div>
 
         <div class="page-content">
-
             <?php 
             // Cek apakah data Pengabdian kosong.
             if (empty($pengabdian)): 
@@ -180,12 +178,15 @@ CONTENT -->
                                             title="Edit Pengabdian"
                                         ></i>
                                         
-                                        <i 
-                                            class="bi bi-trash-fill action-icon delete btnHapusPengabdian" 
-                                            data-id="<?= $id_pengabdian ?>"
-                                            data-personil-id="<?= $personil_id ?>"
-                                            title="Hapus Pengabdian"
-                                        ></i>
+                                        <form action="/admin/index.php?action=deletePengabdian" method="POST" style="display:inline;">
+                                            <input type="hidden" name="action" value="deletePengabdian">
+                                            <input type="hidden" name="id_pengabdian" value="<?= $id_pengabdian ?>">
+
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus Pengabdian">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </form>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -203,29 +204,23 @@ CONTENT -->
         </div>
     </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const modal = new bootstrap.Modal(document.getElementById('modalPengabdian'));
-
-    // Tombol tambah
-    document.querySelector('.btnTambahPenelitian').addEventListener('click', function() {
-        document.getElementById('modalPengabdianLabel').textContent = 'Tambah Pengabdian';
-        document.getElementById('pengabdian-id').value = '';
-        document.getElementById('judul_pengabdian').value = '';
-        document.getElementById('sumber_dana').value = '';
-        document.getElementById('jml_dana').value = '';
-        document.getElementById('tahun').value = '';
-        document.getElementById('link').value = '';
-        modal.show();
+    // Button to add a new entry
+    document.querySelector('.btn-tambah').addEventListener('click', function() {
+        const form = document.getElementById('pengabdianForm');
+        form.reset(); // Clear form fields
+        document.getElementById('modalPengabdianLabel').textContent = 'Tambah Pengabdian'; // Change title
+        document.getElementById('pengabdian-id').value = ''; // Reset hidden ID
     });
 
-    // Tombol edit
+    // Edit button
     document.querySelectorAll('.btnEditPengabdian').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.dataset.id;
             const personil_id = this.dataset.personilId;
 
-            // Ambil data dari tabel (atau bisa dari attribute data-* tambahan)
             const row = this.closest('tr');
             document.getElementById('modalPengabdianLabel').textContent = 'Edit Pengabdian';
             document.getElementById('pengabdian-id').value = id;
@@ -233,48 +228,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sumber_dana').value = row.cells[2].innerText !== '-' ? row.cells[2].innerText : '';
             document.getElementById('jml_dana').value = (parseInt(row.cells[3].innerText.replace(/[^0-9]/g,'')) || 0);
             document.getElementById('tahun').value = row.cells[4].innerText;
-            // link bisa ambil dari anchor tag
             const linkTag = row.cells[1].querySelector('a');
             document.getElementById('link').value = linkTag ? linkTag.href : '';
 
-            modal.show();
-        });
-    });
-    document.querySelectorAll('.btnHapusPengabdian').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const personil_id = this.dataset.personilId;
-
-            // Konfirmasi hapus
-            if (!confirm('Apakah Anda yakin ingin menghapus pengabdian ini?')) {
-                return;
-            }
-
-            // Kirim permintaan hapus ke server
-            fetch('/admin/index.php?action=deletePengabdian', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    'id_pengabdian': id,
-                    'personil_id': personil_id,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Refresh halaman atau hapus baris dari tabel
-                    location.reload(); // Reload to reflect changes
-                } else {
-                    alert('Gagal menghapus pengabdian.');
-                }
-            })
-            .catch(error => {
-                alert('Terjadi kesalahan: ' + error);
-            });
+            new bootstrap.Modal(document.getElementById('modalPengabdian')).show();
         });
     });
 });
 
+
 </script>
+</body>
+</html>

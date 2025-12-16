@@ -10,6 +10,7 @@ class InitAdmin {
     }
 
     public function createDefaultAdmin() {
+        $user_id = rand(9900, 9999);
         $username = "admin";
         $password = "123";
         $email = "admin@lab.se.com";
@@ -22,7 +23,7 @@ class InitAdmin {
             return false;
         }
 
-        if ($this->userModel->addUser($username, $email, $password, $role, $photo_url)) {
+        if ($this->userModel->addUserA($user_id, $username, $email, $password, $role, $photo_url)) {
             echo "Admin default berhasil dibuat.\n";
             return true;
         } else {

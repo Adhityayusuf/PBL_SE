@@ -1,5 +1,5 @@
 <?php 
-// File: /Views/personil_admin/penelitian.php (Asumsi nama file disesuaikan)
+// File: /Views/personil_admin/penelitian.php
 
 // 1. Definisikan Title dan CSS
 $title = "Pengelolaan Penelitian Dosen: " . htmlspecialchars($nama_dosen);
@@ -52,8 +52,7 @@ body {
 .action-icon.delete { color: #EF4444; }
 .action-icon.link { color: #28a745; }
 
-
-/* BUTTON */
+ /* BUTTON */
 .btn-tambah {
     background-color: #06315A;
     color: white;
@@ -66,6 +65,51 @@ include_once __DIR__ . '/../admin/layout/header.php';
 // Diasumsikan variabel $personil_id, $nama_dosen, dan $penelitian sudah didefinisikan di Controller
 ?>
 
+<!-- MODEL -->
+<!-- Modal Tambah / Edit Penelitian -->
+<div class="modal fade" id="modalHKI" tabindex="-1" aria-labelledby="modalHKILabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form action="/admin/index.php?action=hki" method="POST" id="hkiForm">
+        <input type="hidden" name="action" value="hki">
+        <input type="hidden" name="id_hki" id="hki-id">
+        <input type="hidden" name="personil_id" value="<?= $personil_id ?>">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHKILabel">Tambah HKI</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="judul_hki" class="form-label">Judul HKI</label>
+            <input type="text" class="form-control" id="judul_hki" name="judul_hki" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="jenis" class="form-label">Jenis</label>
+            <input type="text" class="form-control" id="jenis" name="jenis" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="no_pdd" class="form-label">No PDD</label>
+            <input type="number" class="form-control" id="no_pdd" name="no_pdd" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="tahun" class="form-label">Tahun</label>
+            <input type="number" class="form-control" id="tahun" name="tahun" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+
 <div class="d-flex min-vh-100">
     <?= include __DIR__ . '/../admin/layout/sidebar.php'; ?>
 
@@ -76,9 +120,9 @@ include_once __DIR__ . '/../admin/layout/header.php';
                 <i class="bi bi-search"></i> Penelitian Dosen: <?= htmlspecialchars($nama_dosen) ?>
             </h2>
 
-        <button class="btn-tambah btnTambahPenelitian" data-personil-id="<?= $personil_id ?>" onclick="openHkiModal()">
-            <i class="bi bi-plus-lg"></i> Tambahkan HKI
-        </button>
+            <button class="btn-tambah" data-bs-toggle="modal" data-bs-target="#modalHKI" data-action="add">
+                <i class="bi bi-plus-lg"></i> Tambahkan HKI
+            </button>
         </div>
 
         <div class="page-content">
@@ -88,7 +132,7 @@ include_once __DIR__ . '/../admin/layout/header.php';
             if (empty($hki)): 
             ?>
                 <div class="alert alert-info text-center" role="alert">
-                    <i class="bi bi-info-circle"></i> Belum ada data penelitian untuk dosen ini.
+                    <i class="bi bi-info-circle"></i> Belum ada data HKI untuk dosen ini.
                 </div>
             <?php else: ?>
 
@@ -106,31 +150,37 @@ include_once __DIR__ . '/../admin/layout/header.php';
                         </thead>
                         <tbody>
                         <?php $no = 1; foreach ($hki as $row): 
-                            // Mengambil data sesuai skema baru: id_penelitian, judul, jenis, no_pdd, tahun, link (opsional)
                             $id_hki = htmlspecialchars($row['id_hki'] ?? '');
                             $judul = htmlspecialchars($row['judul'] ?? '-');
-                            $jenis = htmlspecialchars($row['jenis'] ?? '-'); // DATA BARU
-                            $no_pdd = htmlspecialchars($row['no_pdd'] ?? '-'); // DATA BARU
+                            $jenis = htmlspecialchars($row['jenis'] ?? '-');
+                            $no_pdd = htmlspecialchars($row['no_pdd'] ?? '-');
                             $tahun = htmlspecialchars($row['tahun'] ?? '-');
-                            $link = htmlspecialchars($row['link'] ?? ''); // Link tetap dipertahankan jika ada di data
                         ?>
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td><?= $judul ?></td>
-                                <td><?= $jenis ?></td> <td><?= $no_pdd ?></td> <td><?= $tahun ?></td>
+                                <td><?= $jenis ?></td>
+                                <td><?= $no_pdd ?></td>
+                                <td><?= $tahun ?></td>
                                 <td>
-                                    <?php if (!empty($link)): ?>
-                                        <a href="<?= $link ?>" target="_blank" title="Lihat Link">
-                                            <i class="bi bi-link-45deg action-icon link"></i>
-                                        </a>
-                                    <?php endif; ?>
-<i class="bi bi-pencil-square action-icon edit btnEditPenelitian"
-   data-id="<?= $row['id_hki'] ?>" data-personil-id="<?= $personil_id ?>"
-   title="Edit HKI" onclick="openHkiModal(<?= $row['id_hki'] ?>)"></i>
-                                        <i class="bi bi-trash-fill action-icon delete"
-                                           data-id="<?= $row['id_hki'] ?>" data-personil-id="<?= $personil_id ?>"
-                                           title="Hapus HKI" onclick="deleteHki(<?= $row['id_hki'] ?>)"></i>
+                                    <i class="bi bi-pencil-square action-icon edit" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#modalHKI" 
+                                       data-action="edit"
+                                       data-id="<?= $id_hki ?>" 
+                                       data-judul="<?= $judul ?>" 
+                                       data-jenis="<?= $jenis ?>" 
+                                       data-no_pdd="<?= $no_pdd ?>" 
+                                       data-tahun="<?= $tahun ?>"
+                                       title="Edit HKI"></i>
 
+                                    <form action="/admin/index.php?action=deleteHKI" method="POST" style="display:inline;">
+                                        <input type="hidden" name="action" value="deleteHKI">
+                                        <input type="hidden" name="id_hki" value="<?= $id_hki ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus HKI" onclick="return confirm('Apakah Anda yakin ingin menghapus HKI ini?');">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -140,7 +190,7 @@ include_once __DIR__ . '/../admin/layout/header.php';
 
                 <div class="text-center mt-3">
                     <small class="text-muted">
-                        Menampilkan semua data. Total: <?= count($penelitian); ?> penelitian.
+                        Menampilkan semua data. Total: <?= count($hki); ?> HKI.
                     </small>
                 </div>
             <?php endif; ?>
@@ -149,114 +199,51 @@ include_once __DIR__ . '/../admin/layout/header.php';
     </div>
 </div>
 
-<!-- Modal for Add/Update HKI -->
-<div class="modal fade" id="hkiModal" tabindex="-1" aria-labelledby="hkiModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="hkiModalLabel">Tambah/Update HKI</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="hkiForm">
-                    <input type="hidden" name="id_hki" id="id_hki">
-                    <div class="mb-3">
-                        <label for="judul_hki" class="form-label">Judul HKI</label>
-                        <input type="text" class="form-control" name="judul_hki" id="judul_hki" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jenis_hki" class="form-label">Jenis HKI</label>
-                        <input type="text" class="form-control" name="jenis_hki" id="jenis_hki" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_pdd_hki" class="form-label">No. PDD/Kontrak</label>
-                        <input type="text" class="form-control" name="no_pdd_hki" id="no_pdd_hki" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tahun_hki" class="form-label">Tahun</label>
-                        <input type="number" class="form-control" name="tahun_hki" id="tahun_hki" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="link_hki" class="form-label">Link</label>
-                        <input type="url" class="form-control" name="link_hki" id="link_hki">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <script>
- // Function to open the modal for both Add and Edit actions
-    function openHkiModal(id = null) {
-        if (id) {
-            // If there's an id, this means the user wants to edit an existing HKI
-            $.ajax({
-                url: '/admin/index.php?action=hki&id_hki=' + id,  // Ensure this URL is correct
-                method: 'GET',
-                success: function(data) {
-                    const hki = JSON.parse(data);
-                    $('#id_hki').val(hki.id_hki);
-                    $('#judul_hki').val(hki.judul_hki);
-                    $('#jenis_hki').val(hki.jenis_hki);
-                    $('#no_pdd_hki').val(hki.no_pdd_hki);
-                    $('#tahun_hki').val(hki.tahun_hki);
-                    $('#link_hki').val(hki.link_hki);
-                    $('#hkiModalLabel').text('Edit HKI');
-                    $('#hkiModal').modal('show');  // Open the modal
+document.addEventListener('DOMContentLoaded', function() {
+    // Mengambil semua tombol edit dan hapus
+    document.querySelectorAll('.action-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const action = this.dataset.action; // "edit" atau "delete"
+            const form = document.getElementById('hkiForm');
+            const modalLabel = document.getElementById('modalHKILabel');
+
+            if (action === 'edit') {
+                // Isi form dengan data yang sudah ada di tabel
+                form.action = '/admin/index.php?action=edit_hki'; // Endpoint untuk edit
+                modalLabel.textContent = 'Edit HKI';
+                document.getElementById('hki-id').value = this.dataset.id;
+                document.getElementById('judul_hki').value = this.dataset.judul;
+                document.getElementById('jenis').value = this.dataset.jenis;
+                document.getElementById('no_pdd').value = this.dataset.no_pdd;
+                document.getElementById('tahun').value = this.dataset.tahun;
+            } else if (action === 'delete') {
+                // Konfirmasi hapus dengan alert
+                if (confirm('Apakah Anda yakin ingin menghapus HKI ini?')) {
+                    // Kirim permintaan hapus ke server
+                    fetch('/admin/index.php?action=deleteHKI', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            'id_hki': this.dataset.id,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('HKI berhasil dihapus.');
+                        } else {
+                            alert('Gagal menghapus HKI.');
+                        }
+                    })
                 }
-            });
-        } else {
-            // If there's no id, this means the user wants to add a new HKI
-            $('#hkiForm')[0].reset();  // Reset the form fields
-            $('#hkiModalLabel').text('Tambah HKI');  // Set modal title to "Add"
-            $('#hkiModal').modal('show');  // Open the modal
-        }
-    }
-
-    // Handle the form submission
-    $('#hkiForm').on('submit', function(e) {
-        e.preventDefault();
-        const formData = $(this).serialize();  // Serialize form data
-
-        $.ajax({
-            url: '/admin/index.php?action=Dosenhki',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                alert('HKI berhasil disimpan!');
-                $('#hkiModal').modal('hide');
-                location.reload();  // Refresh the page to update the data
-            },
-            error: function(xhr, status, error) {
-                console.log(xhr.responseText); // Check the error response in console
             }
         });
     });
-
-    // Delete HKI functionality
-    function deleteHki(id) {
-        if (confirm('Are you sure you want to delete this HKI?')) {
-            $.ajax({
-                url: '/admin/index.php?action=Dosenhki&delete=true&id_hki=' + id,  // Ensure the URL is correct
-                method: 'POST',
-                success: function(response) {
-                    alert('HKI deleted successfully!');
-                    location.reload();  // Refresh the page after deleting
-                }
-            });
-        }
-    }
-
+});
 </script>
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap JS (with Popper.js) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

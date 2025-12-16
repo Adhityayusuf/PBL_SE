@@ -116,15 +116,18 @@ if ($method === 'POST') {
             break;
         case 'penelitian':
         case 'pengabdian':
+        case 'artikel_ilmiah':
+        case 'karya_buku':
+        case 'hki':
             $personilCVController->handleRequest();
             break;
         case 'deletePenelitian':
-            if (isset($_POST['id_penelitian'])) {
-                $personilCVController->handleDeleteRequest($_POST['id_penelitian']);
-            } else {
-                http_response_code(400);
-                echo "ID Penelitian tidak disediakan.";
-            }
+        case 'deletePengabdian':
+        case 'deleteArtikelIlmiah':
+        case 'deleteKaryaBuku':
+        case 'deleteRiwayatPendidikan':
+        case 'deleteHKI':
+            $personilCVController->handleDeleteRequest();
             break;
         case 'identitas':
             $personilCVController->handleRequest();

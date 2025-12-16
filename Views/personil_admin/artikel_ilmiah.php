@@ -67,17 +67,55 @@ include_once __DIR__ . '/../layout/header.php';
 // Diasumsikan variabel $personil_id, $nama_dosen, $artikel_ilmiah sudah didefinisikan
 ?>
 
+<!-- MODALS -->
+<div class="modal fade" id="modalArtikelIlmiah" tabindex="-1" aria-labelledby="modalArtikelIlmiahLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form action="/admin/index.php?action=artikel_ilmiah" method="POST">
+        <input type="hidden" name="action" value="artikel_ilmiah">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalArtikelIlmiahLabel">Tambah Artikel Ilmiah</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id_artikel" id="artikel-id">
+          <input type="hidden" name="personil_id" value="<?= $personil_id ?>">
+
+          <div class="mb-3">
+            <label for="judul_artikel" class="form-label">Judul Artikel Ilmiah</label>
+            <input type="text" class="form-control" id="judul" name="judul" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="nama_jurnal" class="form-label">Nama Jurnal</label>
+            <input type="text" class="form-control" id="nama_jurnal" name="nama_jurnal">
+          </div>
+
+          <div class="mb-3">
+            <label for="tahun" class="form-label">Tahun</label>
+            <input type="number" class="form-control" id="tahun" name="tahun" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="url" class="form-control" id="link" name="link">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary" name="submitArtikelIlmiah">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
 <div class="d-flex min-vh-100">
     <?= include __DIR__ . '/../admin/layout/sidebar.php'; ?>
 
     <div class="main-content flex-grow-1">
-
-        <?php 
-        /* * Diasumsikan di sini adalah bagian kode untuk Pengabdian Dosen.
-         * Kode tersebut dihilangkan untuk fokus pada permintaan Anda: Artikel Ilmiah.
-         */ 
-        ?>
-
 
         <div class="page-header d-flex justify-content-between align-items-center mt-5">
             <h2 class="fw-bold fs-3 mb-0">
@@ -139,13 +177,13 @@ include_once __DIR__ . '/../layout/header.php';
                                             data-personil-id="<?= $personil_id ?>"
                                             title="Edit Artikel"
                                         ></i>
-                                        
-                                        <i 
-                                            class="bi bi-trash-fill action-icon delete btnHapusArtikel" 
-                                            data-id="<?= $id_artikel ?>"
-                                            data-personil-id="<?= $personil_id ?>"
-                                            title="Hapus Artikel"
-                                        ></i>
+                                        <form action="/admin/index.php?action=deleteArtikelIlmiah" method="POST" style="display:inline;">
+                                            <input type="hidden" name="action" value="deleteArtikelIlmiah">
+                                            <input type="hidden" name="id_artikel" value="<?= $id_artikel ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus Artikel">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -164,63 +202,76 @@ include_once __DIR__ . '/../layout/header.php';
     </div>
 </div>
 
-<!-- Modal Tambah/Edit Artikel Ilmiah -->
-<div class="modal fade" id="modalArtikel" tabindex="-1" aria-labelledby="modalArtikelLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalArtikelLabel">Tambah Artikel Ilmiah</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formArtikel" method="POST" action="/admin/index.php?action=saveArtikel">
-                <div class="modal-body">
-                    <input type="hidden" id="id_artikel" name="id_artikel">
-                    <input type="hidden" id="personil_id" name="personil_id">
-                    
-                    <div class="mb-3">
-                        <label for="judul" class="form-label">Judul Artikel</label>
-                        <input type="text" class="form-control" id="judul" name="judul" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="nama_jurnal" class="form-label">Nama Jurnal</label>
-                        <input type="text" class="form-control" id="nama_jurnal" name="nama_jurnal" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="tahun" class="form-label">Tahun</label>
-                        <input type="number" class="form-control" id="tahun" name="tahun" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="link" class="form-label">Link Artikel</label>
-                        <input type="url" class="form-control" id="link" name="link">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = new bootstrap.Modal(document.getElementById('modalArtikelIlmiah'));
 
-<!-- Modal Konfirmasi Hapus -->
-<div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalHapusLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus artikel ini?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-danger" id="btnConfirmHapus">Hapus</button>
-            </div>
-        </div>
-    </div>
-</div>
+    // Tombol tambah
+    document.querySelector('.btnTambahArtikel').addEventListener('click', function() {
+        document.getElementById('modalArtikelIlmiahLabel').textContent = 'Tambah Artikel Ilmiah';
+        document.getElementById('artikel-id').value = '';
+        document.getElementById('judul').value = '';
+        document.getElementById('nama_jurnal').value = '';
+        document.getElementById('tahun').value = '';
+        document.getElementById('link').value = '';
+        modal.show();
+    });
+
+    // Tombol edit
+    document.querySelectorAll('.btnEditArtikel').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const personil_id = this.dataset.personilId;
+
+            // Ambil data dari tabel (atau bisa dari attribute data-* tambahan)
+            const row = this.closest('tr');
+            document.getElementById('modalArtikelIlmiahLabel').textContent = 'Edit Artikel Ilmiah';
+            document.getElementById('artikel-id').value = id;
+            document.getElementById('judul').value = row.cells[1].innerText;
+            document.getElementById('nama_jurnal').value = row.cells[2].innerText !== '-' ? row.cells[2].innerText : '';
+            document.getElementById('tahun').value = row.cells[4].innerText;
+            // link bisa ambil dari anchor tag
+            const linkTag = row.cells[1].querySelector('a');
+            document.getElementById('link').value = linkTag ? linkTag.href : '';
+
+            modal.show();
+        });
+    });
+    document.querySelectorAll('.btnHapusArtikel').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const personil_id = this.dataset.personilId;
+
+            // Konfirmasi hapus
+            if (!confirm('Apakah Anda yakin ingin menghapus artikel ilmiah ini?')) {
+                return;
+            }
+
+            // Kirim permintaan hapus ke server
+            fetch('/admin/index.php?action=deleteArtikel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'id_artikel': id,
+                    'personil_id': personil_id,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Refresh halaman atau hapus baris dari tabel
+                    location.reload(); // Reload to reflect changes
+                } else {
+                    alert('Gagal menghapus artikel ilmiah.');
+                }
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan: ' + error);
+            });
+        });
+    });
+});
+
+</script>

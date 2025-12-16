@@ -22,6 +22,9 @@ class authController{
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['email'] = $user['email'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['photo_url'] = $user['photo_url'];    
+
             if ($_SESSION['role'] === 'admin') {
                 header("Location: /admin/index.php?action=personil");
                 exit;

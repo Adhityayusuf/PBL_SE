@@ -18,7 +18,7 @@ class PersonilCVController
 
     public function indexDosen($id, $action)
     {
-        $id_personil = 8;
+        $id_personil = $id;
         $data = $this->model->getAllCVData($id_personil);
 
         // Definisikan variabel yang dibutuhkan View (extract lebih disarankan, tapi kita gunakan cara manual agar eksplisit)
@@ -127,6 +127,15 @@ class PersonilCVController
             case 'pengabdian':
                 $this->handlePengabdian($data);
                 break;
+            case 'artikel_ilmiah':
+                $this->handleArtikelIlmiah($data);
+                break;
+            case 'karya_buku':
+                $this->handleKaryaBuku($data);
+                break;
+            case 'hki':
+                $this->handleHKI($data);
+                break;
             case 'identitas':
                 $this->updateIdentitas($data);
                 break;
@@ -136,18 +145,79 @@ class PersonilCVController
         }
     }
 
-    public function handleDeleteRequest()
-    {
+    public function handleDeleteRequest(){
+    
+        $id_penelitian = $_POST['id_penelitian'] ?? '';
+        $id_pengabdian = $_POST['id_pengabdian'] ?? '';
+        $id_artikel = $_POST['id_artikel'] ?? '';
+        $id_buku = $_POST['id_buku'] ?? '';
+        $id_hki = $_POST['id_hki'] ?? '';
         $action = $_GET['action'] ?? '';
-        $id_penelitian = $_GET['id_penelitian'] ?? '';
-
+    
         switch ($action) {
-            case 'deletePenelitian':
-                $this->deletePenelitian($id_penelitian);
-                break;
-            default:
-                echo "Invalid delete action!";
-                break;
+                case 'deletePenelitian':
+                    if (!empty($id_penelitian)){
+                        $this->model->deletePenelitian($id_penelitian);
+                        header("Location: /admin/index.php?action=penelitian");
+                        exit();
+                    } else {
+                        header("Location: /admin/index.php?action=penelitian&error=invalid_id");
+                        exit();
+                    }
+                    break;
+                case 'deletePengabdian':
+                    if (!empty($id_pengabdian)) {
+                        $this->model->deletePengabdian($id_pengabdian);
+                        header("Location: /admin/index.php?action=pengabdian");
+                        exit();
+                    } else {
+                        header("Location: /admin/index.php?action=pengabdian&error=invalid_id");
+                        exit();
+                    }
+                    break;
+                case 'deleteArtikelIlmiah':
+                    if(!empty($id_artikel)){
+                        $this->model->deleteArtikelIlmiah($id_artikel);
+                        header("Location: /admin/index.php?action=artikel_ilmiah");
+                        exit();
+                    } else {
+                        header("Location: /admin/index.php?action=artikel_ilmiah&error=invalid_id");
+                        exit();
+                    }    
+                    break;
+                case 'deleteKaryaBuku':
+                    if(!empty($id_buku)){
+                        $this->model->deleteKaryaBuku($id_buku);
+                        header("Location: /admin/index.php?action=karya_buku");
+                        exit();
+                    } else {
+                        header("Location: /admin/index.php?action=karya_buku&error=invalid_id");
+                        exit();
+                    }
+                    break;
+                case 'deleteHKI':
+                    if(!empty($id_hki))
+                    $this->model->deleteHKI($id_hki);
+                    header("Location: /admin/index.php?action=hki");
+                    break;
+                default:
+                    echo "Invalid delete action!";
+                    break;
+        }
+        
+    }
+
+
+    // HKI
+    public function handleHKI($data){
+        if (isset($data['id_hki']) && !empty($data['id_hki'])) {
+            // Update HKI
+           $this->model->updateHKI($data['id_hki'], $data);
+           header("Location: /admin/index.php?action=hki");
+        } else {
+            // Add HKI
+            $this->model->addHKI($data);
+            header("Location: /admin/index.php?action=hki");
         }
     }
     private function handlePengabdian($data)
@@ -177,10 +247,31 @@ class PersonilCVController
         }
     }
 
-    private function deletePenelitian($id_penelitian)
-    {
-        $this->model->deletePenelitian($id_penelitian);
-        header("Location: /admin/index.php?action=penelitian");
+    // Artikel Ilmiah
+    private function handleArtikelIlmiah($data){
+        if (isset($data['id_artikel']) && !empty($data['id_artikel'])) {
+            // Update Artikel Ilmiah
+           $this->model->updateArtikelIlmiah($data['id_artikel'], $data);
+           header("Location: /admin/index.php?action=artikel_ilmiah");
+        } else {
+            // Add Artikel Ilmiah
+            $this->model->addArtikelIlmiah($data);
+            header("Location: /admin/index.php?action=artikel_ilmiah");
+        }
+    }
+
+    
+    // Karya Buku
+    private function handleKaryaBuku($data){
+        if (isset($data['id_buku']) && !empty($data['id_buku'])) {
+            // Update Karya Buku
+           $this->model->updateKaryaBuku($data['id_buku'], $data);
+           header("Location: /admin/index.php?action=buku");
+        } else {
+            // Add Karya Buku
+            $this->model->addKaryaBuku($data);
+            header("Location: /admin/index.php?action=buku");
+        }
     }
 
     private function updateIdentitas($postData)

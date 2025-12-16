@@ -1,5 +1,9 @@
 <?php
     $role = $_SESSION['role'] ?? 'dosen'; // default dosen
+    $username = $_SESSION['username'] ?? 'User';
+    $email = $_SESSION['email'] ?? 'user@example.com';
+    $initial  = strtoupper(substr($username, 0, 1));
+    $photo    = $_SESSION['photo_url'] ?? 'default.jpg';
 ?>
 
 <style>
@@ -46,6 +50,18 @@
         color: white;
     }
 
+    .sidebar-link.active,
+    .sidebar-link.active:hover {
+        background-color: #06315A; 
+        color: white;
+        font-weight: 600; 
+        opacity: 1;
+    }
+
+    .sidebar-link.active i {
+        color: white !important; /* Pastikan ikon juga putih saat aktif */
+    }
+
     .support-heading {
         font-size: 0.95rem;
         font-weight: 600;
@@ -89,7 +105,7 @@
                 </a>
             <?php else :?>
                 <a href="/admin/index.php?action=dashboard_personil" class="sidebar-link">
-                    <i class="bi bi-person-fill"></i> Dashboard
+                    <i class="bi bi-house-door"></i> Dashboard
                 </a>
             <?php endif; ?>
         </li>
@@ -101,7 +117,7 @@
                 </a>
             <?php else : ?>
                 <a href="/admin/index.php?action=identitas" class="sidebar-link">
-                    <i class="bi bi-lightning-charge-fill"></i> Identitas Diri
+                    <i class="bi bi-person-vcard"></i> Identitas Diri
                 </a>
             <?php endif; ?>
         </li>
@@ -113,7 +129,7 @@
                 </a>
             <?php else: ?>
                 <a href="/admin/index.php?action=riwayat" class="sidebar-link">
-                    <i class="bi bi-person-fill"></i> Riwayat Pendidikan
+                    <i class="bi bi-mortarboard"></i> Riwayat Pendidikan
                 </a>
             <?php endif; ?>
         </li>
@@ -125,7 +141,7 @@
                 </a>
             <?php else :?>
                 <a href="/admin/index.php?action=penelitian" class="sidebar-link">
-                    <i class="bi bi-check-square-fill fs-5"></i> Penelitian
+                    <i class="bi bi-search fs-5"></i> Penelitian
                 </a>
             <?php endif; ?>
         </li>
@@ -133,7 +149,7 @@
         <li class="nav-item">
             <?php if (!($role === 'admin')) : ?>
                 <a href="/admin/index.php?action=pengabdian" class="sidebar-link">
-                    <i class="bi bi-check-square-fill fs-5"></i> Pengabdian
+                    <i class="bi bi-people fs-5"></i> Pengabdian
                 </a>
             <?php endif; ?>
         </li>
@@ -141,7 +157,7 @@
         <li class="nav-item">
             <?php if (!($role === 'admin')) : ?>
                 <a href="/admin/index.php?action=artikel_ilmiah" class="sidebar-link">
-                    <i class="bi bi-check-square-fill fs-5"></i> Artikel Ilmiah
+                    <i class="bi bi-newspaper fs-5"></i> Artikel Ilmiah
                 </a>
             <?php endif; ?>
         </li>
@@ -149,7 +165,7 @@
         <li class="nav-item">
             <?php if (!($role === 'admin')) : ?>
                 <a href="/admin/index.php?action=karya_buku" class="sidebar-link">
-                    <i class="bi bi-check-square-fill fs-5"></i> Karya Buku
+                    <i class="bi bi-book-half fs-5"></i> Karya Buku
                 </a>
             <?php endif; ?>
         </li>
@@ -157,10 +173,22 @@
         <li class="nav-item">
             <?php if (!($role === 'admin')) : ?>
                 <a href="/admin/index.php?action=hki" class="sidebar-link">
-                    <i class="bi bi-check-square-fill fs-5"></i> Perolehan HKI
+                    <i class="bi bi-patch-check fs-5"></i> Perolehan HKI
                 </a>
             <?php endif; ?>
         </li>
+
+        <?php if ($role === 'dosen') : ?>
+        <li class="nav-item">
+            <span class="support-heading">Blog</span>
+        </li>
+
+        <li class="nav-item">
+            <a href="/admin/index.php?action=blog" class="sidebar-link">
+                <i class="bi bi-check-square-fill"></i> Blog Saya
+            </a>
+        </li>
+        <?php endif; ?>
 
         <li class="nav-item">
             <span class="support-heading">Support</span>
@@ -176,14 +204,43 @@
     <div class="user-footer">
         <div class="d-flex align-items-center">
             <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white fw-bold me-3" 
-                 style="width: 45px; height: 45px; font-size: 1.2rem;">
-                 <img src="https://ui-avatars.com/api/?name=Si+Bro&background=003865&color=fff" class="rounded-circle" style="width:100%; height:100%;">
+                style="width: 45px; height: 45px; font-size: 1.2rem;">
+                <img src="/Views/assets/<?= htmlspecialchars($_SESSION['photo_url'] ?? 'default.jpg'); ?>" alt="<?= htmlspecialchars($username); ?>" onerror="showInitialAvatar(this, '<?= htmlspecialchars($initial); ?>');" class="rounded-circle" style="width:100%; height:100%;">
             </div>
             
             <div class="user-info">
-                <div class="fw-bold">Si bro Se</div>
-                <div class="text-muted">loremadmin@labse.edu</div>
+                <div class="fw-bold"><?= htmlspecialchars($username); ?></div>
+                <div class="text-muted"><?= htmlspecialchars($email); ?></div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function () {
+            // Remove 'active' class from all links
+            sidebarLinks.forEach(link => link.classList.remove('active'));
+            
+            // Add 'active' class to the clicked link
+            this.classList.add('active');
+        });
+    });
+});
+
+function showInitialAvatar(img, initial) {
+    const parent = img.parentElement;
+    img.remove();
+
+    parent.innerHTML = initial;
+    parent.classList.add(
+        'bg-primary',
+        'd-flex',
+        'align-items-center',
+        'justify-content-center'
+    );
+}
+
+</script>
