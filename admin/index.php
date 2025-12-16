@@ -14,7 +14,7 @@ include_once __DIR__ . '/../Controllers/geekController.php';
 
 $adminProfile = new AdminProfileController();
 $personilController = new PersonilController();
-$personilCVController = new PersonilController();
+$personilCVController = new PersonilCVController();
 $blogController = new BlogController();
 $geekController = new GeekController();
 
@@ -26,8 +26,6 @@ if ($method === 'GET') {
         case 'personil':
             if ($_SESSION['role'] === 'admin') {
                 $personilController->indexAdmin(); // halaman admin
-            } elseif ($_SESSION['role'] === 'dosen') {
-                $personilController->indexDosen(); // halaman dosen
             } else {
                 http_response_code(403);
                 echo "Akses ditolak.";
@@ -42,6 +40,24 @@ if ($method === 'GET') {
                 http_response_code(403);
                 echo "Akses ditolak.";
             }
+            break;
+        case 'dashboard':
+        case 'identitas':
+        case 'riwayat':
+        case 'penelitian':
+        case 'pengabdian':
+        case 'artikel_ilmiah':
+        case 'karya_buku':
+        case 'hki':
+            $user_id = $_SESSION['user_id'];
+            $target_id = $user_id;
+
+            if ($_SESSION['role'] === 'dosen' && $target_id !== $user_id) {
+                http_response_code(403);
+                echo "Akses ditolak: Anda hanya dapat melihat data pribadi.";
+                break;
+            }
+            $personilCVController->indexDosen($target_id, $action); 
             break;
         case 'segeeks': 
             $geekController->index();
@@ -86,21 +102,29 @@ if ($method === 'POST') {
         case 'deleteArtikel':
             $blogController->handleRequest();
             break;
-        
         case 'updateVisi':
             $profile->updateVisi($_POST['visi']);
             break;
-
         case 'updateMisi':
             $profile->updateMisi($_POST['misi']);
             break;
-
         case 'approveGeek':
             $geekController->approve();
             break;
-
         case 'deleteGeek' :
             $geekController->delete();
+            break;
+        case 'penelitian':
+        case 'pengabdian':
+            $personilCVController->handleRequest();
+            break;
+        case 'deletePenelitian':
+            if (isset($_POST['id_penelitian'])) {
+                $personilCVController->handleDeleteRequest($_POST['id_penelitian']);
+            } else {
+                http_response_code(400);
+                echo "ID Penelitian tidak disediakan.";
+            }
             break;
         default:
             http_response_code(405);
