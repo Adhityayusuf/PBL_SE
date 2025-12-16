@@ -17,16 +17,18 @@ $customCSS = "
 
         /* ===== LAYOUT ===== */
         .container {
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .card {
             background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            margin: 20px 0px 20px 0px;
+            border-radius: 10px;
+            padding: 35px;
+            margin: 0px 0px 20px 65px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 1092px;
+            max-width: 100%;
         }
 
         /* ===== HEADER ===== */
@@ -92,8 +94,12 @@ $customCSS = "
 
         /* ===== TIMELINE CONTENT ===== */
         .timeline-content {
-            width: 45%; /* Setengah lebar untuk desktop */
-            min-height: 140px; /* PERBAIKAN: Mencegah card menciut */
+            width: 45%;
+            min-height: 220px;           
+            display: flex;               
+            flex-direction: column;      
+            justify-content: space-between; 
+            
             background: #02294A;
             border-radius: 15px;
             padding: 30px;
@@ -102,6 +108,7 @@ $customCSS = "
             box-shadow: 0 5px 15px rgba(2, 41, 74, 0.5);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
 
         .timeline-content:hover {
             transform: translateY(-8px);
@@ -196,49 +203,52 @@ $customCSS = "
 ?>
 <div class="layout">
     <?= include __DIR__ . '/layout/sidebar.php' ?>
-    <div class="content">
-        <div class="container">
-            <div class="card">
-                <h1>Riwayat Pendidikan</h1>
-
-                <div class="timeline" id="timelineContainer">
-                    <?php
-                    if (!empty($pendidikan) && is_array($pendidikan)) {
-                        $i = 1;
-                        // Hapus $index di sini karena tidak digunakan/berpotensi string
-                        foreach ($pendidikan as $item): 
-
-                            // PERBAIKAN: Gunakan $i (integer counter) untuk modulo
-                            $position = ($i % 2 === 1) ? 'left' : 'right'; // Menggunakan 1 untuk memastikan item pertama (i=1) ada di 'left'
-                    ?>
-                            <div class="timeline-item <?= $position ?>">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <?php
-                                        // Menggunakan operator null coalescing (??) untuk mencegah error "Undefined array key"
-                                        $universitas = htmlspecialchars($item['universitas'] ?? 'Institusi Tidak Diketahui');
-                                        $program_studi = htmlspecialchars($item['program_studi'] ?? 'Jurusan Tidak Ada');
-                                        $tahun_lulus = htmlspecialchars($item['tahun_lulus'] ?? '?');
-                                        $judul_tugas = htmlspecialchars($item['judul_tugas'] ?? '—');
-                                    ?>
-                                    <h3><?php echo "S". $i?> - <?= $universitas ?></h3>
-                                    <div class="program">
-                                        <?= $program_studi ?>
-                                        (<?= $tahun_lulus ?>)
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="card">
+                    <h2>Riwayat Pendidikan</h2>
+                    <br>
+                    <div class="timeline">
+                        <?php
+                        if (!empty($pendidikan) && is_array($pendidikan)) {
+                            $i = 1;
+                            // Hapus $index di sini karena tidak digunakan/berpotensi string
+                            foreach ($pendidikan as $item): 
+    
+                                // PERBAIKAN: Gunakan $i (integer counter) untuk modulo
+                                $position = ($i % 2 === 1) ? 'left' : 'right'; // Menggunakan 1 untuk memastikan item pertama (i=1) ada di 'left'
+                        ?>
+                                <div class="timeline-item <?= $position ?>">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <?php
+                                            // Menggunakan operator null coalescing (??) untuk mencegah error "Undefined array key"
+                                            $universitas = htmlspecialchars($item['universitas'] ?? 'Institusi Tidak Diketahui');
+                                            $program_studi = htmlspecialchars($item['program_studi'] ?? 'Jurusan Tidak Ada');
+                                            $tahun_lulus = htmlspecialchars($item['tahun_lulus'] ?? '?');
+                                            $judul_tugas = htmlspecialchars($item['judul_tugas'] ?? '—');
+                                        ?>
+                                        <h3><?php echo "S". $i?> - <?= $universitas ?></h3>
+                                        <div class="program">
+                                            <?= $program_studi ?>
+                                            (<?= $tahun_lulus ?>)
+                                        </div>
+                                        <p class="thesis"><?= $judul_tugas ?></p>
                                     </div>
-                                    <p class="thesis"><?= $judul_tugas ?></p>
                                 </div>
-                            </div>
-                    <?php
-                            $i++;
-                        endforeach;
-                    } else {
-                        // Tampilkan pesan jika data kosong
-                        echo '<p style="text-align: center; color: #666;">Data riwayat pendidikan belum tersedia.</p>';
-                    }
-                    ?>
+                        <?php
+                                $i++;
+                            endforeach;
+                        } else {
+                            // Tampilkan pesan jika data kosong
+                            echo '<p style="text-align: center; color: #666;">Data riwayat pendidikan belum tersedia.</p>';
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

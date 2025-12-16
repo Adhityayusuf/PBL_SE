@@ -1,3 +1,8 @@
+<?php
+    $currentAction = $_GET['action'] ?? 'dashboard';
+?>
+
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -87,8 +92,14 @@
     }
 
     /* Hover */
-    .cv-link:hover {
+    .cv-link:hover,
+    .cv-link.active {
         background: #0b3b66;
+        color: #fff;
+    }
+
+    .cv-link:hover i,
+    .cv-link.active i {
         color: #fff;
     }
 
@@ -109,7 +120,7 @@
         */
     .content-wrapper {
         min-height: calc(100vh - 40px);
-        padding: 40px 50px;
+        padding-left: 40px 50px;
         margin-left: 200px;
         gap: 20px;
         height: calc(100vh);
@@ -154,43 +165,50 @@
 
         <ul class="cv-menu">
             <li>
-                <a href="/index.php?action=dashboard&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link active">
+                <a href="index.php?action=dashboard&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'dashboard') ? 'active' : '' ?>">
                     <i class="bi bi-grid"></i> Dashboard
                 </a>
             </li>
 
             <li>
-                <a href="index.php?action=identitas&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link ">
-                    <i class="bi bi-grid"></i> Identitas Diri
+                <a href="index.php?action=identitas&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'identitas') ? 'active' : '' ?>">
+                    <i class="bi bi-person"></i> Identitas Diri
                 </a>
             </li>
 
             <li>
-                <a href="index.php?action=riwayat&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
-                    <i class="bi bi-lightning-charge"></i> Riwayat Pendidikan
+                <a href="index.php?action=riwayat&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'riwayat') ? 'active' : '' ?>">
+                    <i class="bi bi-mortarboard"></i> Riwayat Pendidikan
                 </a>
             </li>
 
             <li>
-                <a href="index.php?action=penelitian&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
+                <a href="index.php?action=penelitian&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'penelitian') ? 'active' : '' ?>">
                     <i class="bi bi-people"></i> Penelitian
                 </a>
             </li>
 
             <li>
-                <a href="index.php?action=pengabdian&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
+                <a href="index.php?action=pengabdian&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'pengabdian') ? 'active' : '' ?>">
                     <i class="bi bi-journal-text"></i> Pengabdian
                 </a>
             </li>
 
             <li>
-                <a href="index.php?action=buku&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
-                    <i class="bi bi-journal-text"></i> Karya Buku
+                <a href="index.php?action=buku&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'buku') ? 'active' : '' ?>">
+                    <i class="bi bi-book"></i> Karya Buku
                 </a>
             </li>
 
             <li>
-                <a href="index.php?hki&id=<?= htmlspecialchars($id_personil) ?>" class="cv-link">
+                <a href="index.php?action=hki&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'hki') ? 'active' : '' ?>">
                     <i class="bi bi-award"></i> Perolehan HKI
                 </a>
             </li>

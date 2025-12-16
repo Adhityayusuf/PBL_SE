@@ -36,7 +36,7 @@ $customCSS = "* {
 
         /* Container tidak terlalu dibutuhkan jika tidak ada batas lebar */
         .container {
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -44,10 +44,12 @@ $customCSS = "* {
         .card {
             background: #fff;
             border-radius: 10px; /* Diperkecil agar lebih elegan */
-            padding: 50px;
+            padding: 35px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Shadow lebih kuat */
             width: 90%; /* Memastikan lebar kartu 100% dikurangi margin */
-            margin: 20px 0;
+            margin-right: 20px;
+            margin-left: 50px;
+
             min-height: auto;
         }
 
@@ -165,24 +167,25 @@ include __DIR__ . '/layout/header.php';
             <div class="container">
                 <div class="card">
                     <h2>Pengalaman Penelitian</h2>
+                    <br>
                     <div class="penelitian-grid">
                         <?php if (!empty($penelitian)): ?>
                             <?php foreach ($penelitian as $item): ?>
                                 <div class="penelitian-item">
                                     <div class="year"><?= htmlspecialchars($item['tahun'] ?? '-') ?></div>
                                     <div class="info">
-                                        <span class="label">Judul</span>
+                                        <span class="label"><strong>Judul: </strong></span>
                                         <span class="value"><?= htmlspecialchars($item['judul_penelitian'] ?? '-') ?></span>
                                     </div>
                                     <div class="info">
-                                        <span class="label">Sumber Dana</span>
+                                        <span class="label">Sumber Dana: </span>
                                         <span class="value"><?= htmlspecialchars($item['sumber_dana'] ?? '-') ?></span>
                                     </div>
                                     <div class="info">
-                                        <span class="label">Jumlah</span>
+                                        <span class="label">Jumlah Biaya:</span>
                                         <span class="value"><?= htmlspecialchars($item['jml_dana'] ?? '-') ?></span>
                                     </div>
-                                    <a href="<?= htmlspecialchars($item['link'] ?? '-') ?>" class="btn-lihat">
+                                    <a href="<?= htmlspecialchars($item['link'] ?? '#') ?>" class="btn-lihat">
                                         Lihat <i class="fas fa-arrow-right"></i>
                                     </a>
                                 </div>

@@ -23,13 +23,12 @@ $customCSS = "
 
         }
         .main-content {
-            padding: 30px;
+            padding: 0px 30px 30px 30px;
             width: calc(100%);
         }
         /* ===== LAYOUT ===== */
         .container {
             max-width: 1400px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;

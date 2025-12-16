@@ -16,18 +16,18 @@ $customCSS = "
 
         /* ===== LAYOUT ===== */
         .container {
-            max-width: 100%;
-            max-height: 50%;
-            margin: 0 auto;
+            max-width: 1400px;
         }
 
         .card {
             background: #ffffffff;
-            border-radius: 20px;
-            padding: 100px;
-            margin-top: 20px;
+            border-radius: 10px;
+            padding: 35px 35px 35px 35px;
+            margin-left: 69px;
             margin-bottom: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            width: 1092px;
+            max-width: 100%;
         }
 
         /* ===== HEADER ===== */
@@ -192,7 +192,8 @@ include __DIR__ . '/layout/header.php';
 
             <div class="container">
                 <div class="card">
-                    <h1>Identitas Diri</h1>
+                    <h2>Identitas Diri</h2>
+                    <br>    
 
                     <!-- FOTO -->
                     <!-- <div class="foto-section">
@@ -207,39 +208,40 @@ include __DIR__ . '/layout/header.php';
                         <!-- ROW 1 -->
                         <div class="info-row-3">
                             <div class="info-box">
-                                <label>Nama Lengkap</label>
-                                <div class="value"><?= htmlspecialchars($personil['nama']) ?></div>
+                                <label><strong>Nama Lengkap</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['nama'] ?? "Data belum diinputkan") ?></div>
                             </div>
 
                             <div class="info-box">
-                                <label>Jabatan Fungsional</label>
-                                <div class="value"><?= htmlspecialchars($personil['jabatan']) ?></div>
+                                <label><strong>Jabatan Fungsional</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['jabatan'] ?? "Data belum diinputkan") ?></div>
                             </div>
 
                             <div class="info-box">
-                                <label>Nomor Induk Pegawai</label>
-                                <div class="value"><?= htmlspecialchars($personil['nip']) ?></div>
+                                <label><strong>Nomor Induk Pegawai</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['nip'] ?? "Data belum diinputkan") ?></div>
                             </div>
                         </div>
 
                         <!-- ROW 2 -->
                         <div class="info-row-3">
                             <div class="info-box">
-                                <label>Nomor Induk Dosen Nasional</label>
-                                <div class="value"><?= htmlspecialchars($personil['nidn']) ?></div>
+                                <label><strong>Nomor Induk Dosen Nasional</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['nidn'] ?? "Data belum diinputkan") ?></div>
                             </div>
 
                             <div class="info-box">
-                                <label>Tempat, Tanggal Lahir</label>
+                                <label><strong>Tempat, Tanggal Lahir</strong></label>
                                 <div class="value">
-                                    <?= htmlspecialchars($personil['tempat_lahir']) ?>,
-                                    <?= date('d F Y', strtotime($personil['tgl_lahir'])) ?>
+                                    <?= htmlspecialchars($personil['tempat_lahir'] ?? "Data belum diinputkan") ?>,
+
+                                    <?= date('d F Y', strtotime($personil['tgl_lahir'] ?? '')) ?? "Data belum diinputkan" ?>
                                 </div>
                             </div>
 
                             <div class="info-box">
-                                <label>Jenis Kelamin</label>
-                                <div class="value"><?= htmlspecialchars($personil['jenis_kelamin']) ?></div>
+                                <label><strong>Jenis Kelamin</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['jenis_kelamin'] ?? "Data belum diinputkan") ?></div>
                             </div>
 
                         </div>
@@ -247,34 +249,34 @@ include __DIR__ . '/layout/header.php';
                         <!-- ROW 3 -->
                         <div class="info-row-3">
                             <div class="info-box">
-                                <label>Nomor Telephone</label>
-                                <div class="value"><?= htmlspecialchars($personil['no_telp']) ?></div>
+                                <label><strong>Nomor Telephone</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['no_telp'] ?? "Data belum diinputkan") ?></div>
 
                                 <label>Email</label>
-                                <div class="value"><?= htmlspecialchars($personil['email']) ?></div>
+                                <div class="value"><?= htmlspecialchars($personil['email'] ?? "Data belum diinputkan") ?></div>
                             </div>
 
                             <!-- LULUSAN (OPSIONAL / BISA DIHAPUS KALAU BELUM ADA TABEL) -->
                             <div class="lulusan-box">
-                                <label>Lulusan yang Telah Dihasilkan</label>
+                                <label><strong>Lulusan yang Telah Dihasilkan</strong></label>
                                 <div class="lulusan-grid">
                                     <div class="lulusan-item">
                                         <h3>S-1</h3>
-                                        <p><?= $personil['lulusan_s1'] ?? 0 ?></p>
+                                        <p><?= $personil['lulusan_s1'] ?? "-" ?></p>
                                     </div>
                                     <div class="lulusan-item">
                                         <h3>S-2</h3>
-                                        <p><?= $personil['lulusan_s2'] ?? 0 ?></p>
+                                        <p><?= $personil['lulusan_s2'] ?? "-" ?></p>
                                     </div>
                                     <div class="lulusan-item">
                                         <h3>S-3</h3>
-                                        <p><?= $personil['lulusan_s3'] ?? 0 ?></p>
+                                        <p><?= $personil['lulusan_s3'] ?? "-" ?></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="info-box">
-                                <label>Alamat Kantor</label>
-                                <div class="value"><?= htmlspecialchars($personil['alamat_kantor']) ?></div>
+                                <label><strong>Alamat Kantor</strong></label>
+                                <div class="value"><?= htmlspecialchars($personil['alamat_kantor'] ?? "Data belum diinputkan") ?></div>
                             </div>
                         </div>
 
@@ -287,7 +289,7 @@ include __DIR__ . '/layout/header.php';
                                 if (!empty($mataKuliah)):
                                     foreach ($mataKuliah as $i => $mk):
                                 ?>
-                                        <li><?= ($i + 1) . '. ' . htmlspecialchars($mk) ?></li>
+                                        <li><?= ($i + 1) . '. ' . htmlspecialchars($mk ?? "Data belum diinputkan") ?></li>
                                     <?php
                                     endforeach;
                                 else:
