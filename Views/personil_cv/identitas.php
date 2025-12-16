@@ -193,7 +193,7 @@ include __DIR__ . '/layout/header.php';
             <div class="container">
                 <div class="card">
                     <h2>Identitas Diri</h2>
-                    <br>    
+                    <br>
 
                     <!-- FOTO -->
                     <!-- <div class="foto-section">
@@ -260,17 +260,18 @@ include __DIR__ . '/layout/header.php';
                             <div class="lulusan-box">
                                 <label><strong>Lulusan yang Telah Dihasilkan</strong></label>
                                 <div class="lulusan-grid">
+                                    <?php $jml = $personil['mhs_lulus'] ?? []; ?>
                                     <div class="lulusan-item">
                                         <h3>S-1</h3>
-                                        <p><?= $personil['lulusan_s1'] ?? "-" ?></p>
+                                        <p><?= $jml['lulusan_s1'] ?? "-" ?></p>
                                     </div>
                                     <div class="lulusan-item">
                                         <h3>S-2</h3>
-                                        <p><?= $personil['lulusan_s2'] ?? "-" ?></p>
+                                        <p><?= $jml['lulusan_s2'] ?? "-" ?></p>
                                     </div>
                                     <div class="lulusan-item">
                                         <h3>S-3</h3>
-                                        <p><?= $personil['lulusan_s3'] ?? "-" ?></p>
+                                        <p><?= $jml['lulusan_s3'] ?? "-" ?></p>
                                     </div>
                                 </div>
                             </div>

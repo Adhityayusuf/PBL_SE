@@ -275,9 +275,9 @@ include __DIR__ . '/layout/header.php';
 
 
 <div class="layout">
-<?php
-include __DIR__ . '/layout/sidebar.php'
-?>
+    <?php
+    include __DIR__ . '/layout/sidebar.php'
+    ?>
     <div class="main-content">
         <div class="content-wrapper">
             <div class="container">
@@ -292,12 +292,15 @@ include __DIR__ . '/layout/sidebar.php'
                             <div class="info-item"><label><?= $personil['email'] ?? '-' ?></label></div>
                             <div class="info-item"><label><?= $personil['ruang_dosen'] ?? '-' ?></label></div>
                             <div class="social-icons">
-                                <a href="<?= htmlspecialchars($personil['linkedin'] ?? '#') ?>" target="_blank"><i class="fab fa-linkedin"></i></a>
-                                <a href="<?= htmlspecialchars($personil['github'] ?? '#') ?>" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="<?= htmlspecialchars($personil['email'] ?? '#') ?>" target="_blank"><i class="fas fa-envelope"></i></a>
+                                <?php $social = !empty($personil['content_social'])
+                                    ? json_decode($personil['content_social'], true)
+                                    : []; ?>
+                                <a href="<?= htmlspecialchars($social['linkedin'] ?? '#') ?>" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a href="<?= htmlspecialchars($social['github'] ?? '#') ?>" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="<?= htmlspecialchars($social['email'] ?? '#') ?>" target="_blank"><i class="fas fa-envelope"></i></a>
                             </div>
                             <!-- Mengajar tepat di bawah info -->
-    
+
                         </div>
                     </div>
                     <div class="mengajar-section">
@@ -309,12 +312,12 @@ include __DIR__ . '/layout/sidebar.php'
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Deskripsi Diri -->
                 <div class="card deskripsi-card">
                     <p><?= nl2br($personil['desc_diri'] ?? '-') ?></p>
                 </div>
-    
+
                 <!-- Pendidikan -->
                 <div class="card pendidikan-card">
                     <h2>Pendidikan</h2>
@@ -327,7 +330,7 @@ include __DIR__ . '/layout/sidebar.php'
                         <?php endforeach; ?>
                     </div>
                 </div>
-    
+
                 <!-- Pencapaian -->
                 <div class="card pencapaian-card">
                     <h2>Pencapaian</h2>
@@ -347,7 +350,7 @@ include __DIR__ . '/layout/sidebar.php'
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Pengalaman -->
                 <div class="card pengalaman-card">
                     <h2>Pengalaman</h2>
