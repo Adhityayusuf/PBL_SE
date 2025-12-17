@@ -388,7 +388,7 @@ require_once __DIR__ . "/layout/navbar.php";
                             <a href="index.php?action=dashboard&id=<?= htmlspecialchars($dosen['id_personil']); ?>"
                                 class="btn-lihat"
                                 style="border-radius: 8px; padding: 8px 16px;">
-                                Lihat Identitas
+                                Lihat Curriculum Vitae (CV)
                             </a>
                         </div>
                     </div>

@@ -67,7 +67,7 @@
             background-color: #e6f7e6;
             color: #28a745;
         }
-        
+
         .action-tolak {
             background-color: #fce7e7;
             color: #dc3545;
@@ -83,7 +83,8 @@
                 padding: 25px;
             }
 
-            .table th, .table td {
+            .table th,
+            .table td {
                 font-size: 14px;
             }
         }
@@ -93,7 +94,8 @@
                 font-size: 14px;
             }
 
-            .table td, .table th {
+            .table td,
+            .table th {
                 font-size: 13px;
             }
         }
@@ -141,7 +143,9 @@
         }
 
         @media (max-width: 576px) {
-            .table th, .table td {
+
+            .table th,
+            .table td {
                 font-size: 12px;
                 white-space: nowrap;
             }
@@ -211,146 +215,153 @@
 
             <div class="table-container">
                 <table class="table align-middle" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>NIM</th>
-                                <th>Program Studi</th>
-                                <th>Angkatan</th>
-                                <th>Minat</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Program Studi</th>
+                            <th>Angkatan</th>
+                            <th>Minat</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            <?php foreach ($data as $geek): ?>
-                                <?php
-                                $status_class = match ($geek['status']) {
-                                    'menunggu' => 'status-menunggu',
-                                    'disetujui' => 'status-diterima',
-                                    default => ''
-                                };
-                                ?>
-
-                                <tr>
-                                    <td><?= $geek['nama'] ?></td>
-                                    <td><?= $geek['nim'] ?></td>
-                                    <td><?= $geek['prodi'] ?></td>
-                                    <td><?= $geek['angkatan'] ?></td>
-                                    <td><?= $geek['minat'] ?></td>
-
-                                    <td>
-                                        <span class="status-badge <?= $status_class ?>">
-                                            <?= $geek['status'] ?>
-                                        </span>
-                                    </td>
-
-                                    <td>
-
-                                        <?php if ($geek['status'] !== 'disetujui'): ?>
-                                            <form method="POST" action="index.php" style="display:inline;">
-                                                <input type="hidden" name="action" value="approveGeek">
-                                                <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
-                                                <button type="submit" class="action-button-bg action-setujui">
-                                                    <i class="bi bi-check-circle-fill"></i> Setujui
-                                                </button>
-                                            </form>
-                                            <form method="POST" action="index.php" style="display:inline;"
-                                                onsubmit="return confirm('Anda yakin ingin menolak mahasiswa ini?')">
-                                                <input type="hidden" name="action" value="tolakGeek">
-                                                <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
-                                                <button type="submit" class="action-button-bg action-tolak">
-                                                    <i class="bi bi-trash-fill"></i> Tolak
-                                                </button>
-                                            </form>
-                                        
-                                            <?php endif; ?>
-                                            <form method="POST" action="index.php" style="display:inline;"
-                                                onsubmit="return confirm('Anda yakin ingin mengarsipkan mahasiswa ini?')">
-                                                <input type="hidden" name="action" value="arsipGeek">
-                                                <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
-                                                <button type="submit" class="action-button-bg action-arsip">
-                                                    <i class="bi bi-trash-fill"></i> Arsipkan
-                                                </button>
-                                            </form>
-                                    </td>
-
-                                </tr>
-                            <?php endforeach ?>
-                        </tbody>
-
-                    </table>
-                </div>
-
-                <!-- Pagination Info -->
-                <div class="text-center mt-3 mb-2">
-                    <small class="text-muted">
-                        Menampilkan <?php echo !empty($data) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
-                    </small>
-                </div>
-
-                <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-4">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
+                    <tbody>
+                        <?php foreach ($data as $geek): ?>
                             <?php
-                            // Tombol Previous
-                            if ($current_page > 1) {
-                                echo '<li class="page-item">';
-                                echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
-                                echo '<span aria-hidden="true">Previous</span>';
-                                echo '</a></li>';
-                            } else {
-                                echo '<li class="page-item disabled">';
-                                echo '<span class="page-link">Previous</span>';
-                                echo '</li>';
-                            }
-
-                            // Nomor halaman
-                            $start_page = max(1, $current_page - 2);
-                            $end_page = min($total_pages, $current_page + 2);
-
-                            if ($start_page > 1) {
-                                echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=1' . $search_query . '">1</a></li>';
-                                if ($start_page > 2) {
-                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-                                }
-                            }
-
-                            for ($i = $start_page; $i <= $end_page; $i++) {
-                                if ($i == $current_page) {
-                                    echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
-                                } else {
-                                    echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $i . $search_query . '">' . $i . '</a></li>';
-                                }
-                            }
-
-                            if ($end_page < $total_pages) {
-                                if ($end_page < $total_pages - 1) {
-                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-                                }
-                                echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
-                            }
-
-                            // Tombol Next
-                            if ($current_page < $total_pages) {
-                                echo '<li class="page-item">';
-                                echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
-                                echo '<span aria-hidden="true">Next</span>';
-                                echo '</a></li>';
-                            } else {
-                                echo '<li class="page-item disabled">';
-                                echo '<span class="page-link">Next</span>';
-                                echo '</li>';
-                            }
+                            $status_class = match ($geek['status']) {
+                                'menunggu' => 'status-menunggu',
+                                'disetujui' => 'status-diterima',
+                                'arsipkan' => 'status-diarsipkan',
+                                'tolak' => 'status-ditolak',
+                                default => ''
+                            };
                             ?>
-                        </ul>
-                    </nav>
-                </div>
+
+                            <tr>
+                                <td><?= $geek['nama'] ?></td>
+                                <td><?= $geek['nim'] ?></td>
+                                <td><?= $geek['prodi'] ?></td>
+                                <td><?= $geek['angkatan'] ?></td>
+                                <td><?= $geek['minat'] ?></td>
+
+                                <td>
+                                    <span class="status-badge <?= $status_class ?>">
+                                        <?= $geek['status'] ?>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <?php if ($geek['status'] === 'menunggu'): ?>
+
+                                        <form method="POST" action="index.php" style="display:inline;">
+                                            <input type="hidden" name="action" value="approveGeek">
+                                            <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
+                                            <button type="submit" class="action-button-bg action-setujui">
+                                                <i class="bi bi-check-circle-fill"></i> Setujui
+                                            </button>
+                                        </form>
+
+                                        <form method="POST" action="index.php" style="display:inline;"
+                                            onsubmit="return confirm('Anda yakin ingin menolak mahasiswa ini?')">
+                                            <input type="hidden" name="action" value="tolakGeek">
+                                            <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
+                                            <button type="submit" class="action-button-bg action-tolak">
+                                                <i class="bi bi-x-circle-fill"></i> Tolak
+                                            </button>
+                                        </form>
+
+                                    <?php elseif ($geek['status'] === 'disetujui' || $geek['status'] === 'ditolak'): ?>
+                                        <form method="POST" action="index.php" style="display:inline;"
+                                            onsubmit="return confirm('Anda yakin ingin mengarsipkan mahasiswa ini?')">
+                                            <input type="hidden" name="action" value="arsipGeek">
+                                            <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
+                                            <button type="submit" class="action-button-bg action-arsip">
+                                                <i class="bi bi-archive-fill"></i> Arsipkan
+                                            </button>
+                                        </form>
+
+                                    <?php else: ?>
+                                        <span class="text-muted fst-italic"> </span>
+                                    <?php endif; ?>
+                                </td>
+
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+
+                </table>
             </div>
 
+            <!-- Pagination Info -->
+            <div class="text-center mt-3 mb-2">
+                <small class="text-muted">
+                    Menampilkan <?php echo !empty($data) ? $offset + 1 : 0; ?> - <?php echo min($offset + $items_per_page, $total_items); ?> dari <?php echo $total_items; ?> data
+                </small>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php
+                        // Tombol Previous
+                        if ($current_page > 1) {
+                            echo '<li class="page-item">';
+                            echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page - 1) . $search_query . '" aria-label="Previous">';
+                            echo '<span aria-hidden="true">Previous</span>';
+                            echo '</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled">';
+                            echo '<span class="page-link">Previous</span>';
+                            echo '</li>';
+                        }
+
+                        // Nomor halaman
+                        $start_page = max(1, $current_page - 2);
+                        $end_page = min($total_pages, $current_page + 2);
+
+                        if ($start_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=1' . $search_query . '">1</a></li>';
+                            if ($start_page > 2) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                        }
+
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            if ($i == $current_page) {
+                                echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                            } else {
+                                echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $i . $search_query . '">' . $i . '</a></li>';
+                            }
+                        }
+
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                            echo '<li class="page-item"><a class="page-link" href="index.php?action=segeeks&page=' . $total_pages . $search_query . '">' . $total_pages . '</a></li>';
+                        }
+
+                        // Tombol Next
+                        if ($current_page < $total_pages) {
+                            echo '<li class="page-item">';
+                            echo '<a class="page-link" href="index.php?action=segeeks&page=' . ($current_page + 1) . $search_query . '" aria-label="Next">';
+                            echo '<span aria-hidden="true">Next</span>';
+                            echo '</a></li>';
+                        } else {
+                            echo '<li class="page-item disabled">';
+                            echo '<span class="page-link">Next</span>';
+                            echo '</li>';
+                        }
+                        ?>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
