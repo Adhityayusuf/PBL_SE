@@ -37,7 +37,18 @@ class GeekModel extends Database
         $stmt = $this->conn->prepare("UPDATE mahasiswa SET status = 'disetujui' WHERE nim = :nim");
         return $stmt->execute(['nim' => $nim]);
     }
+    
+    public function arsip($nim)
+    {
+        $stmt = $this->conn->prepare("UPDATE mahasiswa SET status = 'diarsipkan' WHERE nim = :nim");
+        return $stmt->execute(['nim' => $nim]);
+    }
 
+    public function tolak($nim)
+    {
+        $stmt = $this->conn->prepare("UPDATE mahasiswa SET status = 'ditolak' WHERE nim = :nim");
+        return $stmt->execute(['nim' => $nim]);
+    }
     public function delete($nim)
     {
         $stmt = $this->conn->prepare("DELETE FROM mahasiswa WHERE nim = :nim");

@@ -111,8 +111,11 @@ if ($method === 'POST') {
         case 'approveGeek':
             $geekController->approve();
             break;
-        case 'deleteGeek' :
-            $geekController->delete();
+        case 'tolakGeek':
+            $geekController->tolak();
+            break;
+        case 'arsipGeek' :
+            $geekController->arsip();
             break;
         case 'penelitian':
         case 'pengabdian':

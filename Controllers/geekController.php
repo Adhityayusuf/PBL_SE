@@ -42,6 +42,24 @@ class GeekController
         }
         header("Location: /admin/index.php?action=segeeks");
     }
+    
+    public function arsip()
+    {
+        $nim = $_POST['nim'] ?? null;
+        if ($nim) {
+            $this->model->arsip($nim);
+        }
+        header("Location: /admin/index.php?action=segeeks");
+    }
+    
+    public function tolak()
+    {
+        $nim = $_POST['nim'] ?? null;
+        if ($nim) {
+            $this->model->tolak($nim);
+        }
+        header("Location: /admin/index.php?action=segeeks");
+    }
 
     public function delete()
     {

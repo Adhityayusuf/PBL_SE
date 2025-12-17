@@ -104,6 +104,23 @@ $customCSS = "
     .icon-circle:hover {
         background: #333;
     }
+    
+    .btn-lihat {
+        background-color: #0f3460;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 8px 25px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 15px;
+        transition: background 0.3s;
+    }
+
+    .btn-wrapper {
+        margin-top: auto;
+    }
 
     .pagination {
         gap: 8px;
@@ -365,6 +382,13 @@ require_once __DIR__ . "/layout/navbar.php";
 
                             <a href="mailto:<?php echo $social['email'] ?? $dosen['email']; ?>" class="icon-circle">
                                 <i class="bi bi-envelope-fill"></i>
+                            </a>
+                        </div>
+                        <div class="btn-wrapper">
+                            <a href="index.php?action=dashboard&id=<?= htmlspecialchars($dosen['id_personil']); ?>"
+                                class="btn-lihat"
+                                style="border-radius: 8px; padding: 8px 16px;">
+                                Lihat Identitas
                             </a>
                         </div>
                     </div>

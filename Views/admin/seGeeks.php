@@ -67,10 +67,15 @@
             background-color: #e6f7e6;
             color: #28a745;
         }
-
-        .action-hapus {
+        
+        .action-tolak {
             background-color: #fce7e7;
             color: #dc3545;
+        }
+
+        .action-arsip {
+            background-color: #fcf3e7ff;
+            color: #dc9635ff;
         }
 
         @media (max-width: 1400px) {
@@ -251,17 +256,24 @@
                                                     <i class="bi bi-check-circle-fill"></i> Setujui
                                                 </button>
                                             </form>
-                                        <?php endif; ?>
-
-
-                                        <form method="POST" action="index.php" style="display:inline;"
-                                            onsubmit="return confirm('Anda yakin ingin menghapus?')">
-                                            <input type="hidden" name="action" value="deleteGeek">
-                                            <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
-                                            <button type="submit" class="action-button-bg action-hapus">
-                                                <i class="bi bi-trash-fill"></i> Hapus
-                                            </button>
-                                        </form>
+                                            <form method="POST" action="index.php" style="display:inline;"
+                                                onsubmit="return confirm('Anda yakin ingin menolak mahasiswa ini?')">
+                                                <input type="hidden" name="action" value="tolakGeek">
+                                                <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
+                                                <button type="submit" class="action-button-bg action-tolak">
+                                                    <i class="bi bi-trash-fill"></i> Tolak
+                                                </button>
+                                            </form>
+                                        
+                                            <?php endif; ?>
+                                            <form method="POST" action="index.php" style="display:inline;"
+                                                onsubmit="return confirm('Anda yakin ingin mengarsipkan mahasiswa ini?')">
+                                                <input type="hidden" name="action" value="arsipGeek">
+                                                <input type="hidden" name="nim" value="<?= $geek['nim'] ?>">
+                                                <button type="submit" class="action-button-bg action-arsip">
+                                                    <i class="bi bi-trash-fill"></i> Arsipkan
+                                                </button>
+                                            </form>
                                     </td>
 
                                 </tr>

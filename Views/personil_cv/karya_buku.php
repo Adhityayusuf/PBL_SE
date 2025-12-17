@@ -11,7 +11,7 @@ body {
     background-color: white;
     border-radius: 10px;
     padding: 35px;
-    margin: 0px 50px 50px 69px;
+    margin: 0px 50px 50px 75px;
     max-width: 1400px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }

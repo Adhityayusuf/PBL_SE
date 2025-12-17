@@ -1,4 +1,4 @@
-<?php 
+<?php
 $title = "Recruitment Page";
 
 $customCSS = "
@@ -116,10 +116,10 @@ include_once __DIR__ . "/layout/navbar.php";
 
             <p class="desc mx-auto">
                 <br>Bergabunglah dengan Software Engineering Geeks untuk mengasah skillmu dalam desain arsitektur,
-                pengembangan web & mobile, pengujian perangkat lunak, hingga praktik DevOps modern. Kami adalah 
+                pengembangan web & mobile, pengujian perangkat lunak, hingga praktik DevOps modern. Kami adalah
                 wadah bagi talenta yang bersemangat menciptakan solusi teknologi revolusioner.
             </p>
-        
+
         </div>
 
         <div class="col-md-4 ps-4">
@@ -171,13 +171,14 @@ include_once __DIR__ . "/layout/navbar.php";
 <div class="divider"></div>
 
 <div class="container py-4 mb-5">
-    
+
     <div class="table-wrapper mx-auto" style="max-width: 900px;">
         <h3 class="text-center text-black mb-4 fw-bold">Daftar Mahasiswa SE Geeks</h3>
-        
+
         <table id="tabelMahasiswa" class="table table-striped table-hover align-middle">
             <thead>
-                <tr> <th>Nama</th>
+                <tr>
+                    <th>Nama</th>
                     <th>NIM</th>
                     <th>Program Studi</th>
                     <th>Angkatan</th>
@@ -186,9 +187,13 @@ include_once __DIR__ . "/layout/navbar.php";
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 if (!empty($recruitmentList)) {
-                    foreach($recruitmentList as $mhs){ 
+                    foreach ($recruitmentList as $mhs) {
+                        // lewati data yang diarsipkan
+                        if ($mhs['status'] === 'diarsipkan') {
+                            continue;
+                        }
                 ?>
                         <tr>
                             <td><?= htmlspecialchars($mhs['nama']); ?></td>
@@ -197,20 +202,19 @@ include_once __DIR__ . "/layout/navbar.php";
                             <td><?= htmlspecialchars($mhs['angkatan']); ?></td>
                             <td><?= htmlspecialchars($mhs['minat'] ?? ''); ?></td>
                             <td>
-                                <?php if($mhs['status'] == 'menunggu'){ ?>
+                                <?php if ($mhs['status'] === 'menunggu') { ?>
                                     <span class="badge badge-menunggu">Menunggu</span>
-                                <?php } elseif($mhs['status'] == 'disetujui'){ ?>
+                                <?php } elseif ($mhs['status'] === 'disetujui') { ?>
                                     <span class="badge badge-disetujui">Disetujui</span>
-                                <?php } else{ ?>
+                                <?php } elseif ($mhs['status'] === 'ditolak') { ?>
                                     <span class="badge badge-ditolak">Ditolak</span>
                                 <?php } ?>
                             </td>
                         </tr>
-                <?php 
-                    } 
+                <?php
+                    }
                 } else {
-                    // Pastikan ada pesan jika data kosong
-                    echo '<tr><td colspan="5" class="text-center">Tidak ada data mahasiswa.</td></tr>';
+                    echo '<tr><td colspan="6" class="text-center">Tidak ada data mahasiswa.</td></tr>';
                 }
                 ?>
             </tbody>
@@ -227,28 +231,28 @@ include_once __DIR__ . "/layout/navbar.php";
 
 
 <script>
-$(document).ready(function () {
-    $("#tabelMahasiswa").DataTable({
-        searching: true,
-        ordering: true,
-        pageLength: 10,
-        lengthMenu: [10, 20, 30, 50],
-        
-        // DOM configuration untuk layout Bootstrap
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        
-        language: {
-            lengthMenu: "Tampilkan _MENU_ data per halaman",
-            search: "Cari:",
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-            infoEmpty: "Data tidak tersedia",
-            paginate: {
-                previous: "Sebelumnya",
-                next: "Selanjutnya"
+    $(document).ready(function() {
+        $("#tabelMahasiswa").DataTable({
+            searching: true,
+            ordering: true,
+            pageLength: 10,
+            lengthMenu: [10, 20, 30, 50],
+
+            // DOM configuration untuk layout Bootstrap
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+
+            language: {
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                search: "Cari:",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                infoEmpty: "Data tidak tersedia",
+                paginate: {
+                    previous: "Sebelumnya",
+                    next: "Selanjutnya"
+                }
             }
-        }
+        });
     });
-});
 </script>
 
 <?php

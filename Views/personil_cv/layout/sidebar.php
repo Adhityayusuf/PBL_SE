@@ -205,6 +205,13 @@
                     <i class="bi bi-book"></i> Karya Buku
                 </a>
             </li>
+            
+            <li>
+                <a href="index.php?action=artikel-ilmiah&id=<?= htmlspecialchars($id_personil) ?>"
+                    class="cv-link <?= ($currentAction === 'artikel-ilmiah') ? 'active' : '' ?>">
+                    <i class="bi bi-book"></i> Artikel Ilmiah
+                </a>
+            </li>
 
             <li>
                 <a href="index.php?action=hki&id=<?= htmlspecialchars($id_personil) ?>"
